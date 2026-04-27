@@ -1,16 +1,12 @@
 
 "use client";
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
-import Header from "./components/Header";
 import Image from "next/image";
-import { useState } from "react";
 
 
 export default function Home() {
   return (
     <>
-      <Header />
-
       <main className="pt-24">
         {/* HERO */}
         {/* FEATURES */}
@@ -22,7 +18,7 @@ export default function Home() {
 
         
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center text-white">
+      <section className="relative min-h-[calc(100vh-6rem)] flex items-center justify-center text-white">
   
   <Image
     src="/1.jpg"
@@ -35,17 +31,17 @@ export default function Home() {
   <div className="absolute inset-0 bg-black/50 -z-10"></div>
 
   {/* Content */}
-  <div className="relative z-10 text-center max-w-2xl p-8">
+  <div className="relative z-10 text-center max-w-2xl px-5 py-10 md:p-8">
 
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
             Private Tours in Kyrgyzstan
           </h1>
 
-          <p className="text-lg md:text-xl mb-6 animate-fade-in delay-200">
+          <p className="text-base md:text-xl mb-6 animate-fade-in delay-200">
             Discover mountains, lakes and nomadic culture with local guides
           </p>
 
-          <div className="flex gap-4 justify-center mb-6 animate-fade-in delay-400">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 animate-fade-in delay-400">
             <a
               href="#tours"
               className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition"
@@ -168,7 +164,7 @@ export default function Home() {
           </p>
 
           <a
-            href="#"
+            href="/tours/issyk-kul-3-days"
             className="inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
@@ -196,7 +192,7 @@ export default function Home() {
           </p>
 
           <a
-            href="#"
+            href="/tours/song-kul"
             className="inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
@@ -224,7 +220,7 @@ export default function Home() {
           </p>
 
           <a
-            href="#"
+            href="/tours/song-kul-chon-kemin"
             className="inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
@@ -245,7 +241,7 @@ export default function Home() {
 
     <div className="grid md:grid-cols-3 gap-8">
       {/* Card 1: Summits */}
-      <div className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
+      <a href="/tours/summits-of-kyrgyzstan" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
         {/* Image */}
         <div className="relative h-48">
           <Image
@@ -263,10 +259,10 @@ export default function Home() {
             Conquer majestic peaks and explore breathtaking mountain landscapes.
           </p>
         </div>
-      </div>
+      </a>
 
       {/* Card 2: Car & Driver */}
-      <div className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
+      <a href="/cars" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
         {/* Image */}
         <div className="relative h-48">
           <Image
@@ -284,10 +280,10 @@ export default function Home() {
             Private transport with a local driver to explore Kyrgyzstan hassle-free.
           </p>
         </div>
-      </div>
+      </a>
 
       {/* Card 3: Horse Riding */}
-      <div className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
+      <a href="/tours/14-days-kyrgyzstan" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
         {/* Image */}
         <div className="relative h-48">
           <Image
@@ -300,12 +296,12 @@ export default function Home() {
 
         {/* Content */}
         <div className="p-6 text-center">
-          <h3 className="text-xl font-semibold mb-2">Horse Riding Tours</h3>
+          <h3 className="text-xl font-semibold mb-2">14 Days Across Kyrgyzstan</h3>
           <p className="text-black-600">
-            Explore valleys and mountains like a true nomad on horseback.
+            Alpine lakes, canyons, hot springs, Silk Road monuments and nomadic culture.
           </p>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -377,7 +373,7 @@ export default function Home() {
 
       {/* Review 1 */}
       <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition animate-fade-in">
-        <div className="relative h-90 rounded-lg mb-4 overflow-hidden">
+        <div className="relative h-72 md:h-[360px] rounded-lg mb-4 overflow-hidden">
           <Image
             src="/9.jpg"
             alt="Client review"
@@ -400,7 +396,7 @@ export default function Home() {
 
       {/* Review 2 */}
       <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition animate-fade-in delay-200">
-        <div className="relative h-90 rounded-lg mb-4 overflow-hidden">
+        <div className="relative h-72 md:h-[360px] rounded-lg mb-4 overflow-hidden">
           <Image
             src="/10.jpg"
             alt="Client review"
@@ -422,7 +418,7 @@ export default function Home() {
 
       {/* Review 3 */}
       <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition animate-fade-in delay-400">
-        <div className="relative h-90 rounded-lg mb-4 overflow-hidden">
+        <div className="relative h-72 md:h-[360px] rounded-lg mb-4 overflow-hidden">
           <Image
             src="/11.jpg"
             alt="Client review"
@@ -445,7 +441,7 @@ export default function Home() {
 
       {/* Review 4 */}
       <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition animate-fade-in delay-600">
-        <div className="relative h-90 rounded-lg mb-4 overflow-hidden">
+        <div className="relative h-72 md:h-[360px] rounded-lg mb-4 overflow-hidden">
           <Image
             src="/12.jpg"
             alt="Client review"
@@ -531,5 +527,3 @@ export default function Home() {
 }
 
     
-
-

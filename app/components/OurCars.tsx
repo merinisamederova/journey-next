@@ -18,7 +18,7 @@ export default function OurCars() {
    <p className="text-center text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto text-sm md:text-base leading-relaxed px-2">
       Comfortable 4x4 vehicles with professional drivers. Perfect for mountain
       roads and long-distance travel across Kyrgyzstan. 
-      Price includes: car, guide and driver, petrol. All our support in the programm planning, organising the activities and assistance with all necessary bookings. Camping equipment: tent, table, chairs. Cars are appointed upon the availability and price depends on the ammount of days: 1-4 days = €200 per car / per day, 5-10 days=€180 , 11 - 15 =€ 160. All cars same price except Huynday Starex its from 250 € per day.
+      Price includes: car, guide and driver, petrol. All our support in the program planning, organising the activities and assistance with all necessary bookings. Camping equipment: tent, table, chairs. Cars are appointed upon availability and price depends on the amount of days: 1-4 days = EUR 200 per car / per day, 5-10 days = EUR 180, 11-15 days = EUR 160. All cars have the same price except Hyundai Starex, which starts from EUR 250 per day.
     </p>
 
     {/* GRID */}

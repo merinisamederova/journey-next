@@ -7,6 +7,7 @@ import Image from "next/image";
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
@@ -60,21 +61,23 @@ export default function Header() {
 
       <ul className="space-y-2 text-sm">
 
+        <li><Link href="/tours/issyk-kul-3-days" className="dropdown-link">Issyk-Kul Lake 3 Days</Link></li>
+
         <li><Link href="/tours/kel-suu" className="dropdown-link">Kel-Suu Lake Expedition</Link></li>
 
-        <li><Link href="#" className="dropdown-link">
+        <li><Link href="/tours/14-days-kyrgyzstan" className="dropdown-link">
           14 Days Across best places of Kyrgyzstan
         </Link></li>
 
-        <li><Link href="#" className="dropdown-link">
-          1 Day Mountaineering To Ratzek Hut And Ala-archa
+        <li><Link href="/tours/summits-of-kyrgyzstan" className="dropdown-link">
+          Summits of Kyrgyzstan
         </Link></li>
 
         <li><Link href="/tours/song-kul" className="dropdown-link">
           4-day Horseback Adventure To Song-kul Lake
         </Link></li>
 
-        <li><Link href="#" className="dropdown-link">
+        <li><Link href="/tours/song-kul-chon-kemin" className="dropdown-link">
           3-day Adventure To Song-kul Lake And Chon-kemin Valley
         </Link></li>
 
@@ -96,7 +99,10 @@ export default function Header() {
 
         {/* BURGER */}
         <button
-          className="md:hidden flex flex-col gap-1"
+          type="button"
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          className="md:hidden flex flex-col gap-1 p-2 -mr-2"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <span className="w-6 h-0.5 bg-black"></span>
@@ -107,22 +113,49 @@ export default function Header() {
 
       {/* MOBILE MENU */}
       {menuOpen && (
-        <div className="md:hidden bg-white shadow-lg px-6 py-6 space-y-4 text-black font-medium">
+        <div className="md:hidden bg-white shadow-lg px-6 py-6 text-black font-medium">
 
-          <Link href="/" onClick={() => setMenuOpen(false)}>Main</Link>
-          <Link href="/about" onClick={() => setMenuOpen(false)}>About Us</Link>
-          <Link href="#cars" onClick={() => setMenuOpen(false)}>Our Cars</Link>
-          <Link href="#gallery" onClick={() => setMenuOpen(false)}>Our Gallery</Link>
+          <nav className="flex flex-col gap-4">
+            <Link href="/" onClick={closeMenu}>Main</Link>
+            <Link href="/about" onClick={closeMenu}>About Us</Link>
+            <Link href="/cars" onClick={closeMenu}>Our Cars</Link>
+            <Link href="/gallery" onClick={closeMenu}>Our Gallery</Link>
+          </nav>
 
           {/* Tours */}
-          <div className="pt-2 border-t">
+          <div className="mt-5 pt-5 border-t">
             <p className="mb-2 font-semibold">Tours</p>
-            <ul className="space-y-2 text-sm">
-              <li>Kel-Suu Lake Expedition</li>
-              <li>Issyk-Kul Day Tour</li>
-              <li>Alamedin Gorge</li>
-              <li>Chon-Kemin Valley</li>
-              <li>Horse Riding Tours</li>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <Link href="/tours/issyk-kul-3-days" onClick={closeMenu}>
+                  Issyk-Kul Lake 3 Days
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/kel-suu" onClick={closeMenu}>
+                  Kel-Suu Lake Expedition
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/14-days-kyrgyzstan" onClick={closeMenu}>
+                  14 Days Across Kyrgyzstan
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/summits-of-kyrgyzstan" onClick={closeMenu}>
+                  Summits of Kyrgyzstan
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/song-kul" onClick={closeMenu}>
+                  4-day Horseback Adventure To Song-kul Lake
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/song-kul-chon-kemin" onClick={closeMenu}>
+                  3-day Song-Kul and Chon-Kemin
+                </Link>
+              </li>
             </ul>
           </div>
 

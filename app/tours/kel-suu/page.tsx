@@ -13,6 +13,7 @@ export default function KelSuuTour() {
           src="/kel1.webp"
           alt="Kel-Suu Lake"
           fill
+          className="object-cover"
           priority
         />
 
@@ -161,7 +162,7 @@ export default function KelSuuTour() {
       {/* CTA */}
       <section className="py-20 text-center">
 
-        <h2 className="text-3xl font-bold mb-6">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 px-4">
           Start your adventure today
         </h2>
 

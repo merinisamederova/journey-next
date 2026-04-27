@@ -49,7 +49,7 @@ export default function SongKulTour() {
           </h2>
 
           <p className="text-gray-600 mb-4 leading-relaxed">
-            "Ride Through the Mountains, Sleep Beneath the Stars"
+            &ldquo;Ride Through the Mountains, Sleep Beneath the Stars&rdquo;
             Tour Highlights:
             Ride on horseback across alpine valleys and breathtaking passes
           </p>
@@ -142,7 +142,7 @@ export default function SongKulTour() {
 
               <p><strong>Song-Kul (Tuz-Ashuu) → Kyrjol Camp (Lakeside Ride)</strong></p>
 
-              <p>Enjoy a calm morning at Song-Kul before beginning a 3-hour lakeside ride from Tuz-Ashuu to Kyrjol camp, offering new vistas and a deeper connection to the lake's tranquil beauty.</p>
+              <p>Enjoy a calm morning at Song-Kul before beginning a 3-hour lakeside ride from Tuz-Ashuu to Kyrjol camp, offering new vistas and a deeper connection to the lake&apos;s tranquil beauty.</p>
 
               <p>🍽️ Lunch upon arrival, with a free afternoon to rest, read, or explore.</p>
 
@@ -186,7 +186,7 @@ export default function SongKulTour() {
       {/* BOOK BUTTON */}
       <section className="py-20 text-center">
 
-        <h2 className="text-3xl font-bold mb-6">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 px-4">
           Ready for this adventure?
         </h2>
 

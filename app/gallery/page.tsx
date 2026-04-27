@@ -22,7 +22,7 @@ export default function GalleryPage() {
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
-    <main className="bg-white min-h-screen">
+    <main className="bg-white min-h-screen pt-20">
 
       {/* TITLE */}
       <section className="text-center py-16 px-6">
@@ -42,26 +42,52 @@ export default function GalleryPage() {
         <div className="columns-2 md:columns-3 gap-4 md:gap-6 space-y-4">
 
           {images.map((src, i) => (
-  <div
-    key={i}
-    className="relative overflow-hidden rounded-xl group cursor-pointer break-inside-avoid"
-    onClick={() => setSelected(src)}
-  >
-    <Image
-      src={src}
-      alt="Gallery"
-      width={500}
-      height={500}
-      className="w-full h-auto object-cover group-hover:scale-110 transition duration-700"
-    />
+            <button
+              key={i}
+              type="button"
+              className="relative overflow-hidden rounded-xl group cursor-pointer break-inside-avoid w-full mb-4 text-left"
+              onClick={() => setSelected(src)}
+            >
+              <Image
+                src={src}
+                alt="Gallery"
+                width={500}
+                height={500}
+                className="w-full h-auto object-cover group-hover:scale-110 transition duration-700"
+              />
 
-    {/* overlay */}
-    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition duration-500"></div>
-  </div>
-))}  
+              {/* overlay */}
+              <span className="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition duration-500"></span>
+            </button>
+          ))}
         </div>
 
       </section>
+
+      {selected && (
+        <div
+          className="fixed inset-0 z-[60] bg-black/80 p-4 flex items-center justify-center"
+          onClick={() => setSelected(null)}
+        >
+          <button
+            type="button"
+            aria-label="Close gallery image"
+            className="absolute right-4 top-4 text-white text-3xl leading-none"
+            onClick={() => setSelected(null)}
+          >
+            ×
+          </button>
+
+          <div className="relative w-full max-w-5xl h-[75vh]">
+            <Image
+              src={selected}
+              alt="Selected gallery image"
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+      )}
 
     </main>
   );
