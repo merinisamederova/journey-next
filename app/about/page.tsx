@@ -72,12 +72,13 @@ export default function AboutPage() {
     {/* Guide 1 */}
     <div className="grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative h-[250px] md:h-[420px] rounded-2xl overflow-hidden shadow-lg">
+      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100">
         <Image
           src="/guide1.jpg"
           alt="Guide Atai"
           fill
-          className="object-cover"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover object-center"
         />
       </div>
 
@@ -117,12 +118,13 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="relative h-[250px] md:h-[420px] rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
+      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
         <Image
           src="/guide2.jpg"
           alt="Guide Meder"
           fill
-          className="object-cover"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover object-center"
         />
       </div>
 
@@ -132,12 +134,13 @@ export default function AboutPage() {
     {/* Guide 3 */}
     <div className="grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative h-[250px] md:h-[420px] rounded-2xl overflow-hidden shadow-lg">
+      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100">
         <Image
-          src="/guide.jpg"
+          src="/guide3.jpg"
           alt="Guide Tynchtyk"
           fill
-          className="object-cover"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover object-center"
         />
       </div>
 
@@ -175,12 +178,13 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="relative h-[250px] md:h-[420px] rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
+      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
         <Image
           src="/guide4.jpg"
           alt="Guide Zhoodar"
           fill
-          className="object-cover"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover object-center"
         />
       </div>
 
@@ -190,12 +194,13 @@ export default function AboutPage() {
     {/* Guide 5 */}
     <div className="grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative h-[250px] md:h-[420px] rounded-2xl overflow-hidden shadow-lg">
+      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100">
         <Image
-          src="/guide6.jpg"
+          src="/guide5.jpg"
           alt="Guide Takhir"
           fill
-          className="object-cover"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover object-center"
         />
       </div>
 
@@ -233,12 +238,13 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="relative h-[250px] md:h-[420px] rounded-2xl overflow-hidden shadow-lg order-1 md:order-2">
+      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
         <Image
           src="/guide6.jpg"
           alt="Guide Bekmamat"
           fill
-          className="object-cover"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover object-center"
         />
       </div>
 
@@ -248,12 +254,13 @@ export default function AboutPage() {
     {/* Guide 7 */}
     <div className="grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative h-[250px] md:h-[420px] rounded-2xl overflow-hidden shadow-lg">
+      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100">
         <Image
-          src="/guide6.jpg"
+          src="/guide7.jpg"
           alt="Guide Zhyldyz"
           fill
-          className="object-cover"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover object-center"
         />
       </div>
 

@@ -6,7 +6,7 @@ export default function SummitsOfKyrgyzstanTour() {
       title="Summits of Kyrgyzstan"
       subtitle="Mountain programs with professional guides, equipment support and flexible routes for hiking, trekking and alpine objectives."
       heroImage="/5.jpg"
-      mapImage="/8.jpg"
+      mapImage="/17.jpg"
       about={[
         "Reach the summits of Kyrgyzstan with a professional team. The program is organized with experienced mountain guides and the equipment needed for the chosen route.",
         "This page is intentionally flexible: summit routes depend on season, weather, experience level and group goals. The team can adapt the plan for hiking, trekking or more technical mountain days.",
@@ -20,7 +20,7 @@ export default function SummitsOfKyrgyzstanTour() {
       days={[
         {
           title: "Step 1 - Plan the Route",
-          image: "/slide8.jpg",
+          image: "/18.jpg",
           points: [
             "Choose the mountain region and difficulty level with the guide team.",
             "🧭 Confirm season, weather window, equipment and transport needs.",
@@ -30,7 +30,7 @@ export default function SummitsOfKyrgyzstanTour() {
         },
         {
           title: "Step 2 - Acclimatization and Approach",
-          image: "/7.jpg",
+          image: "/15.jpg",
           points: [
             "Drive from Bishkek toward the chosen mountain area.",
             "🥾 Use the approach day for easy hiking, acclimatization and safety briefing.",
@@ -40,7 +40,7 @@ export default function SummitsOfKyrgyzstanTour() {
         },
         {
           title: "Step 3 - Summit or Trekking Day",
-          image: "/11.jpg",
+          image: "/16.jpg",
           points: [
             "🌄 Start early with the guide team and follow the safest route for the day.",
             "🏔️ Enjoy summit views, alpine terrain or a strong trekking objective.",

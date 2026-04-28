@@ -6,7 +6,7 @@ export default function IssykKulThreeDaysTour() {
       title="Issyk-Kul Lake 3 Days"
       subtitle="A compact private route around Kyrgyzstan's great alpine lake: Cholpon-Ata, Karakol, Jety-Oguz, Barskoon and Skazka Canyon."
       heroImage="/2.jpg"
-      mapImage="/map.jpg"
+      mapImage="/map3.jpg"
       about={[
         "This three-day Issyk-Kul route starts and ends in Bishkek and is designed for travelers who want lake views, canyons, waterfalls, red rocks and cultural stops in one smooth trip.",
         "The tour includes transportation, accommodation, three meals per day and English-speaking guides. Price starts from 300 Euro per person depending on group size.",
@@ -19,7 +19,7 @@ export default function IssykKulThreeDaysTour() {
       days={[
         {
           title: "Day 1 - Bishkek to Cholpon-Ata",
-          image: "/g2.jpg",
+          image: "/21.jpg",
           points: [
             "Depart Bishkek and drive toward the northern shore of Issyk-Kul Lake.",
             "🌊 Enjoy lake views, photo stops and time around Cholpon-Ata.",
@@ -29,7 +29,7 @@ export default function IssykKulThreeDaysTour() {
         },
         {
           title: "Day 2 - Karakol, Jety-Oguz and Barskoon",
-          image: "/4.jpg",
+          image: "/19.jpg",
           points: [
             "Continue toward Karakol and explore the eastern side of Issyk-Kul.",
             "🏜️ Visit Jety-Oguz red rocks and the Seven Bulls formation.",
@@ -39,7 +39,7 @@ export default function IssykKulThreeDaysTour() {
         },
         {
           title: "Day 3 - Skazka Canyon and Return to Bishkek",
-          image: "/slide9.jpg",
+          image: "/20.jpg",
           points: [
             "🏜️ Explore Skazka Canyon, also known as Fairytale Canyon.",
             "📸 Drive along the south shore with scenic stops and lake views.",
