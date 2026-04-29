@@ -56,6 +56,9 @@ export default function AdminToursPage() {
           <div className="bg-white rounded-xl p-5 shadow-sm">
             <p className="text-sm text-gray-500">Booking backend</p>
             <p className="text-lg font-semibold mt-3 text-green-700">WhatsApp API route ready</p>
+            <p className="text-sm text-gray-500 mt-2">
+              Add WhatsApp Cloud API env vars on Vercel to auto-send leads into WhatsApp.
+            </p>
           </div>
         </div>
 

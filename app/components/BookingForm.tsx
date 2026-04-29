@@ -37,6 +37,9 @@ export default function BookingForm({ tour }: BookingFormProps) {
     const data = (await response.json()) as {
       whatsappUrl?: string;
       error?: string;
+      whatsappDelivery?: {
+        status: "sent" | "not_configured" | "failed";
+      };
     };
 
     if (!response.ok || !data.whatsappUrl) {
