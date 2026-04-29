@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import BookingForm from "../../components/BookingForm";
 import GoogleMapBlock from "../../components/GoogleMapBlock";
 
 export default function SongKulTour() {
@@ -177,22 +178,7 @@ export default function SongKulTour() {
       </section>
 
 
-      {/* BOOK BUTTON */}
-      <section className="py-20 text-center">
-
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 px-4">
-          Ready for this adventure?
-        </h2>
-
-        <a
-          href="https://wa.me/996703367477"
-          target="_blank"
-          className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl text-lg transition"
-        >
-          Book this tour
-        </a>
-
-      </section>
+      <BookingForm tour="4-Day Horseback Adventure to Song-Kul Lake" />
 
 
       {/* FOOTER CTA */}

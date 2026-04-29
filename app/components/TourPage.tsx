@@ -1,4 +1,5 @@
 import Image from "next/image";
+import BookingForm from "./BookingForm";
 import GoogleMapBlock from "./GoogleMapBlock";
 
 type Day = {
@@ -176,18 +177,7 @@ export default function TourPage({
         </div>
       </section>
 
-      <section className="py-20 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 px-4">
-          Ready for this adventure?
-        </h2>
-        <a
-          href="https://wa.me/996703367477"
-          target="_blank"
-          className="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl text-lg transition"
-        >
-          Book this tour
-        </a>
-      </section>
+      <BookingForm tour={title} />
     </main>
   );
 }

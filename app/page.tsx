@@ -60,21 +60,27 @@ export default function Home() {
           {/* Social Media Icons */}
           <div className="flex justify-center gap-6 mt-4 text-2xl animate-fade-in delay-600">
             <a
-              href="#"
+              href="https://www.instagram.com/kyrgyzstan.journey/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-pink-500 transition"
               aria-label="Instagram"
             >
               <FaInstagram />
             </a>
             <a
-              href="#"
+              href="https://www.facebook.com/Journey.KG"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-blue-600 transition"
               aria-label="Facebook"
             >
               <FaFacebookF />
             </a>
             <a
-              href="#"
+              href="https://www.youtube.com/@journey.kyrgyzstan"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-red-600 transition"
               aria-label="YouTube"
             >

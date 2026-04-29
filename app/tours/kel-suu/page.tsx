@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image"; 
+import BookingForm from "../../components/BookingForm";
 import GoogleMapBlock from "../../components/GoogleMapBlock";
 
 export default function KelSuuTour() {
@@ -153,22 +154,7 @@ export default function KelSuuTour() {
       </section>
 
 
-      {/* CTA */}
-      <section className="py-20 text-center">
-
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 px-4">
-          Start your adventure today
-        </h2>
-
-        <a
-          href="https://wa.me/996703367477"
-          target="_blank"
-          className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl text-lg transition"
-        >
-          Book this tour
-        </a>
-
-      </section>
+      <BookingForm tour="Kel-Suu Lake Expedition (3 Days)" />
 
 
       {/* FOOTER */}
