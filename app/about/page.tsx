@@ -72,7 +72,7 @@ export default function AboutPage() {
     {/* Guide 1 */}
     <div className="grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+      <div className="relative w-full h-[300px] sm:h-[360px] md:h-[420px] lg:h-[460px] rounded-xl overflow-hidden shadow-lg bg-gray-100">
         <Image
           src="/guide1.jpg"
           alt="Guide Atai"
@@ -118,7 +118,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
+      <div className="relative w-full h-[300px] sm:h-[360px] md:h-[420px] lg:h-[460px] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
         <Image
           src="/guide2.jpg"
           alt="Guide Meder"
@@ -134,7 +134,7 @@ export default function AboutPage() {
     {/* Guide 3 */}
     <div className="grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+      <div className="relative w-full h-[300px] sm:h-[360px] md:h-[420px] lg:h-[460px] rounded-xl overflow-hidden shadow-lg bg-gray-100">
         <Image
           src="/guide3.jpg"
           alt="Guide Tynchtyk"
@@ -178,7 +178,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
+      <div className="relative w-full h-[300px] sm:h-[360px] md:h-[420px] lg:h-[460px] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
         <Image
           src="/guide4.jpg"
           alt="Guide Zhoodar"
@@ -194,7 +194,7 @@ export default function AboutPage() {
     {/* Guide 5 */}
     <div className="grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+      <div className="relative w-full h-[300px] sm:h-[360px] md:h-[420px] lg:h-[460px] rounded-xl overflow-hidden shadow-lg bg-gray-100">
         <Image
           src="/guide5.jpg"
           alt="Guide Takhir"
@@ -238,7 +238,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
+      <div className="relative w-full h-[300px] sm:h-[360px] md:h-[420px] lg:h-[460px] rounded-xl overflow-hidden shadow-lg bg-gray-100 order-1 md:order-2">
         <Image
           src="/guide6.jpg"
           alt="Guide Bekmamat"
@@ -254,7 +254,7 @@ export default function AboutPage() {
     {/* Guide 7 */}
     <div className="grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+      <div className="relative w-full h-[300px] sm:h-[360px] md:h-[420px] lg:h-[460px] rounded-xl overflow-hidden shadow-lg bg-gray-100">
         <Image
           src="/guide7.jpg"
           alt="Guide Zhyldyz"

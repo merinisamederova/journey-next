@@ -7,6 +7,7 @@ export default function IssykKulThreeDaysTour() {
       subtitle="A compact private route around Kyrgyzstan's great alpine lake: Cholpon-Ata, Karakol, Jety-Oguz, Barskoon and Skazka Canyon."
       heroImage="/2.jpg"
       mapImage="/map3.jpg"
+      mapQuery="Issyk-Kul Lake, Kyrgyzstan"
       about={[
         "This three-day Issyk-Kul route starts and ends in Bishkek and is designed for travelers who want lake views, canyons, waterfalls, red rocks and cultural stops in one smooth trip.",
         "The tour includes transportation, accommodation, three meals per day and English-speaking guides. Price starts from 300 Euro per person depending on group size.",

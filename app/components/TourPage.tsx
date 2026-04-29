@@ -1,4 +1,5 @@
 import Image from "next/image";
+import GoogleMapBlock from "./GoogleMapBlock";
 
 type Day = {
   title: string;
@@ -11,6 +12,7 @@ type TourPageProps = {
   subtitle: string;
   heroImage: string;
   mapImage?: string;
+  mapQuery?: string;
   aboutTitle?: string;
   about: string[];
   days: Day[];
@@ -46,6 +48,7 @@ export default function TourPage({
   subtitle,
   heroImage,
   mapImage,
+  mapQuery,
   aboutTitle = "About the Tour",
   about,
   days,
@@ -75,14 +78,18 @@ export default function TourPage({
       </section>
 
       <section className="py-16 md:py-20 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden shadow-lg">
-          <Image
-            src={mapImage ?? heroImage}
-            alt={`${title} route`}
-            fill
-            className="object-cover"
-          />
-        </div>
+        {mapQuery ? (
+          <GoogleMapBlock title={title} query={mapQuery} />
+        ) : (
+          <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden shadow-lg">
+            <Image
+              src={mapImage ?? heroImage}
+              alt={`${title} route`}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
 
         <div>
           <h2 className="text-2xl md:text-3xl font-bold mb-4">{aboutTitle}</h2>

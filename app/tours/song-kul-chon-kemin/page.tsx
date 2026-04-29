@@ -7,6 +7,7 @@ export default function SongKulChonKeminTour() {
       subtitle="A balanced private tour with alpine lake scenery, nomadic culture, Chon-Kemin National Park and a yurt stay at Song-Kul."
       heroImage="/3.jpg"
       mapImage="/map.jpg"
+      mapQuery="Song-Kul Lake and Chon-Kemin National Park, Kyrgyzstan"
       about={[
         "Explore the serene alpine beauty of Song-Kul Lake, a breathtaking high-mountain lake at 3,016 meters above sea level.",
         "Experience authentic Kyrgyz nomadic culture, meet local herders, and discover the lush landscapes of Chon-Kemin National Park.",
