@@ -4,11 +4,12 @@ import { FormEvent, useState } from "react";
 
 type BookingFormProps = {
   tour: string;
+  tourSlug?: string;
 };
 
 type Status = "idle" | "loading" | "error";
 
-export default function BookingForm({ tour }: BookingFormProps) {
+export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
 
@@ -26,6 +27,7 @@ export default function BookingForm({ tour }: BookingFormProps) {
       },
       body: JSON.stringify({
         tour,
+        tourSlug,
         name: formData.get("name"),
         contact: formData.get("contact"),
         date: formData.get("date"),

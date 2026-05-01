@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import AvailabilityCalendar from "../../components/AvailabilityCalendar";
 import BookingForm from "../../components/BookingForm";
 import GoogleMapBlock from "../../components/GoogleMapBlock";
 
@@ -178,7 +179,9 @@ export default function SongKulTour() {
       </section>
 
 
-      <BookingForm tour="4-Day Horseback Adventure to Song-Kul Lake" />
+      <AvailabilityCalendar tourSlug="song-kul" />
+
+      <BookingForm tour="4-Day Horseback Adventure to Song-Kul Lake" tourSlug="song-kul" />
 
 
       {/* FOOTER CTA */}

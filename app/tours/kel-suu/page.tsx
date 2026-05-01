@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image"; 
+import AvailabilityCalendar from "../../components/AvailabilityCalendar";
 import BookingForm from "../../components/BookingForm";
 import GoogleMapBlock from "../../components/GoogleMapBlock";
 
@@ -154,7 +155,9 @@ export default function KelSuuTour() {
       </section>
 
 
-      <BookingForm tour="Kel-Suu Lake Expedition (3 Days)" />
+      <AvailabilityCalendar tourSlug="kel-suu" />
+
+      <BookingForm tour="Kel-Suu Lake Expedition (3 Days)" tourSlug="kel-suu" />
 
 
       {/* FOOTER */}

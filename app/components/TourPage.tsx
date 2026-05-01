@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AvailabilityCalendar from "./AvailabilityCalendar";
 import BookingForm from "./BookingForm";
 import GoogleMapBlock from "./GoogleMapBlock";
 
@@ -9,6 +10,7 @@ type Day = {
 };
 
 type TourPageProps = {
+  slug?: string;
   title: string;
   subtitle: string;
   heroImage: string;
@@ -46,6 +48,7 @@ const defaultServices = [
 
 export default function TourPage({
   title,
+  slug,
   subtitle,
   heroImage,
   mapImage,
@@ -177,7 +180,9 @@ export default function TourPage({
         </div>
       </section>
 
-      <BookingForm tour={title} />
+      {slug && <AvailabilityCalendar tourSlug={slug} />}
+
+      <BookingForm tour={title} tourSlug={slug} />
     </main>
   );
 }

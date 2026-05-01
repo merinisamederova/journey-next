@@ -5,6 +5,7 @@ const WHATSAPP_GRAPH_VERSION = process.env.WHATSAPP_GRAPH_VERSION ?? "v25.0";
 
 type BookingRequest = {
   tour?: string;
+  tourSlug?: string;
   name?: string;
   contact?: string;
   date?: string;
@@ -62,10 +63,70 @@ async function sendLeadToWhatsApp(text: string) {
   };
 }
 
+async function saveBooking({
+  tour,
+  tourSlug,
+  name,
+  contact,
+  date,
+  people,
+  message,
+}: {
+  tour: string;
+  tourSlug: string;
+  name: string;
+  contact: string;
+  date: string;
+  people: string;
+  message: string;
+}) {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    return {
+      status: "not_configured",
+    };
+  }
+
+  const response = await fetch(`${supabaseUrl}/rest/v1/bookings`, {
+    method: "POST",
+    headers: {
+      apikey: supabaseServiceRoleKey,
+      Authorization: `Bearer ${supabaseServiceRoleKey}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({
+      tour,
+      tour_slug: tourSlug || null,
+      name,
+      contact,
+      preferred_date: date || null,
+      people: people ? Number(people) : null,
+      message: message || null,
+      status: "new",
+      source: "website",
+    }),
+  });
+
+  if (!response.ok) {
+    return {
+      status: "failed",
+      error: await response.text(),
+    };
+  }
+
+  return {
+    status: "saved",
+  };
+}
+
 export async function POST(request: Request) {
   const body = (await request.json()) as BookingRequest;
 
   const tour = clean(body.tour);
+  const tourSlug = clean(body.tourSlug);
   const name = clean(body.name);
   const contact = clean(body.contact);
   const date = clean(body.date);
@@ -93,7 +154,16 @@ export async function POST(request: Request) {
     .join("\n");
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(text)}`;
+  const bookingStorage = await saveBooking({
+    tour,
+    tourSlug,
+    name,
+    contact,
+    date,
+    people,
+    message,
+  });
   const whatsappDelivery = await sendLeadToWhatsApp(text);
 
-  return NextResponse.json({ whatsappUrl, whatsappDelivery });
+  return NextResponse.json({ whatsappUrl, bookingStorage, whatsappDelivery });
 }
