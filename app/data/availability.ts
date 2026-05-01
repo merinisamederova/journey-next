@@ -62,6 +62,24 @@ export const availabilitySlots: AvailabilitySlot[] = [
     seats: 0,
     status: "sold_out",
   },
+  {
+    tourSlug: "14-days-kyrgyzstan",
+    date: "2026-06-05",
+    seats: 4,
+    status: "available",
+  },
+  {
+    tourSlug: "14-days-kyrgyzstan",
+    date: "2026-07-03",
+    seats: 2,
+    status: "limited",
+  },
+  {
+    tourSlug: "14-days-kyrgyzstan",
+    date: "2026-08-07",
+    seats: 6,
+    status: "available",
+  },
 ];
 
 export function getAvailability(tourSlug: string) {

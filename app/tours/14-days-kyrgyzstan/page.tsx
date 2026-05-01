@@ -7,6 +7,8 @@ export default function FourteenDaysKyrgyzstan() {
       subtitle="An epic private 4x4 journey through alpine lakes, Silk Road monuments, canyons, hot springs, nomadic culture and the best landscapes of Kyrgyzstan."
       heroImage="/14.jpg"
       mapImage="/map3.jpeg"
+      mapQuery="Bishkek, Chon-Kemin, Song-Kul Lake, Tash-Rabat, Kel-Suu Lake, Naryn, Issyk-Kul Lake, Karakol, Kyrgyzstan"
+      slug="14-days-kyrgyzstan"
       about={[
         "This long route brings together Chon-Kemin, Song-Kul, Tash-Rabat, Kel-Suu, Issyk-Kul, Karakol, Altyn-Arashan, Grigorievka and Semenovka gorges, and Cholpon-Ata.",
         "It is built for travelers who want the full country experience: high mountain roads, yurt camps, guesthouses, remote valleys, beach time and flexible stops with a local driver-guide.",
