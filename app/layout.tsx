@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BackHomeButton from "./components/BackHomeButton";
 import Header from "./components/Header";
 import "./globals.css";
 
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <Header />
         {children}
+        <BackHomeButton />
       </body>
     </html>
   );

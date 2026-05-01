@@ -8,9 +8,17 @@ create table if not exists public.bookings (
   people integer,
   message text,
   status text not null default 'new',
+  manager_notes text,
   source text not null default 'website',
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
+
+alter table public.bookings
+  add column if not exists manager_notes text;
+
+alter table public.bookings
+  add column if not exists updated_at timestamptz not null default now();
 
 create index if not exists bookings_created_at_idx
   on public.bookings (created_at desc);
