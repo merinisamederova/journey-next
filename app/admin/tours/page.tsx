@@ -62,6 +62,21 @@ export default function AdminToursPage() {
           </div>
         </div>
 
+        <div className="grid md:grid-cols-3 gap-4 mb-8">
+          <a href="/admin/bookings" className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition">
+            <p className="text-sm text-gray-500">Admin</p>
+            <p className="text-lg font-semibold mt-2">Bookings</p>
+          </a>
+          <a href="/admin/availability" className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition">
+            <p className="text-sm text-gray-500">Admin</p>
+            <p className="text-lg font-semibold mt-2">Availability</p>
+          </a>
+          <a href="/admin/reviews" className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition">
+            <p className="text-sm text-gray-500">Admin</p>
+            <p className="text-lg font-semibold mt-2">Reviews</p>
+          </a>
+        </div>
+
         <div className="grid gap-5">
           {tours.map((tour) => (
             <article key={tour.slug} className="bg-white rounded-xl p-5 shadow-sm">

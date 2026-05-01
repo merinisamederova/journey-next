@@ -94,6 +94,9 @@ export default function Header() {
           <Link href="/gallery" className="nav-link flex items-center h-full text-black">
   Our Gallery
 </Link>
+          <Link href="/reviews" className="nav-link flex items-center h-full text-black">
+  Reviews
+</Link>
 
         </nav>
 
@@ -120,6 +123,7 @@ export default function Header() {
             <Link href="/about" onClick={closeMenu}>About Us</Link>
             <Link href="/cars" onClick={closeMenu}>Our Cars</Link>
             <Link href="/gallery" onClick={closeMenu}>Our Gallery</Link>
+            <Link href="/reviews" onClick={closeMenu}>Reviews</Link>
           </nav>
 
           {/* Tours */}
