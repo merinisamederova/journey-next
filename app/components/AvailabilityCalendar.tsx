@@ -68,6 +68,7 @@ function buildMonthDays(key: string) {
 export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarProps) {
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentMonth, setCurrentMonth] = useState(monthKey(new Date()));
 
   useEffect(() => {
     let active = true;
@@ -78,7 +79,11 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
       const data = (await response.json()) as { slots?: AvailabilitySlot[] };
 
       if (active) {
-        setSlots(data.slots ?? []);
+        const nextSlots = data.slots ?? [];
+        setSlots(nextSlots);
+        if (nextSlots.length > 0) {
+          setCurrentMonth(monthKey(new Date(`${nextSlots[0].date}T00:00:00`)));
+        }
         setLoading(false);
       }
     }
@@ -94,7 +99,30 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
   const monthKeys = Array.from(
     new Set(slots.map((slot) => monthKey(new Date(`${slot.date}T00:00:00`)))),
   ).sort();
-  const visibleMonths = monthKeys.length > 0 ? monthKeys : [monthKey(new Date())];
+  const currentMonthIndex = monthKeys.indexOf(currentMonth);
+  const canGoToPrevious =
+    monthKeys.length === 0 || currentMonthIndex === -1 || currentMonthIndex > 0;
+  const canGoToNext =
+    monthKeys.length === 0 || currentMonthIndex === -1 || currentMonthIndex < monthKeys.length - 1;
+
+  const changeMonth = (direction: "previous" | "next") => {
+    if (monthKeys.length > 0) {
+      const fallbackIndex = Math.max(0, currentMonthIndex);
+      const nextIndex =
+        direction === "previous"
+          ? Math.max(0, fallbackIndex - 1)
+          : Math.min(monthKeys.length - 1, fallbackIndex + 1);
+      setCurrentMonth(monthKeys[nextIndex]);
+      return;
+    }
+
+    const [year, month] = currentMonth.split("-").map(Number);
+    const nextDate =
+      direction === "previous"
+        ? new Date(year, month - 2, 1)
+        : new Date(year, month, 1);
+    setCurrentMonth(monthKey(nextDate));
+  };
 
   return (
     <section className="bg-white py-16">
@@ -108,59 +136,79 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="max-w-3xl rounded-xl border border-gray-200 p-4 md:p-6">
           {loading ? (
             <div className="rounded-xl bg-gray-100 p-5 text-gray-600">
               Loading dates...
             </div>
           ) : slots.length > 0 ? (
-            visibleMonths.map((key) => (
-              <div key={key} className="rounded-xl border border-gray-200 p-4 md:p-5">
-                <h3 className="text-lg font-bold mb-4">{monthLabel(key)}</h3>
+            <>
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <button
+                  type="button"
+                  onClick={() => changeMonth("previous")}
+                  disabled={!canGoToPrevious}
+                  className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Previous
+                </button>
 
-                <div className="grid grid-cols-7 gap-2 text-center text-xs font-semibold text-gray-500 mb-2">
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                    <span key={day}>{day}</span>
-                  ))}
-                </div>
+                <h3 className="text-lg md:text-xl font-bold text-center">
+                  {monthLabel(currentMonth)}
+                </h3>
 
-                <div className="grid grid-cols-7 gap-2">
-                  {buildMonthDays(key).map((day, index) => {
-                    if (!day) {
-                      return <div key={`empty-${index}`} className="aspect-square" />;
-                    }
-
-                    const slot = slotsByDate.get(dateKey(day));
-                    const isAvailable = slot?.status === "available";
-                    const isLimited = slot?.status === "limited";
-                    const isSoldOut = slot?.status === "sold_out";
-
-                    return (
-                      <div
-                        key={dateKey(day)}
-                        className={`aspect-square rounded-lg border flex flex-col items-center justify-center text-sm transition ${
-                          isAvailable
-                            ? "border-green-300 bg-green-100 text-green-900"
-                            : isLimited
-                              ? "border-yellow-300 bg-yellow-100 text-yellow-900"
-                              : isSoldOut
-                                ? "border-red-300 bg-red-100 text-red-900"
-                                : "border-gray-100 bg-gray-50 text-gray-400"
-                        }`}
-                        title={slot ? `${formatDate(slot.date)} - ${statusLabels[slot.status]}` : ""}
-                      >
-                        <span className="font-bold">{day.getDate()}</span>
-                        {slot && (
-                          <span className="hidden sm:block text-[10px] leading-tight">
-                            {slot.seats > 0 ? `${slot.seats} seats` : "full"}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                <button
+                  type="button"
+                  onClick={() => changeMonth("next")}
+                  disabled={!canGoToNext}
+                  className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Next
+                </button>
               </div>
-            ))
+
+              <div className="grid grid-cols-7 gap-2 text-center text-xs font-semibold text-gray-500 mb-2">
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                  <span key={day}>{day}</span>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-7 gap-2">
+                {buildMonthDays(currentMonth).map((day, index) => {
+                  if (!day) {
+                    return <div key={`empty-${index}`} className="aspect-square" />;
+                  }
+
+                  const slot = slotsByDate.get(dateKey(day));
+                  const isAvailable = slot?.status === "available";
+                  const isLimited = slot?.status === "limited";
+                  const isSoldOut = slot?.status === "sold_out";
+
+                  return (
+                    <div
+                      key={dateKey(day)}
+                      className={`aspect-square rounded-lg border flex flex-col items-center justify-center text-sm transition ${
+                        isAvailable
+                          ? "border-green-300 bg-green-100 text-green-900"
+                          : isLimited
+                            ? "border-yellow-300 bg-yellow-100 text-yellow-900"
+                            : isSoldOut
+                              ? "border-red-300 bg-red-100 text-red-900"
+                              : "border-gray-100 bg-gray-50 text-gray-400"
+                      }`}
+                      title={slot ? `${formatDate(slot.date)} - ${statusLabels[slot.status]}` : ""}
+                    >
+                      <span className="font-bold">{day.getDate()}</span>
+                      {slot && (
+                        <span className="hidden sm:block text-[10px] leading-tight">
+                          {slot.seats > 0 ? `${slot.seats} seats` : "full"}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
           ) : (
             <div className="rounded-xl bg-gray-100 p-5 text-gray-600">
               Dates are flexible. Send a request and we will confirm availability.
