@@ -65,6 +65,30 @@ function buildMonthDays(key: string) {
   return cells;
 }
 
+function addMonths(date: Date, amount: number) {
+  return new Date(date.getFullYear(), date.getMonth() + amount, 1);
+}
+
+function januaryAfter(date: Date) {
+  const year = date.getMonth() === 0 ? date.getFullYear() : date.getFullYear() + 1;
+  return new Date(year, 0, 1);
+}
+
+function buildMonthRange(startKey: string, endKey: string) {
+  const [startYear, startMonth] = startKey.split("-").map(Number);
+  const [endYear, endMonth] = endKey.split("-").map(Number);
+  const months: string[] = [];
+  let cursor = new Date(startYear, startMonth - 1, 1);
+  const end = new Date(endYear, endMonth - 1, 1);
+
+  while (cursor <= end) {
+    months.push(monthKey(cursor));
+    cursor = addMonths(cursor, 1);
+  }
+
+  return months;
+}
+
 export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarProps) {
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [loading, setLoading] = useState(true);
@@ -96,32 +120,27 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
   }, [tourSlug]);
 
   const slotsByDate = new Map(slots.map((slot) => [slot.date, slot]));
-  const monthKeys = Array.from(
+  const slotMonthKeys = Array.from(
     new Set(slots.map((slot) => monthKey(new Date(`${slot.date}T00:00:00`)))),
   ).sort();
+  const today = new Date();
+  const firstMonth = slotMonthKeys[0] ?? monthKey(today);
+  const januaryLimit = monthKey(januaryAfter(today));
+  const lastSlotMonth = slotMonthKeys[slotMonthKeys.length - 1];
+  const lastMonth =
+    lastSlotMonth && lastSlotMonth > januaryLimit ? lastSlotMonth : januaryLimit;
+  const monthKeys = buildMonthRange(firstMonth, lastMonth);
   const currentMonthIndex = monthKeys.indexOf(currentMonth);
-  const canGoToPrevious =
-    monthKeys.length === 0 || currentMonthIndex === -1 || currentMonthIndex > 0;
-  const canGoToNext =
-    monthKeys.length === 0 || currentMonthIndex === -1 || currentMonthIndex < monthKeys.length - 1;
+  const canGoToPrevious = currentMonthIndex > 0;
+  const canGoToNext = currentMonthIndex >= 0 && currentMonthIndex < monthKeys.length - 1;
 
   const changeMonth = (direction: "previous" | "next") => {
-    if (monthKeys.length > 0) {
-      const fallbackIndex = Math.max(0, currentMonthIndex);
-      const nextIndex =
-        direction === "previous"
-          ? Math.max(0, fallbackIndex - 1)
-          : Math.min(monthKeys.length - 1, fallbackIndex + 1);
-      setCurrentMonth(monthKeys[nextIndex]);
-      return;
-    }
-
-    const [year, month] = currentMonth.split("-").map(Number);
-    const nextDate =
+    const fallbackIndex = currentMonthIndex === -1 ? 0 : currentMonthIndex;
+    const nextIndex =
       direction === "previous"
-        ? new Date(year, month - 2, 1)
-        : new Date(year, month, 1);
-    setCurrentMonth(monthKey(nextDate));
+        ? Math.max(0, fallbackIndex - 1)
+        : Math.min(monthKeys.length - 1, fallbackIndex + 1);
+    setCurrentMonth(monthKeys[nextIndex]);
   };
 
   return (
@@ -141,7 +160,7 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
             <div className="rounded-xl bg-gray-100 p-5 text-gray-600">
               Loading dates...
             </div>
-          ) : slots.length > 0 ? (
+          ) : (
             <>
               <div className="flex items-center justify-between gap-3 mb-5">
                 <button
@@ -209,10 +228,6 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
                 })}
               </div>
             </>
-          ) : (
-            <div className="rounded-xl bg-gray-100 p-5 text-gray-600">
-              Dates are flexible. Send a request and we will confirm availability.
-            </div>
           )}
         </div>
 
