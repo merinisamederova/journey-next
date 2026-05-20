@@ -50,14 +50,17 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
       return;
     }
 
-    window.open(data.whatsappUrl, "_blank", "noopener,noreferrer");
+    window.location.assign(data.whatsappUrl);
     setStatus("idle");
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-16 md:py-20 bg-white">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-10">
+          <p className="text-sm font-semibold uppercase tracking-wide text-green-700 mb-2">
+            Request a booking
+          </p>
           <h2 className="text-2xl md:text-3xl font-bold mb-3">
             Book this tour
           </h2>
@@ -68,14 +71,14 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
 
         <form
           onSubmit={handleSubmit}
-          className="grid md:grid-cols-2 gap-4 bg-gray-100 p-5 md:p-6 rounded-xl"
+          className="grid md:grid-cols-2 gap-4 bg-gray-100 p-5 md:p-6 rounded-xl border border-gray-200"
         >
           <label className="text-sm font-medium text-gray-700">
             Name
             <input
               name="name"
               required
-              className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-600"
+              className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-green-600"
               placeholder="Your name"
             />
           </label>
@@ -85,7 +88,7 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
             <input
               name="contact"
               required
-              className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-600"
+              className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-green-600"
               placeholder="+996..."
             />
           </label>
@@ -95,7 +98,7 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
             <input
               name="date"
               type="date"
-              className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-600"
+              className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-green-600"
             />
           </label>
 
@@ -105,7 +108,7 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
               name="people"
               type="number"
               min="1"
-              className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-600"
+              className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-green-600"
               placeholder="2"
             />
           </label>
@@ -115,7 +118,7 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
             <textarea
               name="message"
               rows={4}
-              className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-600"
+              className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-green-600"
               placeholder="Tell us about your travel plans"
             />
           </label>

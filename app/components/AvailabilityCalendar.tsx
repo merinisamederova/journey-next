@@ -144,9 +144,12 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
   };
 
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white py-14 md:py-16">
       <div className="max-w-6xl mx-auto px-6">
         <div className="mb-8">
+          <p className="text-sm font-semibold uppercase tracking-wide text-green-700 mb-2">
+            Dates
+          </p>
           <h2 className="text-2xl md:text-3xl font-bold mb-3">
             Availability calendar
           </h2>
@@ -155,7 +158,7 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
           </p>
         </div>
 
-        <div className="max-w-3xl rounded-xl border border-gray-200 p-4 md:p-6">
+        <div className="max-w-3xl rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
           {loading ? (
             <div className="rounded-xl bg-gray-100 p-5 text-gray-600">
               Loading dates...

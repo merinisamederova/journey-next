@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function OurCars() {
   return (
 
-<section id="cars" className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-100">
+<section id="cars" className="pt-8 pb-16 md:pt-12 md:pb-20 bg-gradient-to-b from-white to-gray-100">
 
   <div className="max-w-6xl mx-auto px-4 sm:px-5 md:px-6">
 

@@ -72,6 +72,107 @@ export const tours: TourContent[] = [
     activities: ["Sightseeing", "Culture", "History", "Cuisine", "Canyons", "Lake Views"],
   },
   {
+    slug: "kel-suu",
+    title: "Kel-Suu Lake Expedition (3 Days)",
+    subtitle:
+      "Discover one of the most remote and breathtaking alpine lakes in Kyrgyzstan.",
+    heroImage: "/kel1.webp",
+    mapQuery: "Kel-Suu Lake, Kyrgyzstan",
+    about: [
+      "Kel-Suu Lake is a hidden alpine lake near the Chinese border, surrounded by dramatic cliffs and untouched wilderness.",
+      "This expedition is perfect for travelers seeking adventure, isolation and truly unique landscapes.",
+    ],
+    days: [
+      {
+        title: "Day 1 - Bishkek to Song-Kul Lake",
+        image: "/kel2.jpg",
+        points: [
+          "Early morning departure from Bishkek city and visit Burana Tower on the way.",
+          "Stop near Orto-Tokoy water reservoir for photos and mountain views.",
+          "Lunch with beautiful scenery around the reservoir.",
+          "Drive to Song-Kul Lake, meet local people and explore the area.",
+          "Short trekking and dinner in a national yurt with Kyrgyz food.",
+        ],
+      },
+      {
+        title: "Day 2 - Song-Kul to Kel-Suu Lake",
+        image: "/kel3.jpg",
+        points: [
+          "Early morning departure from Song-Kul Lake to Kel-Suu Lake.",
+          "The road takes around four hours through remote mountain landscapes.",
+          "Stop near the Ak-Sai river on the way.",
+          "Horse riding to Kel-Suu Lake through Kok-Kiya valley.",
+        ],
+      },
+      {
+        title: "Day 3 - Kel-Suu to Bishkek",
+        image: "/kel4.jpg",
+        points: [
+          "After breakfast, take a short hike and enjoy the scenery of Kok-Kiya valley.",
+          "Capture final photos of the cliffs, valley and alpine landscapes.",
+          "Drive back to Bishkek city.",
+        ],
+      },
+    ],
+    activities: ["Trekking", "Horseback Riding", "Yurt Stay", "Culture", "History", "Cuisine", "Camping"],
+    services: ["Guide", "Driver", "Gas", "Breakfast", "Lunch", "Dinner", "Accommodation"],
+  },
+  {
+    slug: "song-kul",
+    title: "4-Day Horseback Adventure to Song-Kul Lake",
+    subtitle:
+      "Ride through mountains, live like nomads and explore one of the most beautiful lakes in Kyrgyzstan.",
+    heroImage: "/horse.jpg",
+    mapQuery: "Song-Kul Lake, Kyrgyzstan",
+    about: [
+      "Ride through alpine valleys and breathtaking mountain passes before sleeping in traditional yurts beneath wide open skies.",
+      "This route is built around horseback riding, nomadic culture and slow days in the highlands beside Song-Kul Lake.",
+    ],
+    days: [
+      {
+        title: "Day 1 - Bishkek to Kyzart and Kilemche",
+        image: "/day1.jpg",
+        points: [
+          "Depart Bishkek in the morning for a scenic drive to Kyzart village, around five hours.",
+          "Lunch with a local family upon arrival.",
+          "In the afternoon, saddle up for your first horseback ride through rolling pastures and alpine trails to Kilemche Valley.",
+          "Arrive at a cozy yurt camp hosted by local shepherds.",
+          "Dinner and overnight stay in a yurt under the stars.",
+        ],
+      },
+      {
+        title: "Day 2 - Kilemche to Song-Kul Lake",
+        image: "/day2.jpg",
+        points: [
+          "After breakfast, continue the journey on horseback over Tuz-Ashuu Pass.",
+          "Enjoy panoramic views as Song-Kul Lake appears in the distance.",
+          "Arrive at the shores of Song-Kul, a pristine alpine lake at 3,016 meters above sea level.",
+          "Lunch at the yurt camp and free afternoon to relax, walk along the lake or visit local herders.",
+          "Dinner and overnight in yurts beside the lake.",
+        ],
+      },
+      {
+        title: "Day 3 - Lakeside Ride to Kyrjol Camp",
+        image: "/day3.jpg",
+        points: [
+          "Enjoy a calm morning at Song-Kul before beginning a lakeside ride from Tuz-Ashuu to Kyrjol camp.",
+          "The route offers new vistas and a deeper connection to the lake's quiet beauty.",
+          "Lunch upon arrival, with a free afternoon to rest, read or explore.",
+          "Dinner and another peaceful overnight in yurts with a view of the wide-open steppe.",
+        ],
+      },
+      {
+        title: "Day 4 - Kyrjol to Kyzart and Bishkek",
+        image: "/day4.jpg",
+        points: [
+          "After breakfast, mount your horse for the final ride back to Kyzart village.",
+          "Enjoy a farewell lunch with local hosts.",
+          "After lunch, return by vehicle to Bishkek, arriving in the evening with unforgettable memories.",
+        ],
+      },
+    ],
+  },
+  {
     slug: "song-kul-chon-kemin",
     title: "3-Day Adventure to Song-Kul Lake and Chon-Kemin Valley",
     subtitle:

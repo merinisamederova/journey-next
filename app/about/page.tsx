@@ -34,10 +34,10 @@ export default function AboutPage() {
   };
 
   return (
-    <main className="pt-24">
+    <main className="pt-16">
 
       {/* HERO */}
-      <section className="relative py-32 text-center text-white">
+      <section className="relative py-20 md:py-24 text-center text-white">
 
   {/* Background image */}
   <Image
@@ -52,7 +52,7 @@ export default function AboutPage() {
   <div className="absolute inset-0 bg-black/50 -z-10"></div>
 
   {/* Content */}
-  <div className="relative md:h-96 z-10 max-w-2xl mx-auto px-4 md:px-6">
+  <div className="relative z-10 max-w-2xl mx-auto px-4 md:px-6">
     <h1 className="text-4xl md:text-5xl font-bold mb-4">
       About Us
     </h1>
@@ -65,7 +65,7 @@ export default function AboutPage() {
 
 
       {/* GUIDES */}
-<section className="py-24 bg-white">
+<section className="py-16 md:py-20 bg-white">
 
   <div className="max-w-6xl mx-auto px-6 space-y-24">
 

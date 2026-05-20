@@ -65,7 +65,7 @@ export default function TourPage({
 
   return (
     <main className="bg-white">
-      <section className="relative h-[62vh] md:h-[72vh] flex items-center justify-center text-white text-center">
+      <section className="relative h-[58vh] min-h-[440px] md:h-[68vh] flex items-center justify-center text-white text-center">
         <Image
           src={heroImage}
           alt={title}
@@ -76,12 +76,12 @@ export default function TourPage({
         <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 px-6 max-w-3xl">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">{title}</h1>
-          <p className="text-gray-200 text-base md:text-lg">{subtitle}</p>
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">{title}</h1>
+          <p className="text-gray-200 text-base md:text-lg leading-relaxed">{subtitle}</p>
         </div>
       </section>
 
-      <section className="py-16 md:py-20 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-14 md:py-18 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 md:gap-12 items-center">
         {mapQuery ? (
           <GoogleMapBlock title={title} query={mapQuery} />
         ) : (
@@ -96,6 +96,9 @@ export default function TourPage({
         )}
 
         <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-green-700 mb-2">
+            Tour overview
+          </p>
           <h2 className="text-2xl md:text-3xl font-bold mb-4">{aboutTitle}</h2>
           <div className="text-gray-600 leading-relaxed space-y-4">
             {about.map((paragraph) => (
@@ -115,8 +118,16 @@ export default function TourPage({
         </div>
       </section>
 
-      <section className="bg-gray-100 py-20">
-        <div className="max-w-6xl mx-auto px-6 space-y-16">
+      <section className="bg-gray-100 py-16 md:py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="mb-12">
+            <p className="text-sm font-semibold uppercase tracking-wide text-green-700 mb-2">
+              Route
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold">Itinerary</h2>
+          </div>
+
+          <div className="space-y-14 md:space-y-16">
           {days.map((day, index) => (
             <div key={day.title} className="grid md:grid-cols-2 gap-10 items-center">
               <div
@@ -131,7 +142,7 @@ export default function TourPage({
                 <h3 className="text-2xl font-bold mb-4 border-l-4 border-green-500 pl-3">
                   {day.title}
                 </h3>
-                <div className="text-gray-700 space-y-3">
+                <div className="text-gray-700 space-y-3 leading-relaxed">
                   {day.points.map((point) => (
                     <p key={point}>{point}</p>
                   ))}
@@ -139,24 +150,25 @@ export default function TourPage({
               </div>
             </div>
           ))}
+          </div>
         </div>
       </section>
 
-      <section className="py-16 max-w-6xl mx-auto px-6">
+      <section className="py-14 md:py-16 max-w-6xl mx-auto px-6">
         <h2 className="text-2xl md:text-3xl font-bold mb-10 text-center">
           Tour Highlights
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {galleryImages.map((img) => (
-            <div key={img} className="relative h-40 rounded-xl overflow-hidden">
+            <div key={img} className="relative h-40 md:h-48 rounded-xl overflow-hidden">
               <Image src={img} alt={title} fill className="object-cover" />
             </div>
           ))}
         </div>
       </section>
 
-      <section className="bg-gray-100 py-12">
+      <section className="bg-gray-100 py-12 md:py-14">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8 items-start">
           <div>
             <h4 className="font-semibold mb-3">Included activities:</h4>

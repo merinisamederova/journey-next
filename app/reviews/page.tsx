@@ -47,8 +47,8 @@ export default async function ReviewsPage() {
   const reviews = await loadReviews();
 
   return (
-    <main className="bg-white pt-24">
-      <section className="bg-gray-100 py-20 text-center">
+    <main className="bg-white pt-16">
+      <section className="bg-gray-100 py-12 md:py-16 text-center">
         <div className="max-w-3xl mx-auto px-6">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Traveler Reviews</h1>
           <p className="text-gray-600 text-lg">

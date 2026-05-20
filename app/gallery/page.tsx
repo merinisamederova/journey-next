@@ -22,10 +22,10 @@ export default function GalleryPage() {
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
-    <main className="bg-white min-h-screen pt-20">
+    <main className="bg-white min-h-screen pt-16">
 
       {/* TITLE */}
-      <section className="text-center py-16 px-6">
+      <section className="text-center py-10 md:py-12 px-6">
         <h1 className="text-3xl md:text-5xl font-bold text-black mb-4">
           Our Gallery
         </h1>
