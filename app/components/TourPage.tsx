@@ -25,6 +25,29 @@ type TourPageProps = {
   note?: string;
 };
 
+const faqs = [
+  {
+    question: "Can the tour be customized?",
+    answer:
+      "Yes. Routes, pace, accommodation and activities can be adjusted for private groups depending on the season and road conditions.",
+  },
+  {
+    question: "Do I need previous horse riding or trekking experience?",
+    answer:
+      "Most tours are suitable for beginners. For horseback routes, local guides help choose calm horses and adjust the route to the group's level.",
+  },
+  {
+    question: "What should I bring?",
+    answer:
+      "Warm layers, comfortable shoes, sun protection, a reusable water bottle, personal medicine and a power bank are recommended for mountain tours.",
+  },
+  {
+    question: "What happens if the weather changes?",
+    answer:
+      "Mountain weather can change quickly. The guide may adjust timing, stops or activities to keep the trip comfortable and safe.",
+  },
+];
+
 const defaultActivities = [
   "Trekking",
   "Horseback Riding",
@@ -62,9 +85,44 @@ export default function TourPage({
   note = "Alcohol and beverages are not included. Horse riding can be organized when it is not included in the base price.",
 }: TourPageProps) {
   const galleryImages = [heroImage, ...days.map((day) => day.image)].slice(0, 4);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    name: title,
+    description: subtitle,
+    image: heroImage,
+    touristType: "Private travelers",
+    provider: {
+      "@type": "TravelAgency",
+      name: "Journey Kyrgyzstan",
+    },
+    itinerary: days.map((day, index) => ({
+      "@type": "ItemList",
+      position: index + 1,
+      name: day.title,
+      itemListElement: day.points.map((point, pointIndex) => ({
+        "@type": "ListItem",
+        position: pointIndex + 1,
+        name: point,
+      })),
+    })),
+    mainEntity: faqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
 
   return (
     <main className="bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+
       <section className="relative h-[58vh] min-h-[440px] md:h-[68vh] flex items-center justify-center text-white text-center">
         <Image
           src={heroImage}
@@ -189,6 +247,24 @@ export default function TourPage({
           </div>
 
           <p className="text-gray-600 text-sm leading-relaxed">{note}</p>
+        </div>
+      </section>
+
+      <section className="py-14 md:py-16 max-w-6xl mx-auto px-6">
+        <div className="mb-8">
+          <p className="text-sm font-semibold uppercase tracking-wide text-green-700 mb-2">
+            Good to know
+          </p>
+          <h2 className="text-2xl md:text-3xl font-bold">FAQ</h2>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-5">
+          {faqs.map((item) => (
+            <div key={item.question} className="rounded-xl border border-gray-200 p-5">
+              <h3 className="font-semibold mb-2">{item.question}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{item.answer}</p>
+            </div>
+          ))}
         </div>
       </section>
 

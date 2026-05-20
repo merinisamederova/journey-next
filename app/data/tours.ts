@@ -91,7 +91,7 @@ export const tours: TourContent[] = [
           "Stop near Orto-Tokoy water reservoir for photos and mountain views.",
           "Lunch with beautiful scenery around the reservoir.",
           "Drive to Song-Kul Lake, meet local people and explore the area.",
-          "Short trekking and dinner in a national yurt with Kyrgyz food.",
+          "Take a short trek and enjoy dinner in a traditional yurt with Kyrgyz food.",
         ],
       },
       {

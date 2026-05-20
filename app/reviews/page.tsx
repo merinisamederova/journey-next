@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import ReviewForm from "../components/ReviewForm";
+
+export const metadata: Metadata = {
+  title: "Traveler Reviews",
+  description:
+    "Read traveler reviews for Journey Kyrgyzstan and share your experience after a private tour in Kyrgyzstan.",
+};
 
 type Review = {
   id: string;

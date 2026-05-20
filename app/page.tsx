@@ -1,8 +1,12 @@
-
-"use client";
+import type { Metadata } from "next";
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 import Image from "next/image";
 
+export const metadata: Metadata = {
+  title: "Private Tours in Kyrgyzstan",
+  description:
+    "Book private tours in Kyrgyzstan with local guides, mountain routes, yurt stays, horseback riding, car hire and custom travel planning from Bishkek.",
+};
 
 export default function Home() {
   return (

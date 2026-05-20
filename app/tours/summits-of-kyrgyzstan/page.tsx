@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import TourPage from "../../components/TourPage";
+
+export const metadata: Metadata = {
+  title: "Summits of Kyrgyzstan",
+  description:
+    "Custom hiking, trekking and mountain programs in Kyrgyzstan with professional guides, route planning, equipment support and private transport.",
+};
 
 export default function SummitsOfKyrgyzstanTour() {
   return (

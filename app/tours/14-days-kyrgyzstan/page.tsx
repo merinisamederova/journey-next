@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import TourPage from "../../components/TourPage";
+
+export const metadata: Metadata = {
+  title: "14 Days Across Kyrgyzstan",
+  description:
+    "A private 14-day Kyrgyzstan route through Chon-Kemin, Song-Kul, Tash-Rabat, Kel-Suu, Issyk-Kul, Karakol, Altyn-Arashan and mountain gorges.",
+};
 
 export default function FourteenDaysKyrgyzstan() {
   return (
