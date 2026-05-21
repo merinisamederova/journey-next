@@ -1,3 +1,4 @@
+import { requireAdmin } from "../../lib/adminAuth";
 import { tours } from "../../data/tours";
 import { availabilitySlots } from "../../data/availability";
 
@@ -8,7 +9,9 @@ const manualTours = [
   "summits-of-kyrgyzstan",
 ];
 
-export default function AdminAvailabilityPage() {
+export default async function AdminAvailabilityPage() {
+  await requireAdmin();
+
   const hasSupabase =
     Boolean(process.env.SUPABASE_URL) &&
     Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -31,6 +34,12 @@ export default function AdminAvailabilityPage() {
             <span className="font-semibold"> supabase/availability.sql</span>,
             the calendar API will read real dates from the database.
           </p>
+        </div>
+
+        <div className="mb-6">
+          <a href="/admin/logout" className="text-sm font-semibold text-gray-600 hover:text-black">
+            Log out
+          </a>
         </div>
 
         <div className="grid md:grid-cols-3 gap-5 mb-8">

@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import { hasAdminSession, requireAdmin } from "../../lib/adminAuth";
 
 type ReviewStatus = "pending" | "approved" | "rejected";
 
@@ -24,11 +25,6 @@ function getSupabaseConfig() {
   }
 
   return { supabaseUrl, supabaseServiceRoleKey };
-}
-
-function isAdmin(token: string) {
-  const adminToken = process.env.ADMIN_ACCESS_TOKEN;
-  return Boolean(adminToken) && token === adminToken;
 }
 
 async function loadReviews() {
@@ -71,11 +67,10 @@ async function loadReviews() {
 async function updateReview(formData: FormData) {
   "use server";
 
-  const token = String(formData.get("token") ?? "");
   const id = String(formData.get("id") ?? "");
   const status = String(formData.get("status") ?? "");
 
-  if (!isAdmin(token) || !id || !statuses.includes(status as ReviewStatus)) {
+  if (!(await hasAdminSession()) || !id || !statuses.includes(status as ReviewStatus)) {
     return;
   }
 
@@ -113,22 +108,9 @@ function statusClass(status: ReviewStatus) {
   return classes[status];
 }
 
-type AdminReviewsPageProps = {
-  searchParams?: Promise<{
-    token?: string;
-  }>;
-};
-
-export default async function AdminReviewsPage({
-  searchParams,
-}: AdminReviewsPageProps) {
-  const params = await searchParams;
-  const token = params?.token ?? "";
-  const adminTokenConfigured = Boolean(process.env.ADMIN_ACCESS_TOKEN);
-  const canView = isAdmin(token);
-  const { reviews, error } = canView
-    ? await loadReviews()
-    : { reviews: [] as Review[], error: "" };
+export default async function AdminReviewsPage() {
+  await requireAdmin();
+  const { reviews, error } = await loadReviews();
 
   return (
     <main className="min-h-screen bg-gray-100 pt-24">
@@ -143,23 +125,13 @@ export default async function AdminReviewsPage({
           </p>
         </div>
 
-        {!adminTokenConfigured && (
-          <div className="rounded-xl bg-yellow-50 border border-yellow-200 p-5 text-yellow-900">
-            Add <span className="font-semibold">ADMIN_ACCESS_TOKEN</span> to Vercel environment variables.
-          </div>
-        )}
+        <div className="mb-6">
+          <a href="/admin/logout" className="text-sm font-semibold text-gray-600 hover:text-black">
+            Log out
+          </a>
+        </div>
 
-        {adminTokenConfigured && !canView && (
-          <div className="rounded-xl bg-white p-6 shadow-sm max-w-xl">
-            <h2 className="text-xl font-bold mb-3">Admin access required</h2>
-            <code className="block rounded-lg bg-gray-100 p-3 text-sm break-all">
-              /admin/reviews?token=YOUR_ADMIN_ACCESS_TOKEN
-            </code>
-          </div>
-        )}
-
-        {canView && (
-          <>
+        <>
             <div className="grid md:grid-cols-3 gap-4 mb-8">
               <div className="bg-white rounded-xl p-5 shadow-sm">
                 <p className="text-sm text-gray-500">Pending</p>
@@ -208,7 +180,6 @@ export default async function AdminReviewsPage({
                     </div>
 
                     <form action={updateReview} className="lg:w-64 space-y-3">
-                      <input type="hidden" name="token" value={token} />
                       <input type="hidden" name="id" value={review.id} />
                       <select
                         name="status"
@@ -232,8 +203,7 @@ export default async function AdminReviewsPage({
                 </article>
               ))}
             </div>
-          </>
-        )}
+        </>
       </section>
     </main>
   );

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getClientIp, isRateLimited } from "../../lib/rateLimit";
 
 type ReviewRequest = {
   name?: string;
@@ -6,6 +7,7 @@ type ReviewRequest = {
   tour?: string;
   rating?: string | number;
   text?: string;
+  website?: string;
 };
 
 function clean(value: unknown, limit = 500) {
@@ -73,6 +75,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const config = getSupabaseConfig();
+  const ip = getClientIp(request);
 
   if (!config) {
     return NextResponse.json(
@@ -81,7 +84,28 @@ export async function POST(request: Request) {
     );
   }
 
-  const body = (await request.json()) as ReviewRequest;
+  if (isRateLimited(`review:${ip}`, 3, 10 * 60 * 1000)) {
+    return NextResponse.json(
+      { error: "Too many review submissions. Please try again later." },
+      { status: 429 },
+    );
+  }
+
+  let body: ReviewRequest;
+
+  try {
+    body = (await request.json()) as ReviewRequest;
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid request body." },
+      { status: 400 },
+    );
+  }
+
+  if (clean(body.website)) {
+    return NextResponse.json({ ok: true, status: "pending" });
+  }
+
   const name = clean(body.name, 100);
   const country = clean(body.country, 100);
   const tour = clean(body.tour, 150);

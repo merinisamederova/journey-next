@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { requireAdmin } from "../../lib/adminAuth";
 import { tours } from "../../data/tours";
 
 const manualTours = [
@@ -28,7 +29,9 @@ const manualTours = [
   },
 ];
 
-export default function AdminToursPage() {
+export default async function AdminToursPage() {
+  await requireAdmin();
+
   return (
     <main className="min-h-screen bg-gray-100 pt-24">
       <section className="max-w-7xl mx-auto px-6 py-10">
@@ -42,6 +45,12 @@ export default function AdminToursPage() {
             content structure so they can be moved into Sanity or another CMS
             without rewriting the frontend.
           </p>
+        </div>
+
+        <div className="mb-6">
+          <a href="/admin/logout" className="text-sm font-semibold text-gray-600 hover:text-black">
+            Log out
+          </a>
         </div>
 
         <div className="grid md:grid-cols-3 gap-4 mb-8">

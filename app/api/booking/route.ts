@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getClientIp, isRateLimited } from "../../lib/rateLimit";
 
 const WHATSAPP_PHONE = "996703367477";
 const WHATSAPP_GRAPH_VERSION = process.env.WHATSAPP_GRAPH_VERSION ?? "v25.0";
@@ -11,6 +12,7 @@ type BookingRequest = {
   date?: string;
   people?: string;
   message?: string;
+  website?: string;
 };
 
 function clean(value: unknown) {
@@ -123,7 +125,29 @@ async function saveBooking({
 }
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as BookingRequest;
+  const ip = getClientIp(request);
+
+  if (isRateLimited(`booking:${ip}`, 5, 10 * 60 * 1000)) {
+    return NextResponse.json(
+      { error: "Too many booking requests. Please try again later." },
+      { status: 429 },
+    );
+  }
+
+  let body: BookingRequest;
+
+  try {
+    body = (await request.json()) as BookingRequest;
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid request body." },
+      { status: 400 },
+    );
+  }
+
+  if (clean(body.website)) {
+    return NextResponse.json({ ok: true });
+  }
 
   const tour = clean(body.tour);
   const tourSlug = clean(body.tourSlug);
@@ -132,10 +156,18 @@ export async function POST(request: Request) {
   const date = clean(body.date);
   const people = clean(body.people);
   const message = clean(body.message);
+  const peopleNumber = Number(people);
 
   if (!name || !contact || !tour) {
     return NextResponse.json(
       { error: "Name, contact and tour are required." },
+      { status: 400 },
+    );
+  }
+
+  if (people && (!Number.isInteger(peopleNumber) || peopleNumber < 1 || peopleNumber > 50)) {
+    return NextResponse.json(
+      { error: "Please enter a valid number of people." },
       { status: 400 },
     );
   }

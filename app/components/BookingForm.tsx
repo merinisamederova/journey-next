@@ -33,6 +33,7 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
         date: formData.get("date"),
         people: formData.get("people"),
         message: formData.get("message"),
+        website: formData.get("website"),
       }),
     });
 
@@ -121,6 +122,11 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
               className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-green-600"
               placeholder="Tell us about your travel plans"
             />
+          </label>
+
+          <label className="hidden">
+            Website
+            <input name="website" tabIndex={-1} autoComplete="off" />
           </label>
 
           {error && (
