@@ -158,24 +158,24 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
           </p>
         </div>
 
-        <div className="max-w-3xl rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+        <div className="max-w-sm rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
           {loading ? (
-            <div className="rounded-xl bg-gray-100 p-5 text-gray-600">
+            <div className="rounded-lg bg-gray-100 p-4 text-sm text-gray-600">
               Loading dates...
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-between gap-3 mb-5">
+              <div className="flex items-center justify-between gap-2 mb-3">
                 <button
                   type="button"
                   onClick={() => changeMonth("previous")}
                   disabled={!canGoToPrevious}
-                  className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-md border border-gray-300 px-2 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Previous
                 </button>
 
-                <h3 className="text-lg md:text-xl font-bold text-center">
+                <h3 className="text-base font-bold text-center">
                   {monthLabel(currentMonth)}
                 </h3>
 
@@ -183,22 +183,22 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
                   type="button"
                   onClick={() => changeMonth("next")}
                   disabled={!canGoToNext}
-                  className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-md border border-gray-300 px-2 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Next
                 </button>
               </div>
 
-              <div className="grid grid-cols-7 gap-2 text-center text-xs font-semibold text-gray-500 mb-2">
+              <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-gray-500 mb-1.5">
                 {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
                   <span key={day}>{day}</span>
                 ))}
               </div>
 
-              <div className="grid grid-cols-7 gap-2">
+              <div className="grid grid-cols-7 gap-1">
                 {buildMonthDays(currentMonth).map((day, index) => {
                   if (!day) {
-                    return <div key={`empty-${index}`} className="aspect-square" />;
+                    return <div key={`empty-${index}`} className="h-9" />;
                   }
 
                   const slot = slotsByDate.get(dateKey(day));
@@ -209,7 +209,7 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
                   return (
                     <div
                       key={dateKey(day)}
-                      className={`aspect-square rounded-lg border flex flex-col items-center justify-center text-sm transition ${
+                      className={`h-9 rounded-md border flex flex-col items-center justify-center text-xs transition ${
                         isAvailable
                           ? "border-green-300 bg-green-100 text-green-900"
                           : isLimited
@@ -222,7 +222,7 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
                     >
                       <span className="font-bold">{day.getDate()}</span>
                       {slot && (
-                        <span className="hidden sm:block text-[10px] leading-tight">
+                        <span className="hidden sm:block text-[9px] leading-none">
                           {slot.seats > 0 ? `${slot.seats} seats` : "full"}
                         </span>
                       )}
