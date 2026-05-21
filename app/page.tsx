@@ -6,6 +6,16 @@ export const metadata: Metadata = {
   title: "Private Tours in Kyrgyzstan",
   description:
     "Book private tours in Kyrgyzstan with local guides, mountain routes, yurt stays, horseback riding, car hire and custom travel planning from Bishkek.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Private Tours in Kyrgyzstan | Journey Kyrgyzstan",
+    description:
+      "Book private tours in Kyrgyzstan with local guides, mountain routes, yurt stays, horseback riding and custom travel planning from Bishkek.",
+    url: "/",
+    images: ["/1.jpg"],
+  },
 };
 
 export default function Home() {

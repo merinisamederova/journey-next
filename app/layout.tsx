@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import BackHomeButton from "./components/BackHomeButton";
 import Header from "./components/Header";
 import "./globals.css";
+import { siteConfig } from "./seo";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://journey-kyrgyzstan.vercel.app"),
+  metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
   title: {
-    default: "Journey Kyrgyzstan | Private Tours in Kyrgyzstan",
-    template: "%s | Journey Kyrgyzstan",
+    default: `${siteConfig.name} | Private Tours in Kyrgyzstan`,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "Private tours in Kyrgyzstan with local guides, 4x4 vehicles, horseback adventures, alpine lakes, nomadic culture and custom routes from Bishkek.",
+  description: siteConfig.description,
   keywords: [
     "Kyrgyzstan tours",
     "private tours Kyrgyzstan",
@@ -20,15 +21,32 @@ export const metadata: Metadata = {
     "Kyrgyzstan travel",
     "Bishkek tours",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
   openGraph: {
-    title: "Journey Kyrgyzstan | Private Tours in Kyrgyzstan",
+    title: `${siteConfig.name} | Private Tours in Kyrgyzstan`,
     description:
       "Explore Kyrgyzstan with private routes, local guides, mountain lakes, yurt stays, horseback riding and 4x4 adventures.",
-    url: "https://journey-kyrgyzstan.vercel.app",
-    siteName: "Journey Kyrgyzstan",
+    url: "/",
+    siteName: siteConfig.name,
     images: [
       {
-        url: "/14.jpg",
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
         alt: "Journey Kyrgyzstan mountain tour",
@@ -39,10 +57,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Journey Kyrgyzstan | Private Tours in Kyrgyzstan",
+    title: `${siteConfig.name} | Private Tours in Kyrgyzstan`,
     description:
       "Private tours, local guides, alpine lakes, yurt stays and custom routes across Kyrgyzstan.",
-    images: ["/14.jpg"],
+    images: [siteConfig.ogImage],
   },
 };
 

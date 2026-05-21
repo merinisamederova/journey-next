@@ -5,6 +5,16 @@ export const metadata: Metadata = {
   title: "Traveler Reviews",
   description:
     "Read traveler reviews for Journey Kyrgyzstan and share your experience after a private tour in Kyrgyzstan.",
+  alternates: {
+    canonical: "/reviews",
+  },
+  openGraph: {
+    title: "Traveler Reviews | Journey Kyrgyzstan",
+    description:
+      "Read traveler reviews for Journey Kyrgyzstan and share your experience after a private tour.",
+    url: "/reviews",
+    images: ["/14.jpg"],
+  },
 };
 
 type Review = {

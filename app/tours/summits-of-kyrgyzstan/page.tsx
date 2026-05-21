@@ -5,6 +5,16 @@ export const metadata: Metadata = {
   title: "Summits of Kyrgyzstan",
   description:
     "Custom hiking, trekking and mountain programs in Kyrgyzstan with professional guides, route planning, equipment support and private transport.",
+  alternates: {
+    canonical: "/tours/summits-of-kyrgyzstan",
+  },
+  openGraph: {
+    title: "Summits of Kyrgyzstan | Journey Kyrgyzstan",
+    description:
+      "Custom hiking, trekking and mountain programs in Kyrgyzstan with professional guides, route planning, equipment support and private transport.",
+    url: "/tours/summits-of-kyrgyzstan",
+    images: ["/5.jpg"],
+  },
 };
 
 export default function SummitsOfKyrgyzstanTour() {

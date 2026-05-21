@@ -5,6 +5,16 @@ export const metadata: Metadata = {
   title: "14 Days Across Kyrgyzstan",
   description:
     "A private 14-day Kyrgyzstan route through Chon-Kemin, Song-Kul, Tash-Rabat, Kel-Suu, Issyk-Kul, Karakol, Altyn-Arashan and mountain gorges.",
+  alternates: {
+    canonical: "/tours/14-days-kyrgyzstan",
+  },
+  openGraph: {
+    title: "14 Days Across Kyrgyzstan | Journey Kyrgyzstan",
+    description:
+      "A private 14-day Kyrgyzstan route through Chon-Kemin, Song-Kul, Tash-Rabat, Kel-Suu, Issyk-Kul, Karakol and Altyn-Arashan.",
+    url: "/tours/14-days-kyrgyzstan",
+    images: ["/14.jpg"],
+  },
 };
 
 export default function FourteenDaysKyrgyzstan() {
