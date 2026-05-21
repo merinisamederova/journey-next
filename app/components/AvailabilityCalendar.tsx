@@ -23,14 +23,6 @@ const tourDurations: Record<string, number> = {
   "summits-of-kyrgyzstan": 3,
 };
 
-function formatDate(date: string) {
-  return new Intl.DateTimeFormat("en", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(`${date}T00:00:00`));
-}
-
 function monthKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 }
@@ -106,6 +98,7 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(monthKey(new Date()));
+  const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -132,13 +125,10 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
     };
   }, [tourSlug]);
 
-  const slotsByDate = new Map(slots.map((slot) => [slot.date, slot]));
-  const highlightedDateKeys = new Set(
-    slots
-      .filter((slot) => slot.status !== "sold_out")
-      .flatMap((slot) =>
-        getConsecutiveDateKeys(slot.date, tourDurations[tourSlug] ?? 1),
-      ),
+  const selectedDateKeys = new Set(
+    selectedStartDate
+      ? getConsecutiveDateKeys(selectedStartDate, tourDurations[tourSlug] ?? 1)
+      : [],
   );
   const slotMonthKeys = Array.from(
     new Set(slots.map((slot) => monthKey(new Date(`${slot.date}T00:00:00`)))),
@@ -161,6 +151,10 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
         ? Math.max(0, fallbackIndex - 1)
         : Math.min(monthKeys.length - 1, fallbackIndex + 1);
     setCurrentMonth(monthKeys[nextIndex]);
+  };
+
+  const selectStartDate = (date: Date) => {
+    setSelectedStartDate(dateKey(date));
   };
 
   return (
@@ -222,21 +216,21 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
                   }
 
                   const key = dateKey(day);
-                  const slot = slotsByDate.get(key);
-                  const isHighlighted = highlightedDateKeys.has(key);
+                  const isSelected = selectedDateKeys.has(key);
 
                   return (
-                    <div
+                    <button
                       key={key}
-                      className={`h-9 rounded-md border flex flex-col items-center justify-center text-xs transition ${
-                        isHighlighted
+                      type="button"
+                      onClick={() => selectStartDate(day)}
+                      className={`h-9 rounded-md border flex items-center justify-center text-xs font-bold transition ${
+                        isSelected
                           ? "border-green-300 bg-green-100 text-green-900"
-                          : "border-gray-100 bg-gray-50 text-gray-400"
+                          : "border-gray-100 bg-gray-50 text-gray-600 hover:border-green-300 hover:bg-green-50"
                       }`}
-                      title={slot && isHighlighted ? formatDate(slot.date) : ""}
                     >
-                      <span className="font-bold">{day.getDate()}</span>
-                    </div>
+                      {day.getDate()}
+                    </button>
                   );
                 })}
               </div>
