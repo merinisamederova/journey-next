@@ -23,6 +23,14 @@ const tourDurations: Record<string, number> = {
   "summits-of-kyrgyzstan": 3,
 };
 
+function formatDate(date: string) {
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(`${date}T00:00:00`));
+}
+
 function monthKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 }
@@ -143,6 +151,12 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
   const currentMonthIndex = monthKeys.indexOf(currentMonth);
   const canGoToPrevious = currentMonthIndex > 0;
   const canGoToNext = currentMonthIndex >= 0 && currentMonthIndex < monthKeys.length - 1;
+  const duration = tourDurations[tourSlug] ?? 1;
+  const visibleMonthIndex = currentMonthIndex === -1 ? 0 : currentMonthIndex;
+  const visibleMonthKeys = monthKeys.slice(visibleMonthIndex, visibleMonthIndex + 3);
+  const selectedEndDate = selectedStartDate
+    ? getConsecutiveDateKeys(selectedStartDate, duration).at(-1)
+    : null;
 
   const changeMonth = (direction: "previous" | "next") => {
     const fallbackIndex = currentMonthIndex === -1 ? 0 : currentMonthIndex;
@@ -160,7 +174,7 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
   return (
     <section className="bg-white py-14 md:py-16">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="mb-8">
+        <div className="mb-8 max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-wide text-green-700 mb-2">
             Dates
           </p>
@@ -172,7 +186,26 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
           </p>
         </div>
 
-        <div className="max-w-sm rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
+        <div className="grid gap-6 lg:grid-cols-[280px_1fr] rounded-xl border border-gray-200 bg-gray-50 p-4 md:p-6 shadow-sm">
+          <aside className="rounded-lg bg-white p-5 border border-gray-100">
+            <p className="text-sm font-semibold text-green-700 mb-2">
+              Selected travel window
+            </p>
+            <h3 className="text-xl font-bold mb-3">
+              {duration} {duration === 1 ? "day" : "days"}
+            </h3>
+            {selectedStartDate && selectedEndDate ? (
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {formatDate(selectedStartDate)} - {formatDate(selectedEndDate)}
+              </p>
+            ) : (
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Choose a start date and the full tour period will be highlighted.
+              </p>
+            )}
+          </aside>
+
+          <div className="min-w-0">
           {loading ? (
             <div className="rounded-lg bg-gray-100 p-4 text-sm text-gray-600">
               Loading dates...
@@ -203,39 +236,53 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
                 </button>
               </div>
 
-              <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-gray-500 mb-1.5">
-                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                  <span key={day}>{day}</span>
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {visibleMonthKeys.map((visibleMonth) => (
+                  <div
+                    key={visibleMonth}
+                    className="rounded-lg border border-gray-200 bg-white p-3"
+                  >
+                    <h4 className="text-sm font-bold text-center mb-3">
+                      {monthLabel(visibleMonth)}
+                    </h4>
+
+                    <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold text-gray-500 mb-1.5">
+                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                        <span key={day}>{day}</span>
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-7 gap-1">
+                      {buildMonthDays(visibleMonth).map((day, index) => {
+                        if (!day) {
+                          return <div key={`empty-${index}`} className="h-8" />;
+                        }
+
+                        const key = dateKey(day);
+                        const isSelected = selectedDateKeys.has(key);
+
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => selectStartDate(day)}
+                            className={`h-8 rounded-md border flex items-center justify-center text-xs font-bold transition ${
+                              isSelected
+                                ? "border-green-300 bg-green-100 text-green-900"
+                                : "border-gray-100 bg-gray-50 text-gray-600 hover:border-green-300 hover:bg-green-50"
+                            }`}
+                          >
+                            {day.getDate()}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 ))}
-              </div>
-
-              <div className="grid grid-cols-7 gap-1">
-                {buildMonthDays(currentMonth).map((day, index) => {
-                  if (!day) {
-                    return <div key={`empty-${index}`} className="h-9" />;
-                  }
-
-                  const key = dateKey(day);
-                  const isSelected = selectedDateKeys.has(key);
-
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => selectStartDate(day)}
-                      className={`h-9 rounded-md border flex items-center justify-center text-xs font-bold transition ${
-                        isSelected
-                          ? "border-green-300 bg-green-100 text-green-900"
-                          : "border-gray-100 bg-gray-50 text-gray-600 hover:border-green-300 hover:bg-green-50"
-                      }`}
-                    >
-                      {day.getDate()}
-                    </button>
-                  );
-                })}
               </div>
             </>
           )}
+          </div>
         </div>
       </div>
     </section>
