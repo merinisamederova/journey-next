@@ -14,10 +14,13 @@ type AvailabilityCalendarProps = {
   tourSlug: string;
 };
 
-const statusLabels: Record<AvailabilityStatus, string> = {
-  available: "Available",
-  limited: "Limited",
-  sold_out: "Sold out",
+const tourDurations: Record<string, number> = {
+  "issyk-kul-3-days": 3,
+  "kel-suu": 3,
+  "song-kul": 4,
+  "song-kul-chon-kemin": 3,
+  "14-days-kyrgyzstan": 14,
+  "summits-of-kyrgyzstan": 3,
 };
 
 function formatDate(date: string) {
@@ -67,6 +70,16 @@ function buildMonthDays(key: string) {
 
 function addMonths(date: Date, amount: number) {
   return new Date(date.getFullYear(), date.getMonth() + amount, 1);
+}
+
+function addDays(date: Date, amount: number) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + amount);
+}
+
+function getConsecutiveDateKeys(startDate: string, days: number) {
+  const start = new Date(`${startDate}T00:00:00`);
+
+  return Array.from({ length: days }, (_, index) => dateKey(addDays(start, index)));
 }
 
 function januaryAfter(date: Date) {
@@ -120,6 +133,13 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
   }, [tourSlug]);
 
   const slotsByDate = new Map(slots.map((slot) => [slot.date, slot]));
+  const highlightedDateKeys = new Set(
+    slots
+      .filter((slot) => slot.status !== "sold_out")
+      .flatMap((slot) =>
+        getConsecutiveDateKeys(slot.date, tourDurations[tourSlug] ?? 1),
+      ),
+  );
   const slotMonthKeys = Array.from(
     new Set(slots.map((slot) => monthKey(new Date(`${slot.date}T00:00:00`)))),
   ).sort();
@@ -201,52 +221,27 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
                     return <div key={`empty-${index}`} className="h-9" />;
                   }
 
-                  const slot = slotsByDate.get(dateKey(day));
-                  const isAvailable = slot?.status === "available";
-                  const isLimited = slot?.status === "limited";
-                  const isSoldOut = slot?.status === "sold_out";
+                  const key = dateKey(day);
+                  const slot = slotsByDate.get(key);
+                  const isHighlighted = highlightedDateKeys.has(key);
 
                   return (
                     <div
-                      key={dateKey(day)}
+                      key={key}
                       className={`h-9 rounded-md border flex flex-col items-center justify-center text-xs transition ${
-                        isAvailable
+                        isHighlighted
                           ? "border-green-300 bg-green-100 text-green-900"
-                          : isLimited
-                            ? "border-yellow-300 bg-yellow-100 text-yellow-900"
-                            : isSoldOut
-                              ? "border-red-300 bg-red-100 text-red-900"
-                              : "border-gray-100 bg-gray-50 text-gray-400"
+                          : "border-gray-100 bg-gray-50 text-gray-400"
                       }`}
-                      title={slot ? `${formatDate(slot.date)} - ${statusLabels[slot.status]}` : ""}
+                      title={slot && isHighlighted ? formatDate(slot.date) : ""}
                     >
                       <span className="font-bold">{day.getDate()}</span>
-                      {slot && (
-                        <span className="hidden sm:block text-[9px] leading-none">
-                          {slot.seats > 0 ? `${slot.seats} seats` : "full"}
-                        </span>
-                      )}
                     </div>
                   );
                 })}
               </div>
             </>
           )}
-        </div>
-
-        <div className="flex flex-wrap gap-3 mt-6 text-sm">
-          <span className="inline-flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-green-400" />
-            Available
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-yellow-400" />
-            Limited
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-red-400" />
-            Sold out
-          </span>
         </div>
       </div>
     </section>
