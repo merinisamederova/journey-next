@@ -12,15 +12,15 @@ create table if not exists public.availability (
 alter table public.availability
   add column if not exists status text not null default 'planned';
 
+alter table public.availability
+  drop constraint if exists availability_status_check;
+
 update public.availability
 set status = 'planned'
 where status in ('available', 'limited', 'sold_out');
 
 alter table public.availability
   alter column status set default 'planned';
-
-alter table public.availability
-  drop constraint if exists availability_status_check;
 
 alter table public.availability
   add constraint availability_status_check
