@@ -4,8 +4,7 @@ import { getAvailability } from "../../data/availability";
 type SupabaseAvailabilityRow = {
   tour_slug: string;
   date: string;
-  seats: number;
-  status: "available" | "limited" | "sold_out";
+  status: "planned" | "in_progress" | "completed";
 };
 
 async function getSupabaseAvailability(tourSlug: string) {
@@ -17,7 +16,7 @@ async function getSupabaseAvailability(tourSlug: string) {
   }
 
   const params = new URLSearchParams({
-    select: "tour_slug,date,seats,status",
+    select: "tour_slug,date,status",
     tour_slug: `eq.${tourSlug}`,
     order: "date.asc",
   });
@@ -39,7 +38,6 @@ async function getSupabaseAvailability(tourSlug: string) {
   return rows.map((row) => ({
     tourSlug: row.tour_slug,
     date: row.date,
-    seats: row.seats,
     status: row.status,
   }));
 }

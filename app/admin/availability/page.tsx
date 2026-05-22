@@ -28,11 +28,11 @@ export default async function AdminAvailabilityPage() {
           <p className="text-sm font-semibold uppercase tracking-wide text-green-700">
             Admin preview
           </p>
-          <h1 className="text-3xl md:text-4xl font-bold mt-2">Availability</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mt-2">Tour status report</h1>
           <p className="text-gray-600 mt-3 max-w-3xl">
-            Availability is now prepared for Supabase. After running
+            Tour dates are prepared for Supabase. After running
             <span className="font-semibold"> supabase/availability.sql</span>,
-            the calendar API will read real dates from the database.
+            the calendar API will read tour dates and internal status values from the database.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export default async function AdminAvailabilityPage() {
           </div>
 
           <div className="bg-white rounded-xl p-5 shadow-sm">
-            <p className="text-sm text-gray-500">Demo dates in code</p>
+            <p className="text-sm text-gray-500">Demo tour dates in code</p>
             <p className="text-3xl font-bold mt-2">{availabilitySlots.length}</p>
           </div>
 
@@ -77,7 +77,8 @@ export default async function AdminAvailabilityPage() {
           <p className="text-gray-600">
             Open Supabase table editor, choose the
             <span className="font-semibold"> availability</span> table, then add
-            or edit rows with tour_slug, date, seats and status.
+            or edit rows with tour_slug, date and status. Status can be planned,
+            in_progress or completed.
           </p>
         </div>
       </section>

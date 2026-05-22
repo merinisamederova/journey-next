@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-type AvailabilityStatus = "available" | "limited" | "sold_out";
+type TourRunStatus = "planned" | "in_progress" | "completed";
 
 type AvailabilitySlot = {
   date: string;
-  seats: number;
-  status: AvailabilityStatus;
+  status: TourRunStatus;
 };
 
 type AvailabilityCalendarProps = {

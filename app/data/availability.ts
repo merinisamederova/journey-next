@@ -1,84 +1,71 @@
-export type AvailabilityStatus = "available" | "limited" | "sold_out";
+export type TourRunStatus = "planned" | "in_progress" | "completed";
 
 export type AvailabilitySlot = {
   tourSlug: string;
   date: string;
-  seats: number;
-  status: AvailabilityStatus;
+  status: TourRunStatus;
 };
 
 export const availabilitySlots: AvailabilitySlot[] = [
   {
     tourSlug: "issyk-kul-3-days",
     date: "2026-06-10",
-    seats: 6,
-    status: "available",
+    status: "planned",
   },
   {
     tourSlug: "issyk-kul-3-days",
     date: "2026-06-24",
-    seats: 3,
-    status: "limited",
+    status: "planned",
   },
   {
     tourSlug: "issyk-kul-3-days",
     date: "2026-07-08",
-    seats: 0,
-    status: "sold_out",
+    status: "planned",
   },
   {
     tourSlug: "song-kul",
     date: "2026-06-14",
-    seats: 4,
-    status: "available",
+    status: "planned",
   },
   {
     tourSlug: "song-kul",
     date: "2026-07-02",
-    seats: 2,
-    status: "limited",
+    status: "planned",
   },
   {
     tourSlug: "kel-suu",
     date: "2026-06-18",
-    seats: 5,
-    status: "available",
+    status: "planned",
   },
   {
     tourSlug: "kel-suu",
     date: "2026-07-16",
-    seats: 2,
-    status: "limited",
+    status: "planned",
   },
   {
     tourSlug: "song-kul-chon-kemin",
     date: "2026-06-21",
-    seats: 6,
-    status: "available",
+    status: "planned",
   },
   {
     tourSlug: "song-kul-chon-kemin",
     date: "2026-07-05",
-    seats: 0,
-    status: "sold_out",
+    status: "planned",
   },
   {
     tourSlug: "14-days-kyrgyzstan",
     date: "2026-06-05",
-    seats: 4,
-    status: "available",
+    status: "planned",
   },
   {
     tourSlug: "14-days-kyrgyzstan",
     date: "2026-07-03",
-    seats: 2,
-    status: "limited",
+    status: "planned",
   },
   {
     tourSlug: "14-days-kyrgyzstan",
     date: "2026-08-07",
-    seats: 6,
-    status: "available",
+    status: "planned",
   },
 ];
 
