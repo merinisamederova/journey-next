@@ -215,21 +215,13 @@ export async function POST(request: Request) {
     message,
   });
 
-  if (bookingStorage.status !== "saved") {
-    return NextResponse.json(
-      {
-        error: "Could not save your booking request. Please try again later.",
-        bookingStorage,
-      },
-      { status: 500 },
-    );
-  }
-
   const whatsappDelivery = await trySendLeadToWhatsApp(text);
 
   if (whatsappDelivery.status !== "sent") {
     console.warn("WhatsApp booking notification was not sent", whatsappDelivery);
   }
 
-  return NextResponse.json({ ok: true, bookingStorage, whatsappDelivery });
+  const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(text)}`;
+
+  return NextResponse.json({ whatsappUrl, bookingStorage, whatsappDelivery });
 }

@@ -7,7 +7,7 @@ type BookingFormProps = {
   tourSlug?: string;
 };
 
-type Status = "idle" | "loading" | "success" | "error";
+type Status = "idle" | "loading" | "error";
 
 export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
   const [status, setStatus] = useState<Status>("idle");
@@ -40,24 +40,24 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
       });
 
       const data = (await response.json()) as {
-        ok?: boolean;
+        whatsappUrl?: string;
         error?: string;
         whatsappDelivery?: {
           status: "sent" | "not_configured" | "failed" | "skipped_timeout";
         };
       };
 
-      if (!response.ok || !data.ok) {
+      if (!response.ok || !data.whatsappUrl) {
         setStatus("error");
-        setError(data.error ?? "Could not send your booking request.");
+        setError(data.error ?? "Could not create WhatsApp message.");
         return;
       }
 
-      form.reset();
-      setStatus("success");
+      window.location.assign(data.whatsappUrl);
+      setStatus("idle");
     } catch {
       setStatus("error");
-      setError("Could not send your booking request. Please try again.");
+      setError("Could not open WhatsApp. Please try again.");
     }
   };
 
@@ -72,7 +72,7 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
             Book this tour
           </h2>
           <p className="text-gray-600">
-            Send your request directly to our team with all trip details included.
+            Send your request directly to WhatsApp with all trip details included.
           </p>
         </div>
 
@@ -139,18 +139,12 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
             <p className="md:col-span-2 text-sm text-red-600">{error}</p>
           )}
 
-          {status === "success" && (
-            <p className="md:col-span-2 rounded-lg bg-green-100 px-4 py-3 text-sm font-medium text-green-800">
-              Your booking request has been sent. We will contact you shortly.
-            </p>
-          )}
-
           <button
             type="submit"
             disabled={status === "loading"}
             className="md:col-span-2 rounded-xl bg-green-600 px-8 py-4 text-lg font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-green-400"
           >
-            {status === "loading" ? "Sending request..." : "Send booking request"}
+            {status === "loading" ? "Preparing WhatsApp..." : "Send via WhatsApp"}
           </button>
         </form>
       </div>
