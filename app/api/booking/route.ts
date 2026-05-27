@@ -65,6 +65,17 @@ async function sendLeadToWhatsApp(text: string) {
   };
 }
 
+async function trySendLeadToWhatsApp(text: string) {
+  try {
+    return await sendLeadToWhatsApp(text);
+  } catch (error) {
+    return {
+      status: "failed",
+      error: error instanceof Error ? error.message : "Unknown WhatsApp error",
+    };
+  }
+}
+
 async function saveBooking({
   tour,
   tourSlug,
@@ -205,7 +216,12 @@ export async function POST(request: Request) {
     );
   }
 
-  const whatsappDelivery = await sendLeadToWhatsApp(text);
+  const whatsappDelivery = await Promise.race([
+    trySendLeadToWhatsApp(text),
+    new Promise((resolve) =>
+      setTimeout(() => resolve({ status: "skipped_timeout" }), 3000),
+    ),
+  ]);
 
   return NextResponse.json({ ok: true, bookingStorage, whatsappDelivery });
 }
