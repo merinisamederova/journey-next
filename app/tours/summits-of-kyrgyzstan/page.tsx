@@ -24,6 +24,7 @@ export default function SummitsOfKyrgyzstanTour() {
       subtitle="Mountain programs with professional guides, equipment support and flexible routes for hiking, trekking and alpine objectives."
       heroImage="/5.jpg"
       mapImage="/17.jpg"
+      slug="summits-of-kyrgyzstan"
       about={[
         "Reach the summits of Kyrgyzstan with a professional team. The program is organized with experienced mountain guides and the equipment needed for the chosen route.",
         "This page is intentionally flexible: summit routes depend on season, weather, experience level and group goals. The team can adapt the plan for hiking, trekking or more technical mountain days.",

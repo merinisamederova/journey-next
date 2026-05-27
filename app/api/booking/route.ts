@@ -185,7 +185,6 @@ export async function POST(request: Request) {
     .filter(Boolean)
     .join("\n");
 
-  const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(text)}`;
   const bookingStorage = await saveBooking({
     tour,
     tourSlug,
@@ -195,7 +194,18 @@ export async function POST(request: Request) {
     people,
     message,
   });
+
+  if (bookingStorage.status !== "saved") {
+    return NextResponse.json(
+      {
+        error: "Could not save your booking request. Please try again later.",
+        bookingStorage,
+      },
+      { status: 500 },
+    );
+  }
+
   const whatsappDelivery = await sendLeadToWhatsApp(text);
 
-  return NextResponse.json({ whatsappUrl, bookingStorage, whatsappDelivery });
+  return NextResponse.json({ ok: true, bookingStorage, whatsappDelivery });
 }
