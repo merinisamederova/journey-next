@@ -49,6 +49,38 @@ function monthLabel(key: string) {
   }).format(new Date(year, month - 1, 1));
 }
 
+function seasonStart(date: Date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  if (month >= 2 && month <= 4) {
+    return new Date(year, 2, 1);
+  }
+
+  if (month >= 5 && month <= 7) {
+    return new Date(year, 5, 1);
+  }
+
+  if (month >= 8 && month <= 10) {
+    return new Date(year, 8, 1);
+  }
+
+  return new Date(month === 11 ? year : year - 1, 11, 1);
+}
+
+function seasonLabel(key: string) {
+  const [year, month] = key.split("-").map(Number);
+  const seasonYear = month === 12 ? `${year}/${year + 1}` : String(year);
+  const names: Record<number, string> = {
+    3: "Spring",
+    6: "Summer",
+    9: "Autumn",
+    12: "Winter",
+  };
+
+  return `${names[month]} ${seasonYear}`;
+}
+
 function buildMonthDays(key: string) {
   const [year, month] = key.split("-").map(Number);
   const firstDay = new Date(year, month - 1, 1);
@@ -104,7 +136,7 @@ function buildMonthRange(startKey: string, endKey: string) {
 export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarProps) {
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentMonth, setCurrentMonth] = useState(monthKey(new Date()));
+  const [currentSeason, setCurrentSeason] = useState(monthKey(seasonStart(new Date())));
   const [selectedStartDate, setSelectedStartDate] = useState<string | null>(null);
 
   useEffect(() => {
@@ -119,7 +151,7 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
         const nextSlots = data.slots ?? [];
         setSlots(nextSlots);
         if (nextSlots.length > 0) {
-          setCurrentMonth(monthKey(new Date(`${nextSlots[0].date}T00:00:00`)));
+          setCurrentSeason(monthKey(seasonStart(new Date(`${nextSlots[0].date}T00:00:00`))));
         }
         setLoading(false);
       }
@@ -141,29 +173,43 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
     new Set(slots.map((slot) => monthKey(new Date(`${slot.date}T00:00:00`)))),
   ).sort();
   const today = new Date();
-  const firstMonth = slotMonthKeys[0] ?? monthKey(today);
+  const firstMonth = monthKey(
+    seasonStart(
+      slotMonthKeys[0]
+        ? new Date(`${slotMonthKeys[0]}-01T00:00:00`)
+        : today,
+    ),
+  );
   const januaryLimit = monthKey(januaryAfter(today));
   const lastSlotMonth = slotMonthKeys[slotMonthKeys.length - 1];
   const lastMonth =
     lastSlotMonth && lastSlotMonth > januaryLimit ? lastSlotMonth : januaryLimit;
-  const monthKeys = buildMonthRange(firstMonth, lastMonth);
-  const currentMonthIndex = monthKeys.indexOf(currentMonth);
-  const canGoToPrevious = currentMonthIndex > 0;
-  const canGoToNext = currentMonthIndex >= 0 && currentMonthIndex < monthKeys.length - 1;
+  const lastSeasonMonth = monthKey(seasonStart(new Date(`${lastMonth}-01T00:00:00`)));
+  const seasonKeys = buildMonthRange(firstMonth, lastSeasonMonth)
+    .filter((key) => {
+      const month = Number(key.split("-")[1]);
+      return [3, 6, 9, 12].includes(month);
+    });
+  const currentSeasonIndex = seasonKeys.indexOf(currentSeason);
+  const canGoToPrevious = currentSeasonIndex > 0;
+  const canGoToNext = currentSeasonIndex >= 0 && currentSeasonIndex < seasonKeys.length - 1;
   const duration = tourDurations[tourSlug] ?? 1;
-  const visibleMonthIndex = currentMonthIndex === -1 ? 0 : currentMonthIndex;
-  const visibleMonthKeys = monthKeys.slice(visibleMonthIndex, visibleMonthIndex + 3);
+  const visibleSeasonIndex = currentSeasonIndex === -1 ? 0 : currentSeasonIndex;
+  const visibleMonthKeys = buildMonthRange(
+    seasonKeys[visibleSeasonIndex],
+    monthKey(addMonths(new Date(`${seasonKeys[visibleSeasonIndex]}-01T00:00:00`), 2)),
+  );
   const selectedEndDate = selectedStartDate
     ? getConsecutiveDateKeys(selectedStartDate, duration).at(-1)
     : null;
 
-  const changeMonth = (direction: "previous" | "next") => {
-    const fallbackIndex = currentMonthIndex === -1 ? 0 : currentMonthIndex;
+  const changeSeason = (direction: "previous" | "next") => {
+    const fallbackIndex = currentSeasonIndex === -1 ? 0 : currentSeasonIndex;
     const nextIndex =
       direction === "previous"
         ? Math.max(0, fallbackIndex - 1)
-        : Math.min(monthKeys.length - 1, fallbackIndex + 1);
-    setCurrentMonth(monthKeys[nextIndex]);
+        : Math.min(seasonKeys.length - 1, fallbackIndex + 1);
+    setCurrentSeason(seasonKeys[nextIndex]);
   };
 
   const selectStartDate = (date: Date) => {
@@ -214,7 +260,7 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
               <div className="flex items-center justify-between gap-2 mb-3">
                 <button
                   type="button"
-                  onClick={() => changeMonth("previous")}
+                  onClick={() => changeSeason("previous")}
                   disabled={!canGoToPrevious}
                   className="rounded-md border border-gray-300 px-2 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
                 >
@@ -222,12 +268,12 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
                 </button>
 
                 <h3 className="text-base font-bold text-center">
-                  {monthLabel(currentMonth)}
+                  {seasonLabel(currentSeason)}
                 </h3>
 
                 <button
                   type="button"
-                  onClick={() => changeMonth("next")}
+                  onClick={() => changeSeason("next")}
                   disabled={!canGoToNext}
                   className="rounded-md border border-gray-300 px-2 py-1 text-xs font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
                 >
