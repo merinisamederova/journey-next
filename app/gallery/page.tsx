@@ -17,6 +17,7 @@ export default function GalleryPage() {
     "/g10.jpg",
     "/g11.jpg",
     "/g12.jpg",
+    "/slide16.jpeg",
   ];
 
   const [selected, setSelected] = useState<string | null>(null);
