@@ -3,6 +3,7 @@ import { getClientIp, isRateLimited } from "../../lib/rateLimit";
 
 const WHATSAPP_PHONE = "996703367477";
 const WHATSAPP_GRAPH_VERSION = process.env.WHATSAPP_GRAPH_VERSION ?? "v25.0";
+const WHATSAPP_TIMEOUT_MS = 3000;
 
 type BookingRequest = {
   tour?: string;
@@ -23,46 +24,54 @@ async function sendLeadToWhatsApp(text: string) {
   const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
   const managerPhone = process.env.WHATSAPP_MANAGER_PHONE ?? WHATSAPP_PHONE;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), WHATSAPP_TIMEOUT_MS);
 
   if (!accessToken || !phoneNumberId || !managerPhone) {
+    clearTimeout(timeout);
     return {
       status: "not_configured",
     };
   }
 
-  const response = await fetch(
-    `https://graph.facebook.com/${WHATSAPP_GRAPH_VERSION}/${phoneNumberId}/messages`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messaging_product: "whatsapp",
-        recipient_type: "individual",
-        to: managerPhone,
-        type: "text",
-        text: {
-          preview_url: false,
-          body: text,
+  try {
+    const response = await fetch(
+      `https://graph.facebook.com/${WHATSAPP_GRAPH_VERSION}/${phoneNumberId}/messages`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
         },
-      }),
-    },
-  );
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          recipient_type: "individual",
+          to: managerPhone,
+          type: "text",
+          text: {
+            preview_url: false,
+            body: text,
+          },
+        }),
+        signal: controller.signal,
+      },
+    );
 
-  if (!response.ok) {
-    const errorBody = await response.text();
+    if (!response.ok) {
+      const errorBody = await response.text();
+
+      return {
+        status: "failed",
+        error: errorBody,
+      };
+    }
 
     return {
-      status: "failed",
-      error: errorBody,
+      status: "sent",
     };
+  } finally {
+    clearTimeout(timeout);
   }
-
-  return {
-    status: "sent",
-  };
 }
 
 async function trySendLeadToWhatsApp(text: string) {
@@ -216,12 +225,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const whatsappDelivery = await Promise.race([
-    trySendLeadToWhatsApp(text),
-    new Promise((resolve) =>
-      setTimeout(() => resolve({ status: "skipped_timeout" }), 3000),
-    ),
-  ]);
+  const whatsappDelivery = await trySendLeadToWhatsApp(text);
+
+  if (whatsappDelivery.status !== "sent") {
+    console.warn("WhatsApp booking notification was not sent", whatsappDelivery);
+  }
 
   return NextResponse.json({ ok: true, bookingStorage, whatsappDelivery });
 }

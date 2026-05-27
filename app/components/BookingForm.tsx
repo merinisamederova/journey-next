@@ -15,44 +15,50 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const form = event.currentTarget;
     setStatus("loading");
     setError("");
 
-    const formData = new FormData(event.currentTarget);
+    try {
+      const formData = new FormData(form);
 
-    const response = await fetch("/api/booking", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        tour,
-        tourSlug,
-        name: formData.get("name"),
-        contact: formData.get("contact"),
-        date: formData.get("date"),
-        people: formData.get("people"),
-        message: formData.get("message"),
-        website: formData.get("website"),
-      }),
-    });
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tour,
+          tourSlug,
+          name: formData.get("name"),
+          contact: formData.get("contact"),
+          date: formData.get("date"),
+          people: formData.get("people"),
+          message: formData.get("message"),
+          website: formData.get("website"),
+        }),
+      });
 
-    const data = (await response.json()) as {
-      ok?: boolean;
-      error?: string;
-      whatsappDelivery?: {
-        status: "sent" | "not_configured" | "failed";
+      const data = (await response.json()) as {
+        ok?: boolean;
+        error?: string;
+        whatsappDelivery?: {
+          status: "sent" | "not_configured" | "failed" | "skipped_timeout";
+        };
       };
-    };
 
-    if (!response.ok || !data.ok) {
+      if (!response.ok || !data.ok) {
+        setStatus("error");
+        setError(data.error ?? "Could not send your booking request.");
+        return;
+      }
+
+      form.reset();
+      setStatus("success");
+    } catch {
       setStatus("error");
-      setError(data.error ?? "Could not send your booking request.");
-      return;
+      setError("Could not send your booking request. Please try again.");
     }
-
-    event.currentTarget.reset();
-    setStatus("success");
   };
 
   return (
