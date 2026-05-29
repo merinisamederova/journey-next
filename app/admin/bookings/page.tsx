@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import AdminNav from "../AdminNav";
 import { hasAdminSession, requireAdmin } from "../../lib/adminAuth";
 
 type BookingStatus =
@@ -169,11 +170,7 @@ export default async function AdminBookingsPage() {
           </p>
         </div>
 
-        <div className="mb-6">
-          <a href="/admin/logout" className="text-sm font-semibold text-gray-600 hover:text-black">
-            Log out
-          </a>
-        </div>
+        <AdminNav current="/admin/bookings" />
 
         <>
             <div className="grid md:grid-cols-3 gap-4 mb-8">

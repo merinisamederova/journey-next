@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AdminNav from "../AdminNav";
 import { requireAdmin } from "../../lib/adminAuth";
 import { tours } from "../../data/tours";
 
@@ -47,11 +48,7 @@ export default async function AdminToursPage() {
           </p>
         </div>
 
-        <div className="mb-6">
-          <a href="/admin/logout" className="text-sm font-semibold text-gray-600 hover:text-black">
-            Log out
-          </a>
-        </div>
+        <AdminNav current="/admin/tours" />
 
         <div className="grid md:grid-cols-3 gap-4 mb-8">
           <div className="bg-white rounded-xl p-5 shadow-sm">

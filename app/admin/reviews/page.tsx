@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import AdminNav from "../AdminNav";
 import { hasAdminSession, requireAdmin } from "../../lib/adminAuth";
 
 type ReviewStatus = "pending" | "approved" | "rejected";
@@ -125,85 +126,85 @@ export default async function AdminReviewsPage() {
           </p>
         </div>
 
-        <div className="mb-6">
-          <a href="/admin/logout" className="text-sm font-semibold text-gray-600 hover:text-black">
-            Log out
-          </a>
+        <AdminNav current="/admin/reviews" />
+
+        <div className="grid md:grid-cols-3 gap-4 mb-8">
+          <div className="bg-white rounded-xl p-5 shadow-sm">
+            <p className="text-sm text-gray-500">Pending</p>
+            <p className="text-3xl font-bold mt-2">
+              {reviews.filter((review) => review.status === "pending").length}
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-5 shadow-sm">
+            <p className="text-sm text-gray-500">Approved</p>
+            <p className="text-3xl font-bold mt-2">
+              {reviews.filter((review) => review.status === "approved").length}
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-5 shadow-sm">
+            <p className="text-sm text-gray-500">Rejected</p>
+            <p className="text-3xl font-bold mt-2">
+              {reviews.filter((review) => review.status === "rejected").length}
+            </p>
+          </div>
         </div>
 
-        <>
-            <div className="grid md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-white rounded-xl p-5 shadow-sm">
-                <p className="text-sm text-gray-500">Pending</p>
-                <p className="text-3xl font-bold mt-2">
-                  {reviews.filter((review) => review.status === "pending").length}
-                </p>
-              </div>
-              <div className="bg-white rounded-xl p-5 shadow-sm">
-                <p className="text-sm text-gray-500">Approved</p>
-                <p className="text-3xl font-bold mt-2">
-                  {reviews.filter((review) => review.status === "approved").length}
-                </p>
-              </div>
-              <div className="bg-white rounded-xl p-5 shadow-sm">
-                <p className="text-sm text-gray-500">Rejected</p>
-                <p className="text-3xl font-bold mt-2">
-                  {reviews.filter((review) => review.status === "rejected").length}
-                </p>
-              </div>
-            </div>
+        {error && (
+          <div className="rounded-xl bg-red-50 border border-red-200 p-5 text-red-700 mb-6">
+            {error}
+          </div>
+        )}
 
-            {error && (
-              <div className="rounded-xl bg-red-50 border border-red-200 p-5 text-red-700 mb-6">
-                {error}
-              </div>
-            )}
-
-            <div className="grid gap-5">
-              {reviews.map((review) => (
-                <article key={review.id} className="bg-white rounded-xl p-5 shadow-sm">
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-3 mb-3">
-                        <h2 className="text-xl font-bold">{review.name}</h2>
-                        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusClass(review.status)}`}>
-                          {review.status}
-                        </span>
-                        <span className="text-green-700 font-semibold">
-                          {"★★★★★".slice(0, review.rating)}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-500">
-                        {[review.country, review.tour].filter(Boolean).join(" • ")}
-                      </p>
-                      <p className="mt-4 text-gray-700 leading-relaxed">{review.text}</p>
-                    </div>
-
-                    <form action={updateReview} className="lg:w-64 space-y-3">
-                      <input type="hidden" name="id" value={review.id} />
-                      <select
-                        name="status"
-                        defaultValue={review.status}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                      >
-                        {statuses.map((status) => (
-                          <option key={status} value={status}>
-                            {status}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        type="submit"
-                        className="w-full rounded-lg bg-gray-900 px-4 py-3 text-sm font-semibold text-white hover:bg-black"
-                      >
-                        Save status
-                      </button>
-                    </form>
+        <div className="grid gap-5">
+          {reviews.map((review) => (
+            <article key={review.id} className="bg-white rounded-xl p-5 shadow-sm">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
+                <div>
+                  <div className="flex flex-wrap items-center gap-3 mb-3">
+                    <h2 className="text-xl font-bold">{review.name}</h2>
+                    <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusClass(review.status)}`}>
+                      {review.status}
+                    </span>
+                    <span className="text-green-700 font-semibold">
+                      Rating {review.rating}/5
+                    </span>
                   </div>
-                </article>
-              ))}
+                  <p className="text-sm text-gray-500">
+                    {[review.country, review.tour].filter(Boolean).join(" / ")}
+                  </p>
+                  <p className="mt-4 text-gray-700 leading-relaxed">{review.text}</p>
+                </div>
+
+                <form action={updateReview} className="lg:w-64 space-y-3">
+                  <input type="hidden" name="id" value={review.id} />
+                  <select
+                    name="status"
+                    defaultValue={review.status}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                  >
+                    {statuses.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="submit"
+                    className="w-full rounded-lg bg-gray-900 px-4 py-3 text-sm font-semibold text-white hover:bg-black"
+                  >
+                    Save status
+                  </button>
+                </form>
+              </div>
+            </article>
+          ))}
+
+          {reviews.length === 0 && !error && (
+            <div className="rounded-xl bg-white p-6 shadow-sm text-gray-600">
+              No reviews yet.
             </div>
-        </>
+          )}
+        </div>
       </section>
     </main>
   );

@@ -1,3 +1,4 @@
+import AdminNav from "../AdminNav";
 import { requireAdmin } from "../../lib/adminAuth";
 import { tours } from "../../data/tours";
 import { availabilitySlots } from "../../data/availability";
@@ -36,11 +37,7 @@ export default async function AdminAvailabilityPage() {
           </p>
         </div>
 
-        <div className="mb-6">
-          <a href="/admin/logout" className="text-sm font-semibold text-gray-600 hover:text-black">
-            Log out
-          </a>
-        </div>
+        <AdminNav current="/admin/availability" />
 
         <div className="grid md:grid-cols-3 gap-5 mb-8">
           <div className="bg-white rounded-xl p-5 shadow-sm">
