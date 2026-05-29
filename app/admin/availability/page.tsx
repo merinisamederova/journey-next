@@ -17,10 +17,10 @@ export default async function AdminAvailabilityPage() {
     Boolean(process.env.SUPABASE_URL) &&
     Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
 
-  const tourSlugs = [
+  const tourSlugs = Array.from(new Set([
     ...tours.map((tour) => tour.slug),
     ...manualTours,
-  ];
+  ]));
 
   return (
     <main className="min-h-screen bg-gray-100 pt-24">

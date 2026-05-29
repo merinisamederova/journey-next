@@ -57,8 +57,10 @@ export default async function AdminLoginPage({ searchParams }: AdminLoginPagePro
 
           {!isAdminAuthConfigured() && (
             <div className="mt-5 rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-900">
-              Add <span className="font-semibold">ADMIN_PASSWORD</span> in Vercel
-              environment variables, then redeploy.
+              Add <span className="font-semibold">ADMIN_PASSWORD</span> to your
+              environment variables. For local development, use{" "}
+              <span className="font-semibold">.env.local</span> and restart the
+              dev server.
             </div>
           )}
 
