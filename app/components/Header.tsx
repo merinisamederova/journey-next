@@ -40,10 +40,10 @@ export default function Header() {
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
           >
-            <span className="nav-link flex items-center gap-1 cursor-pointer text-black">
+            <Link href="/tours" className="nav-link flex items-center gap-1 cursor-pointer text-black">
     Tours
     <span className="text-xs"></span>
-  </span>
+  </Link>
 
   {/* Dropdown */}
   <div
@@ -128,7 +128,9 @@ export default function Header() {
 
           {/* Tours */}
           <div className="mt-5 pt-5 border-t">
-            <p className="mb-2 font-semibold">Tours</p>
+            <Link href="/tours" onClick={closeMenu} className="mb-2 block font-semibold">
+              Tours
+            </Link>
             <ul className="space-y-3 text-sm">
               <li>
                 <Link href="/tours/issyk-kul-3-days" onClick={closeMenu}>

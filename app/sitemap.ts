@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { tours } from "./data/tours";
 import { absoluteUrl } from "./seo";
 
-const staticRoutes = ["/", "/about", "/cars", "/gallery", "/reviews"];
+const staticRoutes = ["/", "/about", "/cars", "/gallery", "/reviews", "/tours"];
 const extraTourRoutes = ["/tours/14-days-kyrgyzstan", "/tours/summits-of-kyrgyzstan"];
 
 export default function sitemap(): MetadataRoute.Sitemap {

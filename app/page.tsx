@@ -163,14 +163,19 @@ export default function Home() {
 
     <div className="grid md:grid-cols-3 gap-8">
       {/* Tour 1 */}
-      <div className="rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+      <div className="relative group rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+        <a
+          href="/tours/issyk-kul-3-days"
+          aria-label="Open Issyk-Kul Lake Tour"
+          className="absolute inset-0 z-10"
+        />
         {/* Image */}
         <div className="relative h-48">
           <Image
             src="/2.jpg" 
             alt="Issyk-Kul Lake Tour"
             fill
-            className="object-cover"
+            className="object-cover group-hover:scale-105 transition duration-500"
           />
         </div>
 
@@ -185,7 +190,7 @@ export default function Home() {
 
           <a
             href="/tours/issyk-kul-3-days"
-            className="inline-block text-green-600 font-semibold hover:underline"
+            className="relative z-20 inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
           </a>
@@ -193,13 +198,18 @@ export default function Home() {
       </div>
 
       {/* Tour 2 */}
-      <div className="rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+      <div className="relative group rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+        <a
+          href="/tours/song-kul"
+          aria-label="Open Son-Kul Lake Adventure"
+          className="absolute inset-0 z-10"
+        />
         <div className="relative h-48">
           <Image
             src="/3.jpg"
             alt="Son-Kul Lake Adventure"
             fill
-            className="object-cover"
+            className="object-cover group-hover:scale-105 transition duration-500"
           />
         </div>
 
@@ -213,7 +223,7 @@ export default function Home() {
 
           <a
             href="/tours/song-kul"
-            className="inline-block text-green-600 font-semibold hover:underline"
+            className="relative z-20 inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
           </a>
@@ -221,27 +231,32 @@ export default function Home() {
       </div>
 
       {/* Tour 3 */}
-      <div className="rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+      <div className="relative group rounded-xl overflow-hidden shadow hover:shadow-xl transition">
+        <a
+          href="/tours/song-kul-chon-kemin"
+          aria-label="Open Song-Kul and Chon-Kemin tour"
+          className="absolute inset-0 z-10"
+        />
         <div className="relative h-48">
           <Image
             src="/4.jpg"
-            alt="Ala-Archa National Park"
+            alt="Song-Kul and Chon-Kemin Valley"
             fill
-            className="object-cover"
+            className="object-cover group-hover:scale-105 transition duration-500"
           />
         </div>
 
         <div className="p-6">
           <h3 className="text-xl font-semibold mb-2">
-            Ala-Archa National Park
+            Song-Kul and Chon-Kemin
           </h3>
           <p className="text-black-600 mb-4">
-            A perfect one-day escape into nature near Bishkek.
+            A three-day route with alpine lake scenery, yurt culture and Chon-Kemin valley.
           </p>
 
           <a
             href="/tours/song-kul-chon-kemin"
-            className="inline-block text-green-600 font-semibold hover:underline"
+            className="relative z-20 inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
           </a>

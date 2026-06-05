@@ -15,11 +15,25 @@ export default function OurCars() {
       Our Cars
     </h2>
 
-   <p className="text-center text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto text-sm md:text-base leading-relaxed px-2">
+   <p className="text-center text-gray-600 mb-6 max-w-2xl mx-auto text-sm md:text-base leading-relaxed px-2">
       Comfortable 4x4 vehicles with professional drivers. Perfect for mountain
-      roads and long-distance travel across Kyrgyzstan. 
-      Price includes: car, guide and driver, petrol. All our support in the program planning, organising the activities and assistance with all necessary bookings. Camping equipment: tent, table, chairs. Cars are appointed upon availability and price depends on the amount of days: 1-4 days = EUR 200 per car / per day, 5-10 days = EUR 180, 11-15 days = EUR 160. All cars have the same price except Hyundai Starex, which starts from EUR 250 per day.
+      roads and long-distance travel across Kyrgyzstan.
     </p>
+
+    <div className="grid gap-3 sm:grid-cols-3 mb-8 md:mb-12 text-sm text-gray-700">
+      <div className="rounded-xl bg-white p-4 shadow-sm">
+        <p className="font-semibold text-gray-900">Included</p>
+        <p className="mt-1">Car, guide-driver, petrol and route planning support.</p>
+      </div>
+      <div className="rounded-xl bg-white p-4 shadow-sm">
+        <p className="font-semibold text-gray-900">Equipment</p>
+        <p className="mt-1">Camping tent, table and chairs can be arranged for tours.</p>
+      </div>
+      <div className="rounded-xl bg-white p-4 shadow-sm">
+        <p className="font-semibold text-gray-900">Price</p>
+        <p className="mt-1">EUR 200/day for 1-4 days, EUR 180/day for 5-10 days, EUR 160/day for 11-15 days.</p>
+      </div>
+    </div>
 
     {/* GRID */}
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-10">
@@ -162,7 +176,7 @@ export default function OurCars() {
 
     <Image
       src="/car5.jpg"
-      alt="Huynday Starex Luxury limo"
+      alt="Hyundai Starex Luxury limo"
       fill
       className="object-cover group-hover:scale-110 transition duration-700"
     />
@@ -177,7 +191,7 @@ export default function OurCars() {
 
   <div className="p-4 md:p-6 text-center">
     <h3 className="font-semibold text-base md:text-lg mb-1">
-      Huynday Starex Luxury limo
+      Hyundai Starex Luxury limo
     </h3>
 
     <p className="text-gray-500 text-xs md:text-sm">

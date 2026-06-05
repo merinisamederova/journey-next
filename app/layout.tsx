@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BackHomeButton from "./components/BackHomeButton";
 import Header from "./components/Header";
 import "./globals.css";
-import { siteConfig } from "./seo";
+import { absoluteUrl, siteConfig } from "./seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -36,7 +36,11 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "48x48" },
+    ],
+    shortcut: "/favicon.ico",
   },
   openGraph: {
     title: `${siteConfig.name} | Private Tours in Kyrgyzstan`,
@@ -64,6 +68,30 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  name: siteConfig.name,
+  url: siteConfig.url,
+  description: siteConfig.description,
+  logo: absoluteUrl("/logo.jpg"),
+  image: absoluteUrl(siteConfig.ogImage),
+  areaServed: {
+    "@type": "Country",
+    name: "Kyrgyzstan",
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "KG",
+    addressLocality: "Bishkek",
+  },
+  sameAs: [
+    "https://www.instagram.com/kyrgyzstan.journey/",
+    "https://www.facebook.com/Journey.KG",
+    "https://www.youtube.com/@journey.kyrgyzstan",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -72,6 +100,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationStructuredData),
+          }}
+        />
         <Header />
         {children}
         <BackHomeButton />

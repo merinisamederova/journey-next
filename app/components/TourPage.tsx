@@ -2,6 +2,7 @@ import Image from "next/image";
 import AvailabilityCalendar from "./AvailabilityCalendar";
 import BookingForm from "./BookingForm";
 import GoogleMapBlock from "./GoogleMapBlock";
+import { absoluteUrl, siteConfig } from "../seo";
 
 type Day = {
   title: string;
@@ -90,11 +91,13 @@ export default function TourPage({
     "@type": "TouristTrip",
     name: title,
     description: subtitle,
-    image: heroImage,
+    url: slug ? absoluteUrl(`/tours/${slug}`) : siteConfig.url,
+    image: absoluteUrl(heroImage),
     touristType: "Private travelers",
     provider: {
       "@type": "TravelAgency",
-      name: "Journey Kyrgyzstan",
+      name: siteConfig.name,
+      url: siteConfig.url,
     },
     itinerary: days.map((day, index) => ({
       "@type": "ItemList",
