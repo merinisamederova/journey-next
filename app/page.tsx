@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Private Tours in Kyrgyzstan",
@@ -164,7 +165,7 @@ export default function Home() {
     <div className="grid md:grid-cols-3 gap-8">
       {/* Tour 1 */}
       <div className="relative group rounded-xl overflow-hidden shadow hover:shadow-xl transition">
-        <a
+        <Link
           href="/tours/issyk-kul-3-days"
           aria-label="Open Issyk-Kul Lake Tour"
           className="absolute inset-0 z-10"
@@ -188,18 +189,18 @@ export default function Home() {
             Discover the pearl of Central Asia, surrounded by mountains and stunning landscapes.
           </p>
 
-          <a
+          <Link
             href="/tours/issyk-kul-3-days"
             className="relative z-20 inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
-          </a>
+          </Link>
         </div>
       </div>
 
       {/* Tour 2 */}
       <div className="relative group rounded-xl overflow-hidden shadow hover:shadow-xl transition">
-        <a
+        <Link
           href="/tours/song-kul"
           aria-label="Open Son-Kul Lake Adventure"
           className="absolute inset-0 z-10"
@@ -221,18 +222,18 @@ export default function Home() {
             Experience nomadic life, yurts and high-mountain pastures.
           </p>
 
-          <a
+          <Link
             href="/tours/song-kul"
             className="relative z-20 inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
-          </a>
+          </Link>
         </div>
       </div>
 
       {/* Tour 3 */}
       <div className="relative group rounded-xl overflow-hidden shadow hover:shadow-xl transition">
-        <a
+        <Link
           href="/tours/song-kul-chon-kemin"
           aria-label="Open Song-Kul and Chon-Kemin tour"
           className="absolute inset-0 z-10"
@@ -254,12 +255,12 @@ export default function Home() {
             A three-day route with alpine lake scenery, yurt culture and Chon-Kemin valley.
           </p>
 
-          <a
+          <Link
             href="/tours/song-kul-chon-kemin"
             className="relative z-20 inline-block text-green-600 font-semibold hover:underline"
           >
             Learn more →
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -276,7 +277,7 @@ export default function Home() {
 
     <div className="grid md:grid-cols-3 gap-8">
       {/* Card 1: Summits */}
-      <a href="/tours/summits-of-kyrgyzstan" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
+      <Link href="/tours/summits-of-kyrgyzstan" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
         {/* Image */}
         <div className="relative h-48">
           <Image
@@ -294,10 +295,10 @@ export default function Home() {
             Conquer majestic peaks and explore breathtaking mountain landscapes.
           </p>
         </div>
-      </a>
+      </Link>
 
       {/* Card 2: Car & Driver */}
-      <a href="/cars" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
+      <Link href="/cars" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
         {/* Image */}
         <div className="relative h-48">
           <Image
@@ -315,10 +316,10 @@ export default function Home() {
             Private transport with a local driver to explore Kyrgyzstan hassle-free.
           </p>
         </div>
-      </a>
+      </Link>
 
       {/* Card 3: Horse Riding */}
-      <a href="/tours/14-days-kyrgyzstan" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
+      <Link href="/tours/14-days-kyrgyzstan" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
         {/* Image */}
         <div className="relative h-48">
           <Image
@@ -336,7 +337,7 @@ export default function Home() {
             Alpine lakes, canyons, hot springs, Silk Road monuments and nomadic culture.
           </p>
         </div>
-      </a>
+      </Link>
     </div>
   </div>
 </section>

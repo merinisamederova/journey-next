@@ -70,6 +70,20 @@ const defaultServices = [
   "Entrance Tickets",
 ];
 
+function FillImage({
+  src,
+  alt,
+  className,
+  priority,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  priority?: boolean;
+}) {
+  return <Image src={src} alt={alt} fill className={className} priority={priority} />;
+}
+
 export default function TourPage({
   title,
   slug,
@@ -127,10 +141,9 @@ export default function TourPage({
       />
 
       <section className="relative h-[58vh] min-h-[440px] md:h-[68vh] flex items-center justify-center text-white text-center">
-        <Image
+        <FillImage
           src={heroImage}
           alt={title}
-          fill
           className="object-cover"
           priority
         />
@@ -147,10 +160,9 @@ export default function TourPage({
           <GoogleMapBlock title={title} query={mapQuery} />
         ) : (
           <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden shadow-lg">
-            <Image
+            <FillImage
               src={mapImage ?? heroImage}
               alt={`${title} route`}
-              fill
               className="object-cover"
             />
           </div>
@@ -196,7 +208,7 @@ export default function TourPage({
                   index % 2 === 1 ? "md:order-2" : ""
                 }`}
               >
-                <Image src={day.image} alt={day.title} fill className="object-cover" />
+                <FillImage src={day.image} alt={day.title} className="object-cover" />
               </div>
 
               <div className={index % 2 === 1 ? "md:order-1" : ""}>
@@ -223,7 +235,7 @@ export default function TourPage({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {galleryImages.map((img) => (
             <div key={img} className="relative h-40 md:h-48 rounded-xl overflow-hidden">
-              <Image src={img} alt={title} fill className="object-cover" />
+              <FillImage src={img} alt={title} className="object-cover" />
             </div>
           ))}
         </div>

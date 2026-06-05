@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { tours } from "../data/tours";
+import { loadPublishedTours } from "../lib/tourStorage";
 
 const extraTours = [
   {
@@ -36,8 +37,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ToursPage() {
-  const allTours = [...tours, ...extraTours];
+export default async function ToursPage() {
+  const customTours = await loadPublishedTours();
+  const allTours = [...customTours, ...tours, ...extraTours];
 
   return (
     <main className="bg-white pt-24">

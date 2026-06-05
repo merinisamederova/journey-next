@@ -2,6 +2,7 @@ import Link from "next/link";
 import AdminNav from "../AdminNav";
 import { requireAdmin } from "../../lib/adminAuth";
 import { tours } from "../../data/tours";
+import { loadAdminTours } from "../../lib/tourStorage";
 
 const manualTours = [
   {
@@ -32,6 +33,7 @@ const manualTours = [
 
 export default async function AdminToursPage() {
   await requireAdmin();
+  const { tours: customTours, error } = await loadAdminTours();
 
   return (
     <main className="min-h-screen bg-gray-100 pt-24">
@@ -42,9 +44,9 @@ export default async function AdminToursPage() {
           </p>
           <h1 className="text-3xl md:text-4xl font-bold mt-2">Tours content</h1>
           <p className="text-gray-600 mt-3 max-w-3xl">
-            This is the first admin foundation: tours are collected into a clear
-            content structure so they can be moved into Sanity or another CMS
-            without rewriting the frontend.
+            Manage existing tour pages and create new tours from a reusable page
+            template. New tours are stored in Supabase and can be published when
+            they are ready.
           </p>
         </div>
 
@@ -56,8 +58,8 @@ export default async function AdminToursPage() {
             <p className="text-3xl font-bold mt-2">{tours.length}</p>
           </div>
           <div className="bg-white rounded-xl p-5 shadow-sm">
-            <p className="text-sm text-gray-500">Manual pages left</p>
-            <p className="text-3xl font-bold mt-2">{manualTours.length}</p>
+            <p className="text-sm text-gray-500">Admin-created tours</p>
+            <p className="text-3xl font-bold mt-2">{customTours.length}</p>
           </div>
           <div className="bg-white rounded-xl p-5 shadow-sm">
             <p className="text-sm text-gray-500">Booking backend</p>
@@ -66,6 +68,80 @@ export default async function AdminToursPage() {
               Add WhatsApp Cloud API env vars on Vercel to auto-send leads into WhatsApp.
             </p>
           </div>
+        </div>
+
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">Tour manager</h2>
+            <p className="text-gray-600 mt-1">
+              Use the template form to add a new public tour page.
+            </p>
+          </div>
+          <Link
+            href="/admin/tours/new"
+            className="inline-flex justify-center rounded-lg bg-green-600 px-5 py-3 text-sm font-semibold text-white hover:bg-green-700"
+          >
+            Create tour
+          </Link>
+        </div>
+
+        {error && (
+          <div className="mb-6 rounded-xl border border-yellow-200 bg-yellow-50 p-5 text-sm text-yellow-900">
+            {error} Run <span className="font-semibold">supabase/tours.sql</span> in
+            Supabase to enable admin-created tours.
+          </div>
+        )}
+
+        <div className="mb-10 grid gap-5">
+          {customTours.map((tour) => (
+            <article key={tour.slug} className="bg-white rounded-xl p-5 shadow-sm">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                <div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h2 className="text-xl font-bold">{tour.title}</h2>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                        tour.status === "published"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {tour.status}
+                    </span>
+                  </div>
+                  <p className="text-gray-600 mt-2 max-w-3xl">{tour.subtitle}</p>
+                  <div className="flex flex-wrap gap-2 mt-4 text-xs">
+                    <span className="rounded-full bg-gray-100 px-3 py-1">/{tour.slug}</span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1">{tour.days.length} days/steps</span>
+                    {tour.mapQuery && (
+                      <span className="rounded-full bg-green-100 text-green-800 px-3 py-1">
+                        Google map ready
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {tour.status === "published" ? (
+                  <Link
+                    href={`/tours/${tour.slug}`}
+                    className="shrink-0 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                  >
+                    View page
+                  </Link>
+                ) : (
+                  <span className="shrink-0 rounded-lg bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-700">
+                    Draft only
+                  </span>
+                )}
+              </div>
+            </article>
+          ))}
+
+          {customTours.length === 0 && !error && (
+            <div className="rounded-xl bg-white p-6 text-gray-600 shadow-sm">
+              No admin-created tours yet.
+            </div>
+          )}
         </div>
 
         <div className="grid md:grid-cols-3 gap-4 mb-8">
@@ -83,6 +159,7 @@ export default async function AdminToursPage() {
           </a>
         </div>
 
+        <h2 className="text-2xl font-bold mb-4">Existing code tours</h2>
         <div className="grid gap-5">
           {tours.map((tour) => (
             <article key={tour.slug} className="bg-white rounded-xl p-5 shadow-sm">
