@@ -4,7 +4,28 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 
-export default function Header() {
+export type HeaderTourLink = {
+  href: string;
+  label: string;
+};
+
+const fallbackTours: HeaderTourLink[] = [
+  { href: "/tours/issyk-kul-3-days", label: "Issyk-Kul Lake 3 Days" },
+  { href: "/tours/kel-suu", label: "Kel-Suu Lake Expedition" },
+  { href: "/tours/14-days-kyrgyzstan", label: "14 Days Across Kyrgyzstan" },
+  { href: "/tours/summits-of-kyrgyzstan", label: "Summits of Kyrgyzstan" },
+  { href: "/tours/song-kul", label: "4-day Horseback Adventure To Song-kul Lake" },
+  {
+    href: "/tours/song-kul-chon-kemin",
+    label: "3-day Adventure To Song-kul Lake And Chon-kemin Valley",
+  },
+];
+
+type HeaderProps = {
+  tourLinks?: HeaderTourLink[];
+};
+
+export default function Header({ tourLinks = fallbackTours }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
@@ -60,27 +81,13 @@ export default function Header() {
     <div className="bg-white rounded-2xl shadow-xl p-4">
 
       <ul className="space-y-2 text-sm">
-
-        <li><Link href="/tours/issyk-kul-3-days" className="dropdown-link">Issyk-Kul Lake 3 Days</Link></li>
-
-        <li><Link href="/tours/kel-suu" className="dropdown-link">Kel-Suu Lake Expedition</Link></li>
-
-        <li><Link href="/tours/14-days-kyrgyzstan" className="dropdown-link">
-          14 Days Across best places of Kyrgyzstan
-        </Link></li>
-
-        <li><Link href="/tours/summits-of-kyrgyzstan" className="dropdown-link">
-          Summits of Kyrgyzstan
-        </Link></li>
-
-        <li><Link href="/tours/song-kul" className="dropdown-link">
-          4-day Horseback Adventure To Song-kul Lake
-        </Link></li>
-
-        <li><Link href="/tours/song-kul-chon-kemin" className="dropdown-link">
-          3-day Adventure To Song-kul Lake And Chon-kemin Valley
-        </Link></li>
-
+        {tourLinks.map((tour) => (
+          <li key={tour.href}>
+            <Link href={tour.href} className="dropdown-link">
+              {tour.label}
+            </Link>
+          </li>
+        ))}
       </ul>
 
     </div>
@@ -132,36 +139,13 @@ export default function Header() {
               Tours
             </Link>
             <ul className="space-y-3 text-sm">
-              <li>
-                <Link href="/tours/issyk-kul-3-days" onClick={closeMenu}>
-                  Issyk-Kul Lake 3 Days
-                </Link>
-              </li>
-              <li>
-                <Link href="/tours/kel-suu" onClick={closeMenu}>
-                  Kel-Suu Lake Expedition
-                </Link>
-              </li>
-              <li>
-                <Link href="/tours/14-days-kyrgyzstan" onClick={closeMenu}>
-                  14 Days Across Kyrgyzstan
-                </Link>
-              </li>
-              <li>
-                <Link href="/tours/summits-of-kyrgyzstan" onClick={closeMenu}>
-                  Summits of Kyrgyzstan
-                </Link>
-              </li>
-              <li>
-                <Link href="/tours/song-kul" onClick={closeMenu}>
-                  4-day Horseback Adventure To Song-kul Lake
-                </Link>
-              </li>
-              <li>
-                <Link href="/tours/song-kul-chon-kemin" onClick={closeMenu}>
-                  3-day Song-Kul and Chon-Kemin
-                </Link>
-              </li>
+              {tourLinks.map((tour) => (
+                <li key={tour.href}>
+                  <Link href={tour.href} onClick={closeMenu}>
+                    {tour.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import type { HeaderTourLink } from "./components/Header";
 import BackHomeButton from "./components/BackHomeButton";
 import Header from "./components/Header";
 import "./globals.css";
+import { tours } from "./data/tours";
+import { loadPublishedTours } from "./lib/tourStorage";
 import { absoluteUrl, siteConfig } from "./seo";
 
 export const metadata: Metadata = {
@@ -92,11 +95,42 @@ const organizationStructuredData = {
   ],
 };
 
-export default function RootLayout({
+const extraTourLinks: HeaderTourLink[] = [
+  { href: "/tours/14-days-kyrgyzstan", label: "14 Days Across Kyrgyzstan" },
+  { href: "/tours/summits-of-kyrgyzstan", label: "Summits of Kyrgyzstan" },
+];
+
+function uniqueTourLinks(links: HeaderTourLink[]) {
+  const seen = new Set<string>();
+
+  return links.filter((link) => {
+    if (seen.has(link.href)) {
+      return false;
+    }
+
+    seen.add(link.href);
+    return true;
+  });
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const customTours = await loadPublishedTours();
+  const tourLinks = uniqueTourLinks([
+    ...tours.map((tour) => ({
+      href: `/tours/${tour.slug}`,
+      label: tour.title,
+    })),
+    ...extraTourLinks,
+    ...customTours.map((tour) => ({
+      href: `/tours/${tour.slug}`,
+      label: tour.title,
+    })),
+  ]);
+
   return (
     <html lang="en">
       <body>
@@ -106,7 +140,7 @@ export default function RootLayout({
             __html: JSON.stringify(organizationStructuredData),
           }}
         />
-        <Header />
+        <Header tourLinks={tourLinks} />
         {children}
         <BackHomeButton />
       </body>
