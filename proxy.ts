@@ -26,5 +26,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|favicon.svg).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|favicon-48.png|favicon-96.png).*)"],
 };
