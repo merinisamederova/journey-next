@@ -5,12 +5,6 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
-        has: [{ type: "host", value: "www.journeykyrgyzstan.com" }],
-        destination: "https://journeykyrgyzstan.com/:path*",
-        permanent: true,
-      },
-      {
-        source: "/:path*",
         has: [{ type: "host", value: "journey-kyrgyztan.vercel.app" }],
         destination: "https://journeykyrgyzstan.com/:path*",
         permanent: true,
