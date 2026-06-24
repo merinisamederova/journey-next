@@ -1,10 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const primaryHost = "www.journeykyrgyzstan.com";
+const primaryHost = "journeykyrgyzstan.com";
 const legacyHosts = new Set([
+  "www.journeykyrgyzstan.com",
+  "journey-kyrgyztan.vercel.app",
   "journey-kyrgyzstan.vercel.app",
   "www.journey-kyrgyzstan.vercel.app",
-  "journeykyrgyzstan.com",
 ]);
 
 export function proxy(request: NextRequest) {
