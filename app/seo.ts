@@ -1,8 +1,6 @@
 export const siteConfig = {
   name: "Journey Kyrgyzstan",
-  url:
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-    "https://www.journeykyrgyzstan.com",
+  url: "https://journeykyrgyzstan.com",
   description:
     "Private tours in Kyrgyzstan with local guides, 4x4 vehicles, horseback adventures, alpine lakes, nomadic culture and custom routes from Bishkek.",
   ogImage: "/14.jpg",
