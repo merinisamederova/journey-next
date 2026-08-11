@@ -17,6 +17,8 @@ const images = [
   "/g10.jpg",
   "/g11.jpg",
   "/g12.jpg",
+  "/g13.jpg",
+  "/g14.jpg",
   "/slide16.jpeg",
 ];
 
