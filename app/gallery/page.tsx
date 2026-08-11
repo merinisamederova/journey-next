@@ -18,8 +18,8 @@ const images = [
   "/g11.jpg",
   "/g12.jpg",
   "/slide16.jpeg",
-  "/slide17.jpeg",
-  "/slide18.jpeg",
+  "/slide17.jpg",
+  "/slide18.jpg",
 ];
 
 export default function GalleryPage() {
