@@ -65,7 +65,7 @@ export default function Home() {
             </a>
 
             <a
-              href="#contact"
+              href="/#contact"
               className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-black transition"
             >
               Contact Us
@@ -506,7 +506,7 @@ export default function Home() {
 {/* Contact & Booking */}
 <section
   id="contact"
-  className="py-24 bg-gray-900 text-white relative"
+  className="py-24 bg-gray-900 text-white relative scroll-mt-24"
 >
   {/* Overlay */}
   <div className="absolute inset-0 bg-black/60"></div>
@@ -519,7 +519,9 @@ export default function Home() {
     <p className="text-lg mb-6">
       WhatsApp:{" "}
       <a
-        href="#"
+        href="https://wa.me/996703367477"
+        target="_blank"
+        rel="noopener noreferrer"
         className="underline hover:text-green-400 transition"
       >
         +996 703 367 477
@@ -527,7 +529,9 @@ export default function Home() {
       <br />
       Instagram:{" "}
       <a
-        href="#"
+        href="https://www.instagram.com/kyrgyzstan.journey/"
+        target="_blank"
+        rel="noopener noreferrer"
         className="underline hover:text-pink-400 transition"
       >
         @journey.kyrgyzstan
@@ -549,7 +553,9 @@ export default function Home() {
     </p>
 
     <a
-      href="#"
+      href="https://wa.me/996703367477"
+      target="_blank"
+      rel="noopener noreferrer"
       className="inline-block bg-green-600 hover:bg-green-700 px-8 py-4 rounded-xl font-semibold text-lg transition"
     >
       Chat on WhatsApp
