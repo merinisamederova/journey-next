@@ -6,7 +6,12 @@ const COOKIE_NAME = "journey_admin_session";
 const SESSION_DAYS = 7;
 
 function getSessionSecret() {
-  return process.env.ADMIN_AUTH_SECRET ?? process.env.ADMIN_ACCESS_TOKEN ?? "";
+  return (
+    process.env.ADMIN_AUTH_SECRET ??
+    process.env.ADMIN_PASSWORD ??
+    process.env.ADMIN_ACCESS_TOKEN ??
+    ""
+  );
 }
 
 function sign(value: string) {

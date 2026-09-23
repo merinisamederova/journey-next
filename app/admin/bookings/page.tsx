@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import AdminNav from "../AdminNav";
 import { hasAdminSession, requireAdmin } from "../../lib/adminAuth";
 
@@ -89,17 +90,21 @@ async function updateBooking(formData: FormData) {
   const status = String(formData.get("status") ?? "");
   const managerNotes = String(formData.get("manager_notes") ?? "").trim();
 
-  if (!(await hasAdminSession()) || !id || !statuses.includes(status as BookingStatus)) {
-    return;
+  if (!(await hasAdminSession())) {
+    redirect("/admin/login");
+  }
+
+  if (!id || !statuses.includes(status as BookingStatus)) {
+    redirect("/admin/bookings?error=invalid");
   }
 
   const config = getSupabaseConfig();
 
   if (!config) {
-    return;
+    redirect("/admin/bookings?error=supabase");
   }
 
-  await fetch(`${config.supabaseUrl}/rest/v1/bookings?id=eq.${id}`, {
+  const response = await fetch(`${config.supabaseUrl}/rest/v1/bookings?id=eq.${id}`, {
     method: "PATCH",
     headers: {
       apikey: config.supabaseServiceRoleKey,
@@ -114,7 +119,13 @@ async function updateBooking(formData: FormData) {
     }),
   });
 
+  if (!response.ok) {
+    console.error("Could not update booking", await response.text());
+    redirect("/admin/bookings?error=save");
+  }
+
   revalidatePath("/admin/bookings");
+  redirect("/admin/bookings?updated=1");
 }
 
 function formatDate(date: string | null) {
@@ -152,9 +163,38 @@ function statusClass(status: BookingStatus) {
   return classes[status];
 }
 
-export default async function AdminBookingsPage() {
+function whatsappContactUrl(contact: string) {
+  const phone = contact.replace(/[^\d]/g, "");
+
+  if (phone.length < 8) {
+    return "";
+  }
+
+  return `https://wa.me/${phone}`;
+}
+
+type AdminBookingsPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+    updated?: string;
+  }>;
+};
+
+function errorMessage(error: string | undefined) {
+  const messages: Record<string, string> = {
+    invalid: "Could not update booking because the submitted status was invalid.",
+    supabase: "Supabase is not configured, so bookings cannot be updated.",
+    save: "Could not save booking changes. Please try again or check Supabase logs.",
+  };
+
+  return error ? messages[error] ?? messages.save : "";
+}
+
+export default async function AdminBookingsPage({ searchParams }: AdminBookingsPageProps) {
   await requireAdmin();
+  const params = await searchParams;
   const { bookings, error } = await loadBookings();
+  const actionError = errorMessage(params?.error);
 
   return (
     <main className="min-h-screen bg-gray-100 pt-24">
@@ -195,6 +235,18 @@ export default async function AdminBookingsPage() {
             {error && (
               <div className="rounded-xl bg-red-50 border border-red-200 p-5 text-red-700 mb-6">
                 {error}
+              </div>
+            )}
+
+            {actionError && (
+              <div className="rounded-xl bg-red-50 border border-red-200 p-5 text-red-700 mb-6">
+                {actionError}
+              </div>
+            )}
+
+            {params?.updated && (
+              <div className="rounded-xl bg-green-50 border border-green-200 p-5 text-green-700 mb-6">
+                Booking changes saved.
               </div>
             )}
 
@@ -242,14 +294,20 @@ export default async function AdminBookingsPage() {
                     </div>
 
                     <div className="lg:w-80">
-                      <a
-                        href={`https://wa.me/${booking.contact.replace(/[^\d]/g, "")}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block rounded-lg bg-green-600 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-green-700"
-                      >
-                        Open WhatsApp
-                      </a>
+                      {whatsappContactUrl(booking.contact) ? (
+                        <a
+                          href={whatsappContactUrl(booking.contact)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block rounded-lg bg-green-600 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-green-700"
+                        >
+                          Open WhatsApp
+                        </a>
+                      ) : (
+                        <div className="rounded-lg bg-gray-200 px-4 py-3 text-center text-sm font-semibold text-gray-700">
+                          No WhatsApp phone detected
+                        </div>
+                      )}
 
                       <form action={updateBooking} className="mt-4 space-y-3">
                         <input type="hidden" name="id" value={booking.id} />

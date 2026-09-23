@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import AIAssistantDemo from "./components/AIAssistantDemo";
 
 export const metadata: Metadata = {
   title: "Private Tours in Kyrgyzstan",
@@ -57,15 +58,17 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 animate-fade-in delay-400">
-            <a
+            <Link
               href="#tours"
               className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition"
             >
               View Tours
-            </a>
+            </Link>
 
             <a
-              href="/#contact"
+              href="https://wa.me/996703367477"
+              target="_blank"
+              rel="noopener noreferrer"
               className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-black transition"
             >
               Contact Us
@@ -564,6 +567,7 @@ export default function Home() {
 </section>
 
 </main>
+<AIAssistantDemo />
   </>
 );
 }

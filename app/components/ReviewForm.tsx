@@ -16,31 +16,36 @@ export default function ReviewForm() {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    const response = await fetch("/api/reviews", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: formData.get("name"),
-        country: formData.get("country"),
-        tour: formData.get("tour"),
-        rating: formData.get("rating"),
-        text: formData.get("text"),
-        website: formData.get("website"),
-      }),
-    });
+    try {
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.get("name"),
+          country: formData.get("country"),
+          tour: formData.get("tour"),
+          rating: formData.get("rating"),
+          text: formData.get("text"),
+          website: formData.get("website"),
+        }),
+      });
 
-    const data = (await response.json()) as { error?: string };
+      const data = (await response.json()) as { error?: string };
 
-    if (!response.ok) {
+      if (!response.ok) {
+        setStatus("error");
+        setError(data.error ?? "Could not submit review.");
+        return;
+      }
+
+      form.reset();
+      setStatus("success");
+    } catch {
       setStatus("error");
-      setError(data.error ?? "Could not submit review.");
-      return;
+      setError("Could not submit review. Please check your connection and try again.");
     }
-
-    form.reset();
-    setStatus("success");
   };
 
   return (

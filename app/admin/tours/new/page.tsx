@@ -52,6 +52,26 @@ function slugify(value: string) {
     .slice(0, 80);
 }
 
+function isSafeImageReference(value: string) {
+  if (!value) {
+    return true;
+  }
+
+  if (value.startsWith("/") && !value.startsWith("//")) {
+    return true;
+  }
+
+  try {
+    const url = new URL(value);
+    return (
+      url.protocol === "https:" &&
+      ["images.unsplash.com", "upload.wikimedia.org"].includes(url.hostname)
+    );
+  } catch {
+    return false;
+  }
+}
+
 async function createTour(formData: FormData) {
   "use server";
 
@@ -91,6 +111,10 @@ async function createTour(formData: FormData) {
 
   if (!title || !slug || !subtitle || about.length === 0 || days.length === 0) {
     redirect("/admin/tours/new?error=missing");
+  }
+
+  if (!isSafeImageReference(heroImage) || days.some((day) => day && !isSafeImageReference(day.image))) {
+    redirect("/admin/tours/new?error=image");
   }
 
   if (reservedTourSlugs.has(slug)) {
@@ -150,6 +174,7 @@ function errorMessage(error: string | undefined) {
     supabase: "Supabase is not configured. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
     duplicate: "A tour with this slug already exists. Choose a different slug.",
     reserved: "This slug is already used by an existing tour page. Choose a different slug.",
+    image: "Use a local image path such as /2.jpg, or an approved HTTPS image host.",
     save: "The tour could not be saved. Check the tours table in Supabase.",
   };
 

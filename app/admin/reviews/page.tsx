@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import AdminNav from "../AdminNav";
 import { hasAdminSession, requireAdmin } from "../../lib/adminAuth";
 
@@ -71,17 +72,21 @@ async function updateReview(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const status = String(formData.get("status") ?? "");
 
-  if (!(await hasAdminSession()) || !id || !statuses.includes(status as ReviewStatus)) {
-    return;
+  if (!(await hasAdminSession())) {
+    redirect("/admin/login");
+  }
+
+  if (!id || !statuses.includes(status as ReviewStatus)) {
+    redirect("/admin/reviews?error=invalid");
   }
 
   const config = getSupabaseConfig();
 
   if (!config) {
-    return;
+    redirect("/admin/reviews?error=supabase");
   }
 
-  await fetch(`${config.supabaseUrl}/rest/v1/reviews?id=eq.${id}`, {
+  const response = await fetch(`${config.supabaseUrl}/rest/v1/reviews?id=eq.${id}`, {
     method: "PATCH",
     headers: {
       apikey: config.supabaseServiceRoleKey,
@@ -95,8 +100,14 @@ async function updateReview(formData: FormData) {
     }),
   });
 
+  if (!response.ok) {
+    console.error("Could not update review", await response.text());
+    redirect("/admin/reviews?error=save");
+  }
+
   revalidatePath("/admin/reviews");
   revalidatePath("/reviews");
+  redirect("/admin/reviews?updated=1");
 }
 
 function statusClass(status: ReviewStatus) {
@@ -109,9 +120,28 @@ function statusClass(status: ReviewStatus) {
   return classes[status];
 }
 
-export default async function AdminReviewsPage() {
+type AdminReviewsPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+    updated?: string;
+  }>;
+};
+
+function errorMessage(error: string | undefined) {
+  const messages: Record<string, string> = {
+    invalid: "Could not update review because the submitted status was invalid.",
+    supabase: "Supabase is not configured, so reviews cannot be updated.",
+    save: "Could not save review changes. Please try again or check Supabase logs.",
+  };
+
+  return error ? messages[error] ?? messages.save : "";
+}
+
+export default async function AdminReviewsPage({ searchParams }: AdminReviewsPageProps) {
   await requireAdmin();
+  const params = await searchParams;
   const { reviews, error } = await loadReviews();
+  const actionError = errorMessage(params?.error);
 
   return (
     <main className="min-h-screen bg-gray-100 pt-24">
@@ -152,6 +182,18 @@ export default async function AdminReviewsPage() {
         {error && (
           <div className="rounded-xl bg-red-50 border border-red-200 p-5 text-red-700 mb-6">
             {error}
+          </div>
+        )}
+
+        {actionError && (
+          <div className="rounded-xl bg-red-50 border border-red-200 p-5 text-red-700 mb-6">
+            {actionError}
+          </div>
+        )}
+
+        {params?.updated && (
+          <div className="rounded-xl bg-green-50 border border-green-200 p-5 text-green-700 mb-6">
+            Review status saved.
           </div>
         )}
 
