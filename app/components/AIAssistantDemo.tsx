@@ -851,11 +851,178 @@ const initialMessages: ChatMessage[] = [
     id: 1,
     role: "assistant",
     text:
-      "Hi! I am a demo travel assistant for Journey Kyrgyzstan. I can suggest routes, answer quick questions about popular places, and prepare a WhatsApp request for the team.",
+      "Hi! I can help you choose places in Kyrgyzstan, estimate travel time from Bishkek, explain how to get there, and prepare a WhatsApp request for the Journey Kyrgyzstan team.\n\nTry: “how long to Son-Kul?”, “where is Altyn Arashan?”, or “как доехать до Чолпон-Аты?”",
   },
 ];
 
-function buildPlaceReply(place: Place, options?: { includeLocation?: boolean }): ChatMessage {
+const russianPlaceCopy: Record<string, { summary: string; bestFor: string }> = {
+  "Issyk-Kul Lake": {
+    summary:
+      "Большое горное озеро в окружении Тянь-Шаня. Хороший выбор для пляжного отдыха, красивой дороги, каньонов, горячих источников и спокойного знакомства с Кыргызстаном.",
+    bestFor: "первое путешествие, семьи, летний отдых, озеро и красивые остановки по пути",
+  },
+  "Song-Kul Lake": {
+    summary:
+      "Высокогорное озеро с юртами, пастбищами и очень открытыми пейзажами. Одно из лучших мест для знакомства с кочевой культурой.",
+    bestFor: "юрты, лошади, кочевая культура, ночевка на природе",
+  },
+  "Kel-Suu Lake": {
+    summary:
+      "Удаленное бирюзовое озеро среди скал недалеко от китайской границы. Очень красивое, но требует 4x4, времени и хорошей логистики.",
+    bestFor: "приключения, фото, удаленные маршруты, 4x4",
+  },
+  "Altyn-Arashan": {
+    summary:
+      "Горная долина рядом с Караколом, известная горячими источниками, хвойным лесом и видами на Терскей Ала-Тоо.",
+    bestFor: "горячие источники, 4x4, легкие походы, маршруты рядом с Караколом",
+  },
+  "Ala-Kul Lake": {
+    summary:
+      "Яркое альпийское озеро на одном из самых известных треккинговых маршрутов Кыргызстана. Красиво, но физически заметно сложнее обычной экскурсии.",
+    bestFor: "треккинг, горные виды, опытные путешественники, многодневный маршрут",
+  },
+  Karakol: {
+    summary:
+      "Горный город на востоке Иссык-Куля, удобная база для поездок в Алтын-Арашан, Ала-Куль, Джети-Огуз и по южному берегу озера.",
+    bestFor: "база для треккинга, еда, культура, маршруты вокруг Иссык-Куля",
+  },
+  "Jeti-Oguz": {
+    summary:
+      "Живописная долина с красными скалами, Семью Быками и Сломанным Сердцем. Хорошо подходит как остановка из Каракола.",
+    bestFor: "красные скалы, короткие прогулки, фото, поездка из Каракола",
+  },
+  "Skazka Canyon": {
+    summary:
+      "Компактный каньон на южном берегу Иссык-Куля с цветными песчаными формами. Красиво смотрится утром и ближе к закату.",
+    bestFor: "фото, короткая прогулка, семейная остановка, южный берег Иссык-Куля",
+  },
+  "Cholpon-Ata": {
+    summary:
+      "Популярный курортный город на северном берегу Иссык-Куля с пляжами, отелями, петроглифами и прогулками у воды.",
+    bestFor: "озеро, пляжи, отели, семейный отдых",
+  },
+  "Barskoon Valley": {
+    summary:
+      "Зеленая горная долина на южном берегу Иссык-Куля с водопадами и красивыми видами выше дороги.",
+    bestFor: "водопады, южный берег, фото, горная природа",
+  },
+  Bokonbaevo: {
+    summary:
+      "Село на южном берегу Иссык-Куля, известное культурными остановками, ремеслами и традициями охоты с беркутом.",
+    bestFor: "культура, беркут-шоу, южный берег, локальный опыт",
+  },
+  "Orto-Tokoy Reservoir": {
+    summary:
+      "Водохранилище по дороге между Бишкеком, Кочкором и Иссык-Кулем. Часто подходит для короткой фотоостановки.",
+    bestFor: "дорога, виды, короткая остановка",
+  },
+  "Boom Gorge": {
+    summary:
+      "Главное ущелье на дороге из Бишкека к Иссык-Кулю. Через него проходит почти каждый маршрут к озеру.",
+    bestFor: "переезд к Иссык-Кулю, виды из окна, фотоостановки",
+  },
+  "Grigorievka Gorge": {
+    summary:
+      "Зеленое ущелье на северном берегу Иссык-Куля с горными видами, рекой и пастбищами.",
+    bestFor: "природа, легкая поездка от озера, пикник, фото",
+  },
+  "Semenovka Gorge": {
+    summary:
+      "Соседнее ущелье рядом с Григорьевкой, удобное для красивой природной остановки на северном берегу Иссык-Куля.",
+    bestFor: "короткая поездка, горные виды, северный берег",
+  },
+  "Chon-Kemin Valley": {
+    summary:
+      "Зеленая долина между Бишкеком и Иссык-Кулем, удобная для прогулок, лошадей и спокойной ночевки в гостевом доме.",
+    bestFor: "лошади, семейный отдых, природа, остановка между Бишкеком и озером",
+  },
+  "Kyzart Village": {
+    summary:
+      "Стартовая точка для маршрутов к Сон-Кулю, особенно для конных и юрточных программ.",
+    bestFor: "старт к Сон-Кулю, лошади, сельская атмосфера",
+  },
+  "Kilemche Valley": {
+    summary:
+      "Долина на конных и пеших маршрутах к Сон-Кулю. Обычно посещается как часть организованного маршрута.",
+    bestFor: "конный маршрут, треккинг, путь к Сон-Кулю",
+  },
+  "Tuz-Ashuu Pass": {
+    summary:
+      "Горный перевал на маршрутах к Сон-Кулю, который дает красивые виды и ощущение настоящей высокогорной дороги.",
+    bestFor: "виды, конный маршрут, путь к Сон-Кулю",
+  },
+  "Kyrjol Camp": {
+    summary:
+      "Юрточный лагерь в районе Сон-Куля, подходящий для ночевки и знакомства с жизнью на жайлоо.",
+    bestFor: "юрты, Сон-Куль, спокойная ночевка, кочевая культура",
+  },
+  "Tash-Rabat": {
+    summary:
+      "Каменный караван-сарай в Нарынской области, важная историческая остановка на удаленном маршруте.",
+    bestFor: "история, Шелковый путь, Нарын, удаленные маршруты",
+  },
+  Naryn: {
+    summary:
+      "Город в центральном Кыргызстане, удобная база для поездок к Кель-Суу, Таш-Рабату и другим удаленным маршрутам.",
+    bestFor: "логистическая база, Нарынская область, дальние поездки",
+  },
+  "Kok-Kiya Valley": {
+    summary:
+      "Удаленная долина по пути к Кель-Суу. Обычно требует 4x4, планирования ночевки и хорошей погоды.",
+    bestFor: "4x4, Кель-Суу, дикая природа, удаленные виды",
+  },
+  "Ak-Sai Valley": {
+    summary:
+      "Высокогорная долина на юге Нарынской области, часто включается в дальние 4x4 маршруты.",
+    bestFor: "удаленные пейзажи, 4x4, приключения",
+  },
+  "Sary-Chelek": {
+    summary:
+      "Красивое озеро и биосферный заповедник на западе Кыргызстана. Это отдельный большой маршрут, а не быстрая поездка из Бишкека.",
+    bestFor: "озеро, заповедник, запад Кыргызстана, природа",
+  },
+  Arslanbob: {
+    summary:
+      "Большой ореховый лес и горное село на юге Кыргызстана. Хорошее направление для южного маршрута.",
+    bestFor: "ореховый лес, юг Кыргызстана, природа и культура",
+  },
+  "Summits of Kyrgyzstan": {
+    summary:
+      "Горные восхождения и треккинговые маршруты, которые нужно планировать индивидуально по сезону, уровню группы и выбранной вершине.",
+    bestFor: "горы, восхождения, треккинг, индивидуальный маршрут",
+  },
+  "Ala-Archa National Park": {
+    summary:
+      "Национальный парк рядом с Бишкеком. Самый простой вариант быстро увидеть горы, ущелье и альпийские виды.",
+    bestFor: "полдня или день из Бишкека, горы, прогулки, фото",
+  },
+  "Burana Tower": {
+    summary:
+      "Историческая башня рядом с Токмоком. Часто ее совмещают с Чон-Кемином или началом маршрута к Иссык-Кулю.",
+    bestFor: "история, короткая поездка из Бишкека, культурная остановка",
+  },
+  "Balasagyn Ancient City": {
+    summary:
+      "Историческая зона рядом с Бураной, связанная с древним городом Баласагын и культурой Шелкового пути.",
+    bestFor: "история, Бурана, культурная остановка",
+  },
+};
+
+function buildPlaceReply(
+  place: Place,
+  options?: { includeLocation?: boolean; language?: ReplyLanguage },
+): ChatMessage {
+  const russianCopy = russianPlaceCopy[place.name];
+
+  if (options?.language === "ru") {
+    return {
+      id: Date.now(),
+      role: "assistant",
+      text: `${place.name}: ${options.includeLocation ? `${localizeRouteText(place.location)}\n\n` : ""}${russianCopy?.summary ?? place.summary}\n\nКому подойдет: ${russianCopy?.bestFor ?? place.bestFor}\n\nМогу также подсказать, сколько ехать из Бишкека и как лучше построить маршрут.`,
+      links: [...(journeyLinksByPlace[place.name] ?? []), ...place.links],
+    };
+  }
+
   return {
     id: Date.now(),
     role: "assistant",
@@ -1050,6 +1217,76 @@ function includesPhrase(normalizedInput: string, phrase: string) {
   return ` ${normalizedInput} `.includes(` ${normalizeText(phrase)} `);
 }
 
+function levenshteinDistance(a: string, b: string) {
+  const previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+  const current = Array.from({ length: b.length + 1 }, () => 0);
+
+  for (let i = 1; i <= a.length; i += 1) {
+    current[0] = i;
+
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      current[j] = Math.min(
+        current[j - 1] + 1,
+        previous[j] + 1,
+        previous[j - 1] + cost,
+      );
+    }
+
+    for (let j = 0; j <= b.length; j += 1) {
+      previous[j] = current[j];
+    }
+  }
+
+  return previous[b.length];
+}
+
+function getFuzzyAliasScore(normalizedInput: string, normalizedAlias: string) {
+  if (!normalizedInput || !normalizedAlias) {
+    return 0;
+  }
+
+  if (includesPhrase(normalizedInput, normalizedAlias)) {
+    return 1;
+  }
+
+  const inputWords = normalizedInput.split(" ");
+  const aliasWords = normalizedAlias.split(" ");
+  const windowSizes = Array.from(
+    new Set([aliasWords.length - 1, aliasWords.length, aliasWords.length + 1]),
+  ).filter((size) => size > 0 && size <= inputWords.length);
+
+  let bestScore = 0;
+
+  for (const size of windowSizes) {
+    for (let start = 0; start <= inputWords.length - size; start += 1) {
+      const phrase = inputWords.slice(start, start + size).join(" ");
+      const distance = levenshteinDistance(phrase, normalizedAlias);
+      const maxLength = Math.max(phrase.length, normalizedAlias.length);
+      const score = maxLength === 0 ? 0 : 1 - distance / maxLength;
+
+      if (score > bestScore) {
+        bestScore = score;
+      }
+    }
+  }
+
+  return bestScore;
+}
+
+function findFuzzyPlace(normalizedInput: string) {
+  const bestMatch = places
+    .flatMap((place) =>
+      [place.name, ...place.aliases].map((alias) => ({
+        place,
+        score: getFuzzyAliasScore(normalizedInput, normalizeText(alias)),
+      })),
+    )
+    .sort((left, right) => right.score - left.score)[0];
+
+  return bestMatch && bestMatch.score >= 0.74 ? bestMatch.place : undefined;
+}
+
 function findPlace(input: string) {
   const normalized = normalizeText(input);
 
@@ -1059,6 +1296,12 @@ function findPlace(input: string) {
 
   if (aliasMatch) {
     return aliasMatch;
+  }
+
+  const fuzzyMatch = findFuzzyPlace(normalized);
+
+  if (fuzzyMatch) {
+    return fuzzyMatch;
   }
 
   const topicMatches = places
@@ -1135,7 +1378,7 @@ function getAssistantReply(input: string): ChatMessage {
       includesPhrase(normalized, "где") ||
       includesPhrase(normalized, "где находится");
 
-    return buildPlaceReply(matchedPlace, { includeLocation: asksLocation });
+    return buildPlaceReply(matchedPlace, { includeLocation: asksLocation, language });
   }
 
   if (
@@ -1273,9 +1516,9 @@ export default function AIAssistantDemo() {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+      <div className="fixed inset-x-4 bottom-4 z-50 flex justify-end sm:inset-x-auto sm:bottom-5 sm:right-5">
       {isOpen ? (
-        <div className="w-[min(92vw,390px)] overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-2xl">
+        <div className="w-full max-w-[390px] overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-2xl">
           <div className="flex items-center justify-between bg-emerald-700 px-4 py-3 text-white">
             <div className="flex items-center gap-2">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
@@ -1283,7 +1526,7 @@ export default function AIAssistantDemo() {
               </span>
               <div>
                 <p className="text-sm font-semibold">Journey AI Assistant</p>
-                <p className="text-xs text-emerald-50">Demo travel planner</p>
+                <p className="text-xs text-emerald-50">Travel planner</p>
               </div>
             </div>
             <button
@@ -1332,11 +1575,11 @@ export default function AIAssistantDemo() {
             <div className="mb-3 grid grid-cols-3 gap-2">
               <button
                 type="button"
-                onClick={() => addUserMessage("Suggest a 5 day route")}
+                onClick={() => addUserMessage("How long to Song-Kul from Bishkek?")}
                 className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 px-2 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
               >
                 <CalendarDays size={14} />
-                5 days
+                Time
               </button>
               <button
                 type="button"
@@ -1360,8 +1603,8 @@ export default function AIAssistantDemo() {
               <input
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
-                placeholder="Ask about places, seasons, routes..."
-                className="min-w-0 flex-1 rounded-xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+                placeholder="Ask a place, route or travel time..."
+                className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
               />
               <button
                 type="submit"
@@ -1393,7 +1636,7 @@ export default function AIAssistantDemo() {
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
             <MessageCircle size={20} />
           </span>
-          <span className="hidden text-sm font-semibold sm:inline">Ask AI</span>
+          <span className="hidden text-sm font-semibold sm:inline">Ask trip help</span>
           <Sparkles size={16} className="hidden text-emerald-100 sm:block" />
         </button>
       )}
