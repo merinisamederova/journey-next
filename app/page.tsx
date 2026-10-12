@@ -183,7 +183,7 @@ export default function Home() {
         <div className="overflow-hidden rounded-xl bg-gray-50 shadow">
           <div className="relative h-56">
             <Image
-              src="/car6.jpg"
+              src="/rental-toyota-4runner.jpeg"
               alt="4x4 car rental in Kyrgyzstan"
               fill
               className="object-cover"
@@ -203,7 +203,7 @@ export default function Home() {
         <div className="overflow-hidden rounded-xl bg-gray-50 shadow">
           <div className="relative h-56">
             <Image
-              src="/day1.jpg"
+              src="/rental-camping-gear.png"
               alt="Camping equipment rental in Kyrgyzstan"
               fill
               className="object-cover"
