@@ -32,14 +32,14 @@ const rentalCars = [
 ];
 
 export const metadata: Metadata = {
-  title: "Car & Equipment Rental in Kyrgyzstan",
+  title: "Car & Equipment",
   description:
     "Rent 4x4 cars, vans, camping tents, chairs, tables and travel equipment in Kyrgyzstan with Journey Kyrgyzstan.",
   alternates: {
     canonical: "/rental",
   },
   openGraph: {
-    title: "Car & Equipment Rental in Kyrgyzstan | Journey Kyrgyzstan",
+    title: "Car & Equipment | Journey Kyrgyzstan",
     description:
       "Rent 4x4 transport and camping equipment for independent routes, private tours and mountain travel in Kyrgyzstan.",
     url: "/rental",
@@ -67,7 +67,7 @@ export default function RentalPage() {
             Rental services
           </p>
           <h1 className="max-w-3xl text-4xl font-bold md:text-6xl">
-            Car & equipment rental in Kyrgyzstan
+            Car & Equipment
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-gray-100 md:text-xl">
             Rent reliable 4x4 transport and practical camping equipment for
