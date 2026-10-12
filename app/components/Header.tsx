@@ -98,6 +98,9 @@ export default function Header({ tourLinks = fallbackTours }: HeaderProps) {
           <Link href="/cars" className="nav-link flex items-center h-full text-black">
   Our Cars
 </Link>
+          <Link href="/rental" className="nav-link flex items-center h-full text-black">
+  Rental
+</Link>
           <Link href="/gallery" className="nav-link flex items-center h-full text-black">
   Our Gallery
 </Link>
@@ -129,6 +132,7 @@ export default function Header({ tourLinks = fallbackTours }: HeaderProps) {
             <Link href="/" onClick={closeMenu}>Main</Link>
             <Link href="/about" onClick={closeMenu}>About Us</Link>
             <Link href="/cars" onClick={closeMenu}>Our Cars</Link>
+            <Link href="/rental" onClick={closeMenu}>Rental</Link>
             <Link href="/gallery" onClick={closeMenu}>Our Gallery</Link>
             <Link href="/reviews" onClick={closeMenu}>Reviews</Link>
           </nav>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
+import { Armchair, CarFront, Table2, TentTree } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import AIAssistantDemo from "./components/AIAssistantDemo";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Private Tours in Kyrgyzstan | Journey Kyrgyzstan",
     description:
-      "Book private tours in Kyrgyzstan with local guides, mountain routes, yurt stays, horseback riding and custom travel planning from Bishkek.",
+      "Book private tours in Kyrgyzstan with local guides, mountain routes, yurt stays, horseback riding, car rental and camping equipment from Bishkek.",
     url: "/",
     images: ["/1.jpg"],
   },
@@ -54,7 +55,8 @@ export default function Home() {
           </h1>
 
           <p className="text-base md:text-xl mb-6 animate-fade-in delay-200">
-            Discover mountains, lakes and nomadic culture with local guides
+            Discover mountains, lakes and nomadic culture with local guides,
+            4x4 rentals and camping equipment
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 animate-fade-in delay-400">
@@ -148,6 +150,83 @@ export default function Home() {
         <p className="text-black-600">
           Knowledgeable local guides to show you hidden gems.
         </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* Rental Services */}
+<section className="py-20 bg-white">
+  <div className="max-w-6xl mx-auto px-6">
+    <div className="grid gap-10 md:grid-cols-[1fr_1.1fr] md:items-center">
+      <div>
+        <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-green-700">
+          Travel support
+        </p>
+        <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+          Cars and equipment are available for rent
+        </h2>
+        <p className="mb-6 text-gray-600 leading-relaxed">
+          Planning an independent route or adding comfort to a private tour?
+          We can arrange reliable 4x4 vehicles and practical camp equipment:
+          tents, folding chairs, camp tables and essentials for the road.
+        </p>
+        <Link
+          href="/rental"
+          className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-700"
+        >
+          View rental options
+        </Link>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="overflow-hidden rounded-xl bg-gray-50 shadow">
+          <div className="relative h-56">
+            <Image
+              src="/car6.jpg"
+              alt="4x4 car rental in Kyrgyzstan"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="p-5">
+            <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-700">
+              <CarFront size={21} strokeWidth={1.8} />
+            </div>
+            <h3 className="mb-2 text-lg font-semibold">4x4 cars</h3>
+            <p className="text-sm text-gray-600">
+              SUVs and vans for transfers, mountain roads and multi-day trips.
+            </p>
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-xl bg-gray-50 shadow">
+          <div className="relative h-56">
+            <Image
+              src="/day1.jpg"
+              alt="Camping equipment rental in Kyrgyzstan"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="p-5">
+            <div className="mb-3 flex gap-2 text-green-700">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                <TentTree size={20} strokeWidth={1.8} />
+              </span>
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                <Armchair size={20} strokeWidth={1.8} />
+              </span>
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                <Table2 size={20} strokeWidth={1.8} />
+              </span>
+            </div>
+            <h3 className="mb-2 text-lg font-semibold">Camping gear</h3>
+            <p className="text-sm text-gray-600">
+              Tents, chairs, tables and simple outdoor gear for your route.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -300,13 +379,13 @@ export default function Home() {
         </div>
       </Link>
 
-      {/* Card 2: Car & Driver */}
-      <Link href="/cars" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
+      {/* Card 2: Car & Equipment Rental */}
+      <Link href="/rental" className="rounded-xl overflow-hidden shadow hover:shadow-xl transform hover:-translate-y-2 transition bg-white">
         {/* Image */}
         <div className="relative h-48">
           <Image
             src="/6.jpg" 
-            alt="Car & Driver"
+            alt="Car and equipment rental"
             fill
             className="object-cover"
           />
@@ -314,9 +393,9 @@ export default function Home() {
 
         {/* Content */}
         <div className="p-6 text-center">
-          <h3 className="text-xl font-semibold mb-2">Car & Driver</h3>
+          <h3 className="text-xl font-semibold mb-2">Cars & Equipment</h3>
           <p className="text-black-600">
-            Private transport with a local driver to explore Kyrgyzstan hassle-free.
+            Rent 4x4 transport, tents, camp chairs and tables for your route.
           </p>
         </div>
       </Link>
@@ -552,7 +631,7 @@ export default function Home() {
     <p className="text-gray-300 mb-8">
       We respond fast — usually within minutes.
       <br />
-      Safe drivers • Comfortable SUVs • All-inclusive tours in Kyrgyzstan.
+      Safe drivers • Comfortable SUVs • Tents, chairs and camp tables available.
     </p>
 
     <a

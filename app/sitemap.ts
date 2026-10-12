@@ -3,7 +3,7 @@ import { tours } from "./data/tours";
 import { absoluteUrl } from "./seo";
 import { loadPublishedTours } from "./lib/tourStorage";
 
-const staticRoutes = ["/", "/about", "/cars", "/gallery", "/reviews", "/tours"];
+const staticRoutes = ["/", "/about", "/cars", "/rental", "/gallery", "/reviews", "/tours"];
 const extraTourRoutes = ["/tours/14-days-kyrgyzstan", "/tours/summits-of-kyrgyzstan"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
