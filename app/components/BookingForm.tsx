@@ -5,11 +5,22 @@ import { FormEvent, useState } from "react";
 type BookingFormProps = {
   tour: string;
   tourSlug?: string;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  messagePlaceholder?: string;
 };
 
 type Status = "idle" | "loading" | "error";
 
-export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
+export default function BookingForm({
+  tour,
+  tourSlug,
+  eyebrow = "Request a booking",
+  title = "Book this tour",
+  description = "Send your request directly to WhatsApp with all trip details included.",
+  messagePlaceholder = "Tell us about your travel plans",
+}: BookingFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
 
@@ -66,13 +77,13 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-10">
           <p className="text-sm font-semibold uppercase tracking-wide text-green-700 mb-2">
-            Request a booking
+            {eyebrow}
           </p>
           <h2 className="text-2xl md:text-3xl font-bold mb-3">
-            Book this tour
+            {title}
           </h2>
           <p className="text-gray-600">
-            Send your request directly to WhatsApp with all trip details included.
+            {description}
           </p>
         </div>
 
@@ -126,7 +137,7 @@ export default function BookingForm({ tour, tourSlug }: BookingFormProps) {
               name="message"
               rows={4}
               className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-green-600"
-              placeholder="Tell us about your travel plans"
+              placeholder={messagePlaceholder}
             />
           </label>
 

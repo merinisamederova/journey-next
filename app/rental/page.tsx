@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import BookingForm from "../components/BookingForm";
 import EquipmentRentalCard from "../components/EquipmentRentalCard";
 import RentalCarSlideshow from "../components/RentalCarSlideshow";
 import {
@@ -73,15 +74,24 @@ export default function RentalPage() {
             Rent reliable 4x4 transport and practical camping equipment for
             mountain routes, overnight stops and independent travel.
           </p>
-          <a
-            href="https://wa.me/996703367477"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-green-600 px-7 py-4 font-semibold text-white transition hover:bg-green-700"
-          >
-            <MessageCircle size={20} strokeWidth={1.8} />
-            Ask for availability
-          </a>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#rental-booking"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-7 py-4 font-semibold text-white transition hover:bg-green-700"
+            >
+              <CalendarDays size={20} strokeWidth={1.8} />
+              Book rental
+            </a>
+            <a
+              href="https://wa.me/996703367477"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/15 px-7 py-4 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/25"
+            >
+              <MessageCircle size={20} strokeWidth={1.8} />
+              Ask availability
+            </a>
+          </div>
           </div>
 
           <div className="rounded-2xl bg-black/35 p-6 shadow-sm ring-1 ring-white/15 backdrop-blur-sm md:p-8">
@@ -215,6 +225,13 @@ export default function RentalPage() {
               We will confirm available cars, suitable equipment and a clear
               rental plan before your trip starts.
             </p>
+            <a
+              href="#rental-booking"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-700"
+            >
+              <CalendarDays size={18} strokeWidth={1.8} />
+              Open booking form
+            </a>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
@@ -236,6 +253,17 @@ export default function RentalPage() {
           </div>
         </div>
       </section>
+
+      <div id="rental-booking" className="scroll-mt-24">
+        <BookingForm
+          tour="Car & Equipment Rental"
+          tourSlug="rental"
+          eyebrow="Rental booking"
+          title="Book car or equipment"
+          description="Send your rental request with dates, route and equipment needs. We will confirm availability and details on WhatsApp."
+          messagePlaceholder="Tell us which car or equipment you need, your route and pickup dates"
+        />
+      </div>
     </main>
   );
 }
