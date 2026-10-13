@@ -41,6 +41,16 @@ type Place = {
 
 type ReplyLanguage = "en" | "ru";
 
+type RegionGuide = {
+  id: string;
+  labelEn: string;
+  labelRu: string;
+  aliases: string[];
+  placeNames: string[];
+  noteEn: string;
+  noteRu: string;
+};
+
 const places: Place[] = [
   {
     name: "Issyk-Kul Lake",
@@ -725,6 +735,157 @@ const places: Place[] = [
 
 const popularPlaces = places.slice(0, 10);
 
+const regionGuides: RegionGuide[] = [
+  {
+    id: "issyk-kul",
+    labelEn: "Issyk-Kul Region",
+    labelRu: "Иссык-Кульская область",
+    aliases: [
+      "issyk kul region",
+      "issyk-kul region",
+      "issyk kul oblast",
+      "issyk-kul oblast",
+      "issyk kul area",
+      "иссык кульская область",
+      "иссык-кульская область",
+      "иссык кульской области",
+      "иссык-кульской области",
+      "иссык кул область",
+      "иссык-куль область",
+      "иссык куле",
+      "иссык-куле",
+    ],
+    placeNames: [
+      "Issyk-Kul Lake",
+      "Cholpon-Ata",
+      "Grigorievka Gorge",
+      "Semenovka Gorge",
+      "Karakol",
+      "Altyn-Arashan",
+      "Ala-Kul Lake",
+      "Jeti-Oguz",
+      "Skazka Canyon",
+      "Barskoon Valley",
+      "Bokonbaevo",
+    ],
+    noteEn:
+      "This region is best for lake views, canyons, gorges, hot springs, trekking bases and south-shore culture.",
+    noteRu:
+      "Эта область лучше всего подходит для озера, каньонов, ущелий, горячих источников, треккинга и южного берега Иссык-Куля.",
+  },
+  {
+    id: "naryn",
+    labelEn: "Naryn Region",
+    labelRu: "Нарынская область",
+    aliases: [
+      "naryn region",
+      "naryn oblast",
+      "naryn area",
+      "нарынская область",
+      "нарынской области",
+      "нарын область",
+      "в нарыне",
+      "naryn",
+    ],
+    placeNames: [
+      "Song-Kul Lake",
+      "Kyzart Village",
+      "Kilemche Valley",
+      "Tuz-Ashuu Pass",
+      "Kyrjol Camp",
+      "Naryn",
+      "Kel-Suu Lake",
+      "Kok-Kiya Valley",
+      "Ak-Sai Valley",
+      "Tash-Rabat",
+      "Orto-Tokoy Reservoir",
+    ],
+    noteEn:
+      "This region is best for high mountain lakes, yurt camps, horseback routes and remote 4x4 trips.",
+    noteRu:
+      "Эта область лучше всего подходит для высокогорных озер, юрточных лагерей, конных маршрутов и удаленных 4x4 поездок.",
+  },
+  {
+    id: "chuy",
+    labelEn: "Chuy Region",
+    labelRu: "Чуйская область",
+    aliases: [
+      "chuy region",
+      "chui region",
+      "chuy oblast",
+      "chui oblast",
+      "чуйская область",
+      "чуйской области",
+      "чуй область",
+      "чүйская область",
+    ],
+    placeNames: [
+      "Ala-Archa National Park",
+      "Burana Tower",
+      "Balasagyn Ancient City",
+      "Chon-Kemin Valley",
+      "Boom Gorge",
+    ],
+    noteEn:
+      "This region is convenient for short trips from Bishkek, culture stops and easier mountain nature.",
+    noteRu:
+      "Эта область удобна для коротких поездок из Бишкека, культурных остановок и легкой горной природы.",
+  },
+  {
+    id: "jalal-abad",
+    labelEn: "Jalal-Abad Region",
+    labelRu: "Джалал-Абадская область",
+    aliases: [
+      "jalal abad region",
+      "jalal-abad region",
+      "jalal abad oblast",
+      "jalal-abad oblast",
+      "джалал абадская область",
+      "джалал-абадская область",
+      "джалал абадской области",
+      "джалал-абадской области",
+    ],
+    placeNames: ["Sary-Chelek", "Arslanbob"],
+    noteEn:
+      "This region is better as a longer western or southern route with forests, lakes and village scenery.",
+    noteRu:
+      "Эта область лучше подходит для более длинного западного или южного маршрута с лесами, озерами и сельскими пейзажами.",
+  },
+  {
+    id: "osh",
+    labelEn: "Osh Region",
+    labelRu: "Ошская область",
+    aliases: ["osh region", "osh oblast", "ошская область", "ошской области", "ош область"],
+    placeNames: [],
+    noteEn:
+      "The current website assistant does not yet have dedicated Osh Region places in its local database.",
+    noteRu:
+      "В текущей базе ассистента пока нет отдельных мест по Ошской области.",
+  },
+  {
+    id: "talas",
+    labelEn: "Talas Region",
+    labelRu: "Таласская область",
+    aliases: ["talas region", "talas oblast", "таласская область", "таласской области", "талас область"],
+    placeNames: [],
+    noteEn:
+      "The current website assistant does not yet have dedicated Talas Region places in its local database.",
+    noteRu:
+      "В текущей базе ассистента пока нет отдельных мест по Таласской области.",
+  },
+  {
+    id: "batken",
+    labelEn: "Batken Region",
+    labelRu: "Баткенская область",
+    aliases: ["batken region", "batken oblast", "баткенская область", "баткенской области", "баткен область"],
+    placeNames: [],
+    noteEn:
+      "The current website assistant does not yet have dedicated Batken Region places in its local database.",
+    noteRu:
+      "В текущей базе ассистента пока нет отдельных мест по Баткенской области.",
+  },
+];
+
 const journeyLinksByPlace: Record<string, PlaceLink[]> = {
   "Issyk-Kul Lake": [
     { label: "Journey Issyk-Kul tour", url: "/tours/issyk-kul-3-days" },
@@ -851,7 +1012,7 @@ const initialMessages: ChatMessage[] = [
     id: 1,
     role: "assistant",
     text:
-      "Hi! I can help you choose places in Kyrgyzstan, estimate travel time from Bishkek, explain how to get there, and prepare a WhatsApp request for the Journey Kyrgyzstan team.\n\nTry: “how long to Son-Kul?”, “where is Altyn Arashan?”, or “как доехать до Чолпон-Аты?”",
+      "Hi! I can help you choose places in Kyrgyzstan, estimate travel time from Bishkek, explain how to get there, suggest sights by region, and prepare a WhatsApp request for the Journey Kyrgyzstan team.\n\nTry: “what to see in Issyk-Kul region?”, “how long to Son-Kul?”, or “какие места посмотреть в Нарынской области?”",
   },
 ];
 
@@ -1191,6 +1352,70 @@ function buildSitePlacesReply(language: ReplyLanguage = "en"): ChatMessage {
   };
 }
 
+function getPlaceByName(name: string) {
+  return places.find((place) => place.name === name);
+}
+
+function getRegionPlaces(region: RegionGuide) {
+  return region.placeNames
+    .map((placeName) => getPlaceByName(placeName))
+    .filter((place): place is Place => Boolean(place));
+}
+
+function getUniqueRegionLinks(regionPlaces: Place[]) {
+  const links = regionPlaces.flatMap((place) => journeyLinksByPlace[place.name] ?? []);
+  const uniqueLinks = new Map<string, PlaceLink>();
+
+  for (const link of links) {
+    if (!uniqueLinks.has(link.url)) {
+      uniqueLinks.set(link.url, link);
+    }
+  }
+
+  return [
+    ...Array.from(uniqueLinks.values()).slice(0, 4),
+    { label: "All tours", url: "/tours" },
+  ];
+}
+
+function buildRegionReply(region: RegionGuide, language: ReplyLanguage): ChatMessage {
+  const regionPlaces = getRegionPlaces(region);
+
+  if (regionPlaces.length === 0) {
+    return {
+      id: Date.now(),
+      role: "assistant",
+      text:
+        language === "ru"
+          ? `${region.labelRu}: ${region.noteRu}\n\nЯ могу уверенно советовать только места, которые уже есть в базе сайта. Сейчас лучше посмотреть доступные направления: Иссык-Кульская область, Нарынская область, Чуйская область и Джалал-Абадская область.`
+          : `${region.labelEn}: ${region.noteEn}\n\nI can confidently suggest only places that are already in the website assistant database. Right now the strongest region guides are Issyk-Kul, Naryn, Chuy and Jalal-Abad.`,
+      links: [{ label: "All tours", url: "/tours" }],
+    };
+  }
+
+  const placeLines = regionPlaces
+    .map((place) => {
+      const russianCopy = russianPlaceCopy[place.name];
+
+      if (language === "ru") {
+        return `• ${place.name}: ${russianCopy?.summary ?? place.summary}`;
+      }
+
+      return `• ${place.name}: ${place.summary}`;
+    })
+    .join("\n");
+
+  return {
+    id: Date.now(),
+    role: "assistant",
+    text:
+      language === "ru"
+        ? `${region.labelRu}: вот что можно посмотреть из мест, которые есть на сайте:\n\n${placeLines}\n\n${region.noteRu}\n\nЕсли времени мало, я бы выбрал 3-5 точек и собрал маршрут по берегу/дороге, чтобы не тратить весь день только на переезды.`
+        : `${region.labelEn}: places from this website that are worth considering:\n\n${placeLines}\n\n${region.noteEn}\n\nIf time is limited, I would choose 3-5 stops and build the route by shore/road direction so the day is not spent only on transfers.`,
+    links: getUniqueRegionLinks(regionPlaces),
+  };
+}
+
 function buildWhatsAppUrl(summary: string) {
   const text = encodeURIComponent(
     `Hello Journey Kyrgyzstan! I used the website assistant and would like help planning a trip.\n\n${summary}`,
@@ -1287,6 +1512,29 @@ function findFuzzyPlace(normalizedInput: string) {
   return bestMatch && bestMatch.score >= 0.74 ? bestMatch.place : undefined;
 }
 
+function findRegion(input: string) {
+  const normalized = normalizeText(input);
+
+  const exactMatch = regionGuides.find((region) =>
+    region.aliases.some((alias) => includesPhrase(normalized, alias)),
+  );
+
+  if (exactMatch) {
+    return exactMatch;
+  }
+
+  const bestMatch = regionGuides
+    .flatMap((region) =>
+      [region.labelEn, region.labelRu, ...region.aliases].map((alias) => ({
+        region,
+        score: getFuzzyAliasScore(normalized, normalizeText(alias)),
+      })),
+    )
+    .sort((left, right) => right.score - left.score)[0];
+
+  return bestMatch && bestMatch.score >= 0.78 ? bestMatch.region : undefined;
+}
+
 function findPlace(input: string) {
   const normalized = normalizeText(input);
 
@@ -1358,9 +1606,38 @@ function asksDirections(normalized: string) {
   );
 }
 
+function asksRegionRecommendations(normalized: string) {
+  return (
+    includesPhrase(normalized, "what to see") ||
+    includesPhrase(normalized, "what can i see") ||
+    includesPhrase(normalized, "where to go") ||
+    includesPhrase(normalized, "places in") ||
+    includesPhrase(normalized, "places to visit") ||
+    includesPhrase(normalized, "sights in") ||
+    includesPhrase(normalized, "attractions in") ||
+    includesPhrase(normalized, "region") ||
+    includesPhrase(normalized, "oblast") ||
+    includesPhrase(normalized, "область") ||
+    includesPhrase(normalized, "области") ||
+    includesPhrase(normalized, "что посмотреть") ||
+    includesPhrase(normalized, "можно посмотреть") ||
+    includesPhrase(normalized, "куда поехать") ||
+    includesPhrase(normalized, "какие места") ||
+    includesPhrase(normalized, "интересные места") ||
+    includesPhrase(normalized, "достопримечательности") ||
+    includesPhrase(normalized, "достопримечательность")
+  );
+}
+
 function getAssistantReply(input: string): ChatMessage {
   const normalized = normalizeText(input);
   const language = detectLanguage(input);
+  const matchedRegion = findRegion(input);
+
+  if (matchedRegion && asksRegionRecommendations(normalized)) {
+    return buildRegionReply(matchedRegion, language);
+  }
+
   const matchedPlace = findPlace(input);
 
   if (matchedPlace) {
