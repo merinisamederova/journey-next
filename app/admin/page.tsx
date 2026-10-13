@@ -24,6 +24,11 @@ const adminSections = [
     title: "Reviews",
     description: "Moderate traveler reviews before they appear on the website.",
   },
+  {
+    href: "/admin/assistant",
+    title: "Assistant requests",
+    description: "Track popular AI assistant questions and missing travel topics.",
+  },
 ];
 
 export default async function AdminDashboardPage() {

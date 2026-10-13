@@ -1424,6 +1424,21 @@ function buildWhatsAppUrl(summary: string) {
   return `https://wa.me/996703367477?text=${text}`;
 }
 
+function trackAssistantQuery(query: string) {
+  fetch("/api/assistant-query", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query,
+      page: typeof window === "undefined" ? "" : window.location.pathname,
+    }),
+  }).catch(() => {
+    // Query tracking is optional and must never interrupt the chat experience.
+  });
+}
+
 function normalizeText(value: string) {
   return value
     .toLowerCase()
@@ -1764,6 +1779,7 @@ export default function AIAssistantDemo() {
     ]);
     setTripNotes((current) => `${current}\nQuestion: ${trimmed}`);
     setInput("");
+    trackAssistantQuery(trimmed);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

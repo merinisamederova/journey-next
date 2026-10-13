@@ -6,6 +6,7 @@ const adminLinks = [
   { href: "/admin/bookings", label: "Bookings" },
   { href: "/admin/availability", label: "Availability" },
   { href: "/admin/reviews", label: "Reviews" },
+  { href: "/admin/assistant", label: "Assistant" },
 ];
 
 type AdminNavProps = {
