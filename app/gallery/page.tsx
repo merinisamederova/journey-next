@@ -5,6 +5,9 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const images = [
+  "/gallery-yurt-song-kul-flag-1.jpeg",
+  "/gallery-yurt-song-kul-flag-2.jpeg",
+  "/gallery-mountain-road-pass.jpeg",
   "/g1.webp",
   "/g2.jpg",
   "/g3.jpg",
