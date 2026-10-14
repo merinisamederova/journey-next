@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import ReviewForm from "../components/ReviewForm";
+import { loadApprovedReviews, type Review } from "../lib/reviewStorage";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Traveler Reviews",
@@ -17,34 +20,13 @@ export const metadata: Metadata = {
   },
 };
 
-type Review = {
-  id: string;
-  name: string;
-  country: string | null;
-  tour: string | null;
-  rating: number;
-  text: string;
-  created_at: string;
-};
-
 async function loadReviews() {
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
-
   try {
-    const response = await fetch(`${baseUrl}/api/reviews`, {
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      return [] as Review[];
-    }
-
-    const data = (await response.json()) as { reviews?: Review[] };
-    return data.reviews ?? [];
-  } catch {
-    return [] as Review[];
+    const { reviews } = await loadApprovedReviews();
+    return { reviews, error: false };
+  } catch (error) {
+    console.error("Could not load reviews page", error);
+    return { reviews: [] as Review[], error: true };
   }
 }
 
@@ -61,7 +43,7 @@ function formatDate(date: string) {
 }
 
 export default async function ReviewsPage() {
-  const reviews = await loadReviews();
+  const { reviews, error } = await loadReviews();
 
   return (
     <main className="bg-white pt-16">
@@ -94,7 +76,9 @@ export default async function ReviewsPage() {
             ))
           ) : (
             <div className="md:col-span-2 rounded-xl bg-gray-100 p-6 text-gray-600">
-              Reviews will appear here after approval.
+              {error
+                ? "Reviews could not be loaded. Please try again later."
+                : "Reviews will appear here after approval."}
             </div>
           )}
         </div>
