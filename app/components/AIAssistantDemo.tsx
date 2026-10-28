@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { getSiteAssistantReply } from "../lib/siteAssistant";
+import { parseLeadingGreeting } from "../lib/assistantGreeting";
 import {
   Bot,
   CalendarDays,
@@ -1646,6 +1647,35 @@ function asksRegionRecommendations(normalized: string) {
 }
 
 function getAssistantReply(input: string): ChatMessage {
+  const greeting = parseLeadingGreeting(input);
+
+  if (!greeting) {
+    return getQuestionReply(input);
+  }
+
+  const language = detectLanguage(greeting.question || input);
+  const hello = language === "ru" ? "Здравствуйте!" : "Hello!";
+
+  if (!greeting.question) {
+    return {
+      id: Date.now(),
+      role: "assistant",
+      text: language === "ru"
+        ? `${hello} Помогу выбрать тур, найти машину, арендовать снаряжение или спланировать маршрут по Кыргызстану. Что вас интересует?`
+        : `${hello} I can help you choose a tour, find a car, rent camping equipment or plan a route around Kyrgyzstan. What would you like to know?`,
+      links: [
+        { label: language === "ru" ? "Туры" : "Tours", url: "/tours" },
+        { label: language === "ru" ? "Машины" : "Our Cars", url: "/cars" },
+        { label: language === "ru" ? "Аренда снаряжения" : "Equipment rental", url: "/rental#equipment" },
+      ],
+    };
+  }
+
+  const reply = getQuestionReply(greeting.question);
+  return { ...reply, text: `${hello}\n\n${reply.text}` };
+}
+
+function getQuestionReply(input: string): ChatMessage {
   const normalized = normalizeText(input);
   const language = detectLanguage(input);
   const siteReply = getSiteAssistantReply(input, language);
