@@ -207,7 +207,9 @@ export default function RentalPage() {
               </div>
             </article>
 
-            <EquipmentRentalCard />
+            <div id="equipment" className="scroll-mt-24">
+              <EquipmentRentalCard />
+            </div>
           </div>
         </div>
       </section>

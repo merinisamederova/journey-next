@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { getSiteAssistantReply } from "../lib/siteAssistant";
 import {
   Bot,
   CalendarDays,
@@ -1012,7 +1013,7 @@ const initialMessages: ChatMessage[] = [
     id: 1,
     role: "assistant",
     text:
-      "Hi! I can help you choose places in Kyrgyzstan, estimate travel time from Bishkek, explain how to get there, suggest sights by region, and prepare a WhatsApp request for the Journey Kyrgyzstan team.\n\nTry: “what to see in Issyk-Kul region?”, “how long to Son-Kul?”, or “какие места посмотреть в Нарынской области?”",
+      "Hi! I can help you explore Kyrgyzstan and find your way around our website: booking tours, choosing cars, renting camping equipment, finding reviews and contacting the team.\n\nTry: “How can I book a tour?”, “Do you rent camping equipment?”, “What cars do you have?”, or “Как добраться до Сон-Куля?”. You can ask in English or Russian.",
   },
 ];
 
@@ -1647,6 +1648,12 @@ function asksRegionRecommendations(normalized: string) {
 function getAssistantReply(input: string): ChatMessage {
   const normalized = normalizeText(input);
   const language = detectLanguage(input);
+  const siteReply = getSiteAssistantReply(input, language);
+
+  if (siteReply) {
+    return { id: Date.now(), role: "assistant", ...siteReply };
+  }
+
   const matchedRegion = findRegion(input);
 
   if (matchedRegion && asksRegionRecommendations(normalized)) {
@@ -1737,8 +1744,8 @@ function getAssistantReply(input: string): ChatMessage {
     role: "assistant",
     text:
       language === "ru"
-        ? "Я могу помочь с маршрутами, сезонами, временем в пути и популярными местами. Попробуйте спросить: “как доехать до Altyn Arashan?”, “расскажи про Song-Kul”, “что посмотреть за 5 дней?” или “какие места есть на сайте?”."
-        : "I can help with routes, seasons, budgets, and popular places. Try asking: “Where is Altyn Arashan?”, “Tell me about Song-Kul”, “What can I see in 5 days?”, or “Which places are on this site?”.",
+        ? "Я могу подсказать, как забронировать тур, где посмотреть машины, арендовать снаряжение или оставить отзыв. Также помогу с маршрутами, сезонами и временем в пути. Спросите: «Как забронировать тур?», «Есть ли палатки в аренду?» или «Как доехать до Altyn Arashan?»."
+        : "I can help you book a tour, find cars, rent equipment or leave a review, as well as explore routes, seasons and travel times. Try: “How can I book a tour?”, “Do you rent tents?” or “How do I get to Altyn Arashan?”.",
   };
 }
 
@@ -1811,15 +1818,15 @@ export default function AIAssistantDemo() {
   return (
       <div className="fixed inset-x-4 bottom-4 z-50 flex justify-end sm:inset-x-auto sm:bottom-5 sm:right-5">
       {isOpen ? (
-        <div className="w-full max-w-[390px] overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-2xl">
-          <div className="flex items-center justify-between bg-emerald-700 px-4 py-3 text-white">
+        <div className="flex max-h-[calc(100dvh-2rem)] w-full max-w-[390px] flex-col overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-2xl">
+          <div className="flex shrink-0 items-center justify-between bg-emerald-700 px-4 py-3 text-white">
             <div className="flex items-center gap-2">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
                 <Bot size={20} />
               </span>
               <div>
                 <p className="text-sm font-semibold">Journey AI Assistant</p>
-                <p className="text-xs text-emerald-50">Travel planner</p>
+                <p className="text-xs text-emerald-50">Travel & website help</p>
               </div>
             </div>
             <button
@@ -1832,7 +1839,7 @@ export default function AIAssistantDemo() {
             </button>
           </div>
 
-          <div className="max-h-[58vh] space-y-3 overflow-y-auto bg-slate-50 px-4 py-4">
+          <div className="min-h-0 max-h-[58vh] space-y-3 overflow-y-auto bg-slate-50 px-4 py-4">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -1849,8 +1856,9 @@ export default function AIAssistantDemo() {
                       <a
                         key={link.url}
                         href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        target={link.url.startsWith("/") ? undefined : "_blank"}
+                        rel={link.url.startsWith("/") ? undefined : "noopener noreferrer"}
+                        onClick={() => { if (link.url.startsWith("/")) setIsOpen(false); }}
                         className="inline-flex items-center gap-1 rounded-full border border-emerald-200 px-2.5 py-1 text-xs font-medium text-emerald-700 transition hover:bg-emerald-50"
                       >
                         {link.label}
@@ -1864,8 +1872,22 @@ export default function AIAssistantDemo() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="border-t border-slate-200 bg-white p-3">
+          <div className="shrink-0 border-t border-slate-200 bg-white p-3">
             <div className="mb-3 grid grid-cols-3 gap-2">
+              {[
+                { label: "Book a tour", query: "How can I book a tour?" },
+                { label: "Equipment", query: "Do you rent camping equipment?" },
+                { label: "Our cars", query: "What cars do you have?" },
+              ].map((shortcut) => (
+                <button
+                  key={shortcut.label}
+                  type="button"
+                  onClick={() => addUserMessage(shortcut.query)}
+                  className="inline-flex items-center justify-center rounded-lg border border-emerald-200 px-2 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-50"
+                >
+                  {shortcut.label}
+                </button>
+              ))}
               <button
                 type="button"
                 onClick={() => addUserMessage("How long to Song-Kul from Bishkek?")}
@@ -1896,7 +1918,8 @@ export default function AIAssistantDemo() {
               <input
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
-                placeholder="Ask a place, route or travel time..."
+                placeholder="Ask about tours, rentals or places..."
+                aria-label="Ask about tours, rentals or places"
                 className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
               />
               <button
