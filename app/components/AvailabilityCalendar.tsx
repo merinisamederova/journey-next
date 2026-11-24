@@ -13,6 +13,8 @@ type AvailabilityCalendarProps = {
   tourSlug: string;
 };
 
+const extendedCalendarEndMonth = "2027-12";
+
 const tourDurations: Record<string, number> = {
   "issyk-kul-3-days": 3,
   "kel-suu": 3,
@@ -180,10 +182,13 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
         : today,
     ),
   );
-  const januaryLimit = monthKey(januaryAfter(today));
+  const calendarEndMonth =
+    monthKey(today) <= extendedCalendarEndMonth
+      ? extendedCalendarEndMonth
+      : monthKey(januaryAfter(today));
   const lastSlotMonth = slotMonthKeys[slotMonthKeys.length - 1];
   const lastMonth =
-    lastSlotMonth && lastSlotMonth > januaryLimit ? lastSlotMonth : januaryLimit;
+    lastSlotMonth && lastSlotMonth > calendarEndMonth ? lastSlotMonth : calendarEndMonth;
   const lastSeasonMonth = monthKey(seasonStart(new Date(`${lastMonth}-01T00:00:00`)));
   const seasonKeys = buildMonthRange(firstMonth, lastSeasonMonth)
     .filter((key) => {
@@ -195,9 +200,13 @@ export default function AvailabilityCalendar({ tourSlug }: AvailabilityCalendarP
   const canGoToNext = currentSeasonIndex >= 0 && currentSeasonIndex < seasonKeys.length - 1;
   const duration = tourDurations[tourSlug] ?? 1;
   const visibleSeasonIndex = currentSeasonIndex === -1 ? 0 : currentSeasonIndex;
+  const visibleSeasonKey = seasonKeys[visibleSeasonIndex];
+  const visibleSeasonEnd = monthKey(addMonths(new Date(`${visibleSeasonKey}-01T00:00:00`), 2));
   const visibleMonthKeys = buildMonthRange(
-    seasonKeys[visibleSeasonIndex],
-    monthKey(addMonths(new Date(`${seasonKeys[visibleSeasonIndex]}-01T00:00:00`), 2)),
+    visibleSeasonKey,
+    lastMonth === extendedCalendarEndMonth && lastMonth < visibleSeasonEnd
+      ? lastMonth
+      : visibleSeasonEnd,
   );
   const selectedEndDate = selectedStartDate
     ? getConsecutiveDateKeys(selectedStartDate, duration).at(-1)
